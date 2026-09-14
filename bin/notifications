@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+require_relative "../config/environment"
+stopping = false
+%w[INT TERM].each { |signal| Signal.trap(signal) { stopping = true } }
+until stopping
+  begin
+    sleep(5) unless NotificationDelivery.deliver_one
+  rescue StandardError => error
+    Rails.logger.error("Notification worker paused: #{error.class.name}")
+    sleep(5)
+  end
+end

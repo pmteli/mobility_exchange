@@ -1,0 +1,1 @@
+<section class="page"><h1>Website content</h1><div class="grid"><% @pages.each do |page| %><div class="card"><h3><%= page.title %></h3><p><%= page.published_at ? "Published" : "Draft" %></p><%= link_to "Edit page", edit_staff_page_path(page) %></div><% end %></div></section>

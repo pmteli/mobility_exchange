@@ -1,0 +1,2 @@
+<section class="auth-layout">
+<%= render "design/auth_art" %><div class="auth-form"><h1>Verify your account.</h1><div class="panel"><%= form_with url: verification_request_path do |f| %><div class="field"><%= f.label :email %><%= f.email_field :email, required: true, autocomplete: "email" %></div><%= f.submit "Send a new verification link" %><% end %></div></div></section>
