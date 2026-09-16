@@ -1,0 +1,37 @@
+name: Rails checks
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_USER: mobility
+          POSTGRES_PASSWORD: testing
+          POSTGRES_DB: mobility_exchange_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U mobility -d mobility_exchange_test"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      RAILS_ENV: test
+      TEST_DATABASE_URL: postgresql://mobility:testing@localhost/mobility_exchange_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4.10'
+          bundler-cache: true
+      - name: Install PostgreSQL 18 client and PDF font
+        run: |
+          sudo install -d /usr/share/postgresql-common/pgdg
+          curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo tee /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc > /dev/null
+          source /etc/os-release
+          echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt ${VERSION_CODENAME}-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list
+          sudo apt-get update -qq
+          sudo apt-get install -y postgresql-client-18 fonts-dejavu-core
+          echo "/usr/lib/postgresql/18/bin" >> "$GITHUB_PATH"
+      - run: bin/rails db:migrate db:seed
+      - run: bin/rails zeitwerk:check
+      - run: bin/rails test

@@ -1,0 +1,33 @@
+{
+  "rails": "8.1.3.1",
+  "ruby": "3.4.10",
+  "postgresql": "18.6 (Postgres.app)",
+  "mapped_models": 51,
+  "sample_equipment": 3,
+  "date": "2026-09-12",
+  "tests": 20,
+  "assertions": 193,
+  "failures": 0,
+  "errors": 0,
+  "skips": 0,
+  "zeitwerk": "passed",
+  "fresh_migrations": "passed",
+  "demo_seed_idempotency": "passed",
+  "docker_build": "not run",
+  "browser_device_qa": {
+    "desktop_width": 1280,
+    "mobile_widths": [
+      320,
+      390
+    ],
+    "tablet_width": 768,
+    "horizontal_document_overflow": "none on measured pages",
+    "catalog_filter": "passed",
+    "mobile_workspace_navigation": "passed",
+    "details": "docs/DESIGN.md"
+  },
+  "live_smtp": "not run",
+  "design": "Modern (Design 02)",
+  "simplified_login": "passed: eight-character minimum, no authenticator, all seven Volunteer/Donor/Recipient combinations",
+  "gmail_smtp": "configuration and multipart templates tested; live delivery pending App Password"
+}

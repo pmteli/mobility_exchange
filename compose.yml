@@ -1,0 +1,53 @@
+# Local development only; services bind to localhost and contain no real data.
+services:
+  db:
+    image: postgres:18
+    environment:
+      POSTGRES_USER: mobility
+      POSTGRES_PASSWORD: local-development-only
+      POSTGRES_DB: mobility_exchange_development
+    volumes:
+      - pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mobility -d mobility_exchange_development"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+  web:
+    build: .
+    ports:
+      - "127.0.0.1:3000:3000"
+    environment: &app_environment
+      RAILS_ENV: development
+      MAIL_DELIVERY_METHOD: ${MAIL_DELIVERY_METHOD:-file}
+      MAIL_FROM: ${MAIL_FROM:-admin@mobilityexchange.org}
+      APP_HOST: ${APP_HOST:-localhost}
+      APP_PORT: ${APP_PORT:-3000}
+      SMTP_HOST: ${SMTP_HOST:-smtp.gmail.com}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USERNAME: ${SMTP_USERNAME:-admin@mobilityexchange.org}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      SMTP_TLS_MODE: ${SMTP_TLS_MODE:-starttls}
+      SMTP_AUTHENTICATION: ${SMTP_AUTHENTICATION:-plain}
+      DATABASE_URL: postgresql://mobility:local-development-only@db/mobility_exchange_development
+      TEST_DATABASE_URL: postgresql://mobility:local-development-only@db/mobility_exchange_test
+      PDF_FONT: /usr/share/fonts/truetype/dejavu/DejaVuSans.ttf
+    volumes:
+      - private_files:/app/storage/private
+      - local_mail:/app/tmp/mail
+    depends_on:
+      db:
+        condition: service_healthy
+  worker:
+    build: .
+    command: ["bin/notifications"]
+    environment: *app_environment
+    volumes:
+      - local_mail:/app/tmp/mail
+    depends_on:
+      db:
+        condition: service_healthy
+volumes:
+  pgdata:
+  private_files:
+  local_mail:

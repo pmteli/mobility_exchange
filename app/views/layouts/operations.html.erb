@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en"><head><%= render "design/head" %></head><body class="operations-site">
+<a class="skip" href="#main">Skip to main content</a>
+<div class="portal-shell">
+  <aside class="sidebar"><%= render "design/brand" %><p class="workspace-tag">Operations workspace</p><%= render "staff/shared/nav" %>
+    <div class="sidebar-footer"><div class="sidebar-help"><%= design_icon("leaf") %><h3>A little care goes a long way.</h3><p>Every item has a story.<br>Help write its next chapter.</p><%= link_to root_path, class: "text-link" do %>Public website <%= design_icon("external") %><% end %></div>
+    <div class="sidebar-person"><span class="avatar"><%= initials(current_user) %></span><div><strong><%= current_user.name %></strong><small>Mobility Exchange team</small></div><%= button_to session_path, method: :delete, class: "icon-button", aria: { label: "Sign out" } do %><%= design_icon("logout") %><% end %></div></div>
+  </aside>
+  <div class="portal-main"><header class="portal-topbar"><div class="breadcrumbs"><span>Workspace</span><span aria-hidden="true">/</span><strong><%= current_operations_page %></strong></div><div class="portal-top-actions"><%= link_to root_path, class: "text-link" do %>Public website <%= design_icon("external") %><% end %><span class="avatar"><%= initials(current_user) %></span></div></header>
+    <div class="mobile-portal-header"><%= render "design/brand" %><details class="portal-menu"><summary><%= design_icon("menu") %> Workspace</summary><%= render "staff/shared/nav" %><%= link_to "Public website", root_path, class: "mobile-public-link" %><%= button_to "Sign out", session_path, method: :delete, class: "text-button" %></details></div>
+    <main id="main" class="portal-content" tabindex="-1"><%= render "design/flash" %><%= yield %></main>
+  </div>
+</div></body></html>

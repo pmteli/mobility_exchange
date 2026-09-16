@@ -1,0 +1,5 @@
+<nav class="operations-nav" aria-label="Operations">
+  <% operations_links.each do |label, path, icon, _| %>
+    <%= link_to path, class: current_operations_page == label ? "active" : nil, aria: { current: current_operations_page == label ? "page" : nil } do %><%= design_icon(icon) %><span><%= label %></span><% end %>
+  <% end %>
+</nav>

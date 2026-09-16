@@ -1,0 +1,4 @@
+{$APP_HOST} {
+    header X-Robots-Tag "noindex, nofollow"
+    reverse_proxy web:3000
+}

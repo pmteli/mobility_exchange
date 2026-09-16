@@ -1,0 +1,71 @@
+name: mobility-test
+x-app: &app
+  build: ../..
+  image: mobility-exchange:test
+  restart: unless-stopped
+  env_file: .env
+  environment:
+    RAILS_ENV: production
+    APP_PORT: "443"
+    DATABASE_URL: postgresql://mobility:${DB_PASSWORD:?Set DB_PASSWORD}@db/mobility_exchange_test_site
+    REDIS_URL: redis://redis:6379/0
+    PDF_FONT: /usr/share/fonts/truetype/dejavu/DejaVuSans.ttf
+    RAILS_MAX_THREADS: "3"
+    WEB_CONCURRENCY: "0"
+  volumes:
+    - private_files:/app/storage/private
+    - test_mail:/app/tmp/mail
+  depends_on:
+    db:
+      condition: service_healthy
+    redis:
+      condition: service_started
+  logging:
+    driver: local
+    options:
+      max-size: "10m"
+      max-file: "3"
+services:
+  web:
+    <<: *app
+  worker:
+    <<: *app
+    command: ["bin/notifications"]
+  db:
+    image: postgres:18
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: mobility
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD}
+      POSTGRES_DB: mobility_exchange_test_site
+    volumes:
+      - pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mobility -d mobility_exchange_test_site"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--maxmemory", "64mb", "--maxmemory-policy", "allkeys-lru"]
+  proxy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    environment:
+      APP_HOST: ${APP_HOST:?Set APP_HOST}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - web
+volumes:
+  pgdata:
+  private_files:
+  caddy_data:
+  caddy_config:
+  test_mail:

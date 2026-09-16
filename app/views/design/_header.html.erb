@@ -1,0 +1,20 @@
+<header class="site-header"><div class="container nav-inner">
+  <%= render "design/brand" %>
+  <nav class="site-nav" aria-label="Main navigation">
+    <%= link_to "Available equipment", catalogue_path, aria: { current: controller_name == "catalog" && request.path != root_path ? "page" : nil } %>
+    <%= link_to "Donate equipment", new_donation_path %>
+    <%= link_to "Volunteer", new_volunteer_application_path %>
+    <%= link_to "About us", page_path("about") %>
+    <%= link_to "Common questions", page_path("faq") %>
+  </nav>
+  <div class="nav-right">
+    <% if current_user %>
+      <%= link_to "My account", account_path, class: "text-link" %>
+      <%= link_to "Team portal", staff_root_path, class: "button" if staff_access? %>
+      <%= button_to session_path, method: :delete, class: "icon-button", aria: { label: "Sign out" } do %><%= design_icon("logout") %><% end %>
+    <% else %>
+      <%= link_to "Sign in", new_session_path, class: "text-link" %>
+      <%= link_to catalogue_path, class: "button nav-cta" do %>Find equipment <%= design_icon("arrow") %><% end %>
+    <% end %>
+  </div>
+</div></header>
