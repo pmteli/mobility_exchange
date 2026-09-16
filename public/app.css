@@ -39,3 +39,5 @@
 .signup-roles legend { font-weight: 700; padding: 0 6px; }
 .signup-roles label { display: flex; gap: 12px; align-items: center; min-height: 44px; cursor: pointer; }
 .signup-roles input { width: 20px; height: 20px; margin: 0; }
+
+.donation-photos{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:16px 0}.donation-photos img{width:100%;height:180px;object-fit:contain;background:#f1f5f9;border-radius:12px}

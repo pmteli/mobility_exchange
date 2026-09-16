@@ -7,7 +7,7 @@ This delivery implements the core operational journey. Database support alone is
 | Public inventory | Available-items view, search, category filter, details, pagination | Approved photo gallery, richer filters and dimensions display |
 | Authentication | Passwords, verification/resend, reset, revocable 12-hour sessions, eight-character password minimum | Broader account administration |
 | Permissions | Admin/board/volunteer/public roles and permission checks | Role assignment and individual permission-grant screens |
-| Donations | Contact details, one equipment line with quantity, review, certification, drop-off and per-unit receipt | Multiple lines per submission, photo upload/scan, richer intake checklist |
+| Donations | Contact details, one equipment line with quantity, up to three optional JPEG/PNG photos, review, certification, drop-off and per-unit receipt | Multiple lines per submission, richer intake checklist |
 | Requests | One item per public submission, review/reserve, waiver, pickup and distribution | Multi-item selection, waitlist, amendments/cancellation UI and reassignment |
 | Legal records | Version publisher task, typed self-signature, PDF/JSON evidence, immutable history | Authorized representatives, drawn signatures and retention administration |
 | Inventory | Legacy receipt, donation-backed units, status workflow, processing notes | Purchase-entry UI, processing checklist editor, labels, batch operations and condition reassessment policy |

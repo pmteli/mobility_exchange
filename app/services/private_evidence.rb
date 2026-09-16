@@ -1,5 +1,5 @@
 require "digest"
-# Only server-generated text/PDF enters this store; this is not a user-upload scanner.
+# Stores server-generated evidence and photos decoded/re-encoded by DonationPhotos.
 class PrivateEvidence
   def self.root
     Pathname.new(ENV.fetch("PRIVATE_STORAGE_PATH", Rails.root.join("storage/private").to_s))

@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   resource :verification_request, only: [:new, :create]
   resource :account, only: :show
   resources :donations, only: [:new, :create, :show] do
+    resources :photos, only: :show, controller: "donation_photos"
     post :sign, on: :member
     post :book, on: :member
   end

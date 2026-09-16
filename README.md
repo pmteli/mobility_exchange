@@ -131,3 +131,7 @@ Passwords require 8–72 characters. Login uses email and password without an au
 ## Connect email delivery
 
 See [docs/EMAIL.md](docs/EMAIL.md) to enable SMTP for verification and password-reset messages, configure your sender, and run the delivery worker. Messages include branded HTML and plain text. Development defaults to local files until SMTP is explicitly enabled.
+
+## Donor equipment photos
+
+Donors may attach zero to three JPEG or PNG photos when submitting a donation (5 MB per file). Photos are decoded, resized to fit 1600 by 1600 pixels, stripped of metadata and stored privately as JPEG. The owner and staff with intake.review can view them. They are not automatically published in the public catalog. Existing files and intake_item_files tables are used, so no database migration is needed. Install ImageMagick (`convert`) for native development; Docker and CI install it automatically. The private storage volume must persist across deployments.

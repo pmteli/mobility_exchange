@@ -30,7 +30,7 @@ jobs:
           source /etc/os-release
           echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt ${VERSION_CODENAME}-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list
           sudo apt-get update -qq
-          sudo apt-get install -y postgresql-client-18 fonts-dejavu-core
+          sudo apt-get install -y postgresql-client-18 fonts-dejavu-core imagemagick
           echo "/usr/lib/postgresql/18/bin" >> "$GITHUB_PATH"
       - run: bin/rails db:migrate db:seed
       - run: bin/rails zeitwerk:check

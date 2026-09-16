@@ -1,0 +1,9 @@
+<% if item.photos.any? %>
+  <div class="donation-photos" aria-label="Equipment photos">
+    <% item.photos.each_with_index do |photo, index| %>
+      <%= link_to donation_photo_path(donation, photo), target: "_blank", rel: "noopener" do %>
+        <%= image_tag donation_photo_path(donation, photo), alt: "#{item.name}, photo #{index + 1}", loading: "lazy" %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

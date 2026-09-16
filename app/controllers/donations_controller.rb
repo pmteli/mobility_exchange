@@ -5,7 +5,7 @@ class DonationsController < ApplicationController
     @types = EquipmentType.where(active: true).order(:name)
   end
   def create
-    donation = SubmitDonation.call(current_user, params.require(:contact).permit(:phone, :city, :region, :postal_code).to_h.symbolize_keys, params.require(:item).permit(:type_id, :name, :manufacturer, :model, :condition, :quantity, :description).to_h.symbolize_keys)
+    donation = SubmitDonation.call(current_user, params.require(:contact).permit(:phone, :city, :region, :postal_code).to_h.symbolize_keys, params.require(:item).permit(:type_id, :name, :manufacturer, :model, :condition, :quantity, :description).to_h.symbolize_keys, photos: params[:photos])
     redirect_to donation_path(donation), notice: "Donation submitted for review."
   end
   def show
