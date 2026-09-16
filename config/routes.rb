@@ -10,7 +10,9 @@ Rails.application.routes.draw do
   get "verification/:token", to: "verifications#show", as: :verification
   post "verification/:token", to: "verifications#update"
   resource :verification_request, only: [:new, :create]
-  resource :account, only: :show
+  resource :account, only: [:show, :edit, :update]
+  get "profile_email/:token", to: "profile_emails#show", as: :profile_email
+  post "profile_email/:token", to: "profile_emails#update"
   resources :donations, only: [:new, :create, :show] do
     resources :photos, only: :show, controller: "donation_photos"
     post :sign, on: :member

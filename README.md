@@ -135,3 +135,19 @@ See [docs/EMAIL.md](docs/EMAIL.md) to enable SMTP for verification and password-
 ## Donor equipment photos
 
 Donors may attach zero to three JPEG or PNG photos when submitting a donation (5 MB per file). Photos are decoded, resized to fit 1600 by 1600 pixels, stripped of metadata and stored privately as JPEG. The owner and staff with intake.review can view them. They are not automatically published in the public catalog. Existing files and intake_item_files tables are used, so no database migration is needed. Install ImageMagick (`convert`) for native development; Docker and CI install it automatically. The private storage volume must persist across deployments.
+
+### Editing a profile
+
+Signed-in users can choose **My account → Edit profile** to update their name,
+phone, and mailing address. Contact details are also updated on their linked donor
+and recipient records. Role and account-status changes are not permitted here.
+
+Changing email requires the current password and a confirmation link sent to the
+new address. The existing email remains active until confirmation. Links expire
+in 24 hours; confirmation signs out existing sessions. Enter the current password
+again to resend a pending link, or restore the existing email to cancel it.
+The normal notification worker and configured mail delivery method handle these
+messages; file delivery captures them locally instead of sending SMTP mail.
+
+Deploy this feature with `bin/rails db:migrate` before restarting the web and worker
+services. Validation: 28 tests / 281 assertions plus `bin/rails zeitwerk:check`.

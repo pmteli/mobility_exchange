@@ -8,6 +8,12 @@ class User < MobilityRecord
   has_one :volunteer, foreign_key: :user_id
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }, length: { maximum: 254 }
   validates :first_name, :last_name, presence: true, length: { maximum: 100 }
+  validates :email, uniqueness: { case_sensitive: false }
+  validates :pending_email, format: { with: URI::MailTo::EMAIL_REGEXP }, length: { maximum: 254 }, allow_nil: true
+  validates :phone, length: { maximum: 50 }
+  validates :address_line1, :address_line2, length: { maximum: 200 }
+  validates :city, :region, length: { maximum: 100 }
+  validates :postal_code, length: { maximum: 20 }
   before_validation { self.email = email.to_s.strip.downcase }
   def name
     [first_name, last_name].join(" ")

@@ -1718,6 +1718,13 @@ CREATE TABLE mobility_exchange.users (
     updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     archived_at timestamp with time zone,
     community_roles text[] DEFAULT '{}'::text[] NOT NULL,
+    address_line1 character varying(200),
+    address_line2 character varying(200),
+    city character varying(100),
+    region character varying(100),
+    postal_code character varying(20),
+    pending_email character varying(254),
+    pending_email_nonce character varying(64),
     CONSTRAINT users_account_status_check CHECK ((account_status = ANY (ARRAY['pending'::text, 'active'::text, 'suspended'::text, 'archived'::text]))),
     CONSTRAINT users_community_roles_allowed CHECK ((community_roles <@ ARRAY['volunteer'::text, 'donor'::text, 'recipient'::text]))
 );
@@ -4344,6 +4351,7 @@ ALTER TABLE ONLY mobility_exchange.volunteers
 SET search_path TO public,mobility_exchange;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260916000000'),
 ('20260915000000'),
 ('20260912010000'),
 ('20260912000000'),

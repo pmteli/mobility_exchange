@@ -1,0 +1,30 @@
+<% content_for :title, "Edit profile | Mobility Exchange" %>
+<section class="page narrow">
+  <%= link_to "← My account", account_path, class: "text-link" %>
+  <h1>Edit your profile</h1>
+  <p>Keep your contact details up to date for donations and equipment requests.</p>
+  <% if @profile_error %><div class="notice" role="alert"><%= @profile_error %></div><% end %>
+  <%= form_with model: @profile, url: account_path, method: :patch do |f| %>
+    <div class="two-col">
+      <div class="field"><%= f.label :first_name %><%= f.text_field :first_name, required: true, maxlength: 100, autocomplete: "given-name" %></div>
+      <div class="field"><%= f.label :last_name %><%= f.text_field :last_name, required: true, maxlength: 100, autocomplete: "family-name" %></div>
+    </div>
+    <div class="field"><%= f.label :phone %><%= f.telephone_field :phone, maxlength: 50, autocomplete: "tel" %></div>
+    <fieldset><legend>Mailing address</legend>
+      <div class="field"><%= f.label :address_line1, "Street address" %><%= f.text_field :address_line1, maxlength: 200, autocomplete: "address-line1" %></div>
+      <div class="field"><%= f.label :address_line2, "Apartment or unit (optional)" %><%= f.text_field :address_line2, maxlength: 200, autocomplete: "address-line2" %></div>
+      <div class="two-col">
+        <div class="field"><%= f.label :city %><%= f.text_field :city, maxlength: 100, autocomplete: "address-level2" %></div>
+        <div class="field"><%= f.label :region, "State or region" %><%= f.text_field :region, maxlength: 100, autocomplete: "address-level1" %></div>
+      </div>
+      <div class="field"><%= f.label :postal_code %><%= f.text_field :postal_code, maxlength: 20, autocomplete: "postal-code" %></div>
+    </fieldset>
+    <fieldset><legend>Email address</legend>
+      <p>Your current sign-in email is <%= current_user.email %>. A new email must be verified before it replaces this address.</p>
+      <% if current_user.pending_email.present? %><p>Awaiting confirmation: <%= current_user.pending_email %>. Enter your current password to send a fresh confirmation link, or enter your current email below to cancel this change.</p><% end %>
+      <div class="field"><%= f.label :email %><%= f.email_field :email, value: @submitted_email || @profile.pending_email || @profile.email, required: true, maxlength: 254, autocomplete: "email" %></div>
+      <div class="field"><%= label_tag :current_password, "Current password (required only for an email change)" %><%= password_field_tag :current_password, nil, autocomplete: "current-password" %></div>
+    </fieldset>
+    <div class="actions"><%= f.submit "Save profile", class: "button" %><%= link_to "Cancel", account_path, class: "button secondary" %></div>
+  <% end %>
+</section>
