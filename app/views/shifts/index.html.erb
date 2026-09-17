@@ -1,1 +1,13 @@
-<section class="page"><h1>Time well shared.</h1><p class="lede">Choose a shift that works for you. Volunteer approval is required before signing up.</p><div class="grid"><% @shifts.each do |shift| %><article class="card"><p class="eyebrow"><%= shift.location.name %></p><h3><%= shift.activity %></h3><p><%= local_time(shift.starts_at, shift.location.timezone) %></p><p class="muted"><%= shift.shift_signups.where(status: "signed_up").count %> / <%= shift.capacity %> places filled</p><p><%= shift.notes %></p><% if @signups.include?(shift.id) %><%= button_to "Cancel my signup", leave_shift_path(shift), method: :delete %><% elsif allowed?("shifts.signup") %><%= button_to "Join shift", join_shift_path(shift) %><% end %></article><% end %></div><% if @shifts.empty? %><p class="empty">No upcoming shifts have been posted.</p><% end %></section>
+<section class="page"><h1>Time well shared.</h1><p class="lede">Choose a shift that works for you. Volunteer approval is required before signing up.</p><section class="panel" aria-labelledby="weekly-shifts-title">
+<h2 id="weekly-shifts-title">Weekly volunteer schedule</h2>
+<p class="muted">All times are Pacific Time.</p>
+<table class="weekly-shifts">
+<thead><tr><th scope="col">Location</th><th scope="col">Day</th><th scope="col">Time</th></tr></thead>
+<tbody>
+<tr><td>Fremont</td><td>Monday</td><td>3 PM – 6 PM</td></tr>
+<tr><td>San Jose</td><td>Tuesday</td><td>10 AM – 1 PM</td></tr>
+<tr><td>Dublin</td><td>Saturday</td><td>2 PM – 5 PM</td></tr>
+<tr><td>Fremont</td><td>Friday</td><td>10 AM – 1 PM</td></tr>
+</tbody></table></section>
+<h2>Upcoming shifts available for signup</h2>
+<div class="grid"><% @shifts.each do |shift| %><article class="card"><p class="eyebrow"><%= shift.location.name %></p><h3><%= shift.activity %></h3><p><%= local_time(shift.starts_at, shift.location.timezone) %></p><p class="muted"><%= shift.shift_signups.where(status: "signed_up").count %> / <%= shift.capacity %> places filled</p><p><%= shift.notes %></p><% if @signups.include?(shift.id) %><%= button_to "Cancel my signup", leave_shift_path(shift), method: :delete %><% elsif allowed?("shifts.signup") %><%= button_to "Join shift", join_shift_path(shift) %><% end %></article><% end %></div><% if @shifts.empty? %><p class="empty">No upcoming shifts have been posted.</p><% end %></section>
