@@ -1,2 +1,10 @@
 <section class="auth-layout">
-<%= render "design/auth_art" %><div class="auth-form"><h1>Choose a new password.</h1><div class="panel"><%= form_with url: password_reset_path(@token), method: :patch do |f| %><div class="field"><%= f.label :password %><%= f.password_field :password, required: true, minlength: 8, maxlength: 72, autocomplete: "new-password" %></div><div class="field"><%= f.label :password_confirmation %><%= f.password_field :password_confirmation, required: true, autocomplete: "new-password" %></div><%= f.submit "Change password" %><% end %></div></div></section>
+<%= render "design/auth_art" %><div class="auth-form"><h1>Choose a new password.</h1>
+<% if @password_errors.present? %>
+<div id="password-reset-errors" class="signup-error-summary" role="alert" tabindex="-1">
+<p><strong>Please correct the following:</strong></p>
+<ul><% @password_errors.each do |message| %><li><%= message %></li><% end %></ul>
+<p>Please re-enter your password and confirmation.</p>
+</div>
+<% end %>
+<div class="panel"><%= form_with url: password_reset_path(@token), method: :patch do |f| %><div class="field"><%= f.label :password %><%= f.password_field :password, required: true, minlength: 8, maxlength: 72, autocomplete: "new-password" %></div><div class="field"><%= f.label :password_confirmation %><%= f.password_field :password_confirmation, required: true, autocomplete: "new-password" %></div><%= f.submit "Change password" %><% end %></div></div></section>

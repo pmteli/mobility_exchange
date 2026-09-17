@@ -15,6 +15,7 @@ class PasswordResetsController < ApplicationController
     raise ActiveRecord::RecordNotFound unless AccountTokens.resolve(@token, "reset")
   end
   def update
+    @token = params[:token]
     MobilityTransaction.call do
       user = AccountTokens.resolve(params[:token], "reset") or raise ActiveRecord::RecordNotFound
       user.credential.update!(password: params[:password], password_confirmation: params[:password_confirmation], token_nonce: SecureRandom.hex(32))
@@ -22,5 +23,8 @@ class PasswordResetsController < ApplicationController
     end
     reset_session
     redirect_to new_session_path, notice: "Password changed. Sign in again."
+  rescue ActiveRecord::RecordInvalid => error
+    @password_errors = error.record.errors.full_messages
+    render :edit, status: :unprocessable_entity
   end
 end
