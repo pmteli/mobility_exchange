@@ -1,7 +1,10 @@
 class ShiftsController < ApplicationController
   before_action :require_login
   def index
-    @shifts = VolunteerShift.where(cancelled_at: nil).where("starts_at > ?", Time.current).includes(:location).order(:starts_at).limit(250)
+    upcoming = VolunteerShift.where(cancelled_at: nil).where("starts_at > ?", Time.current)
+    @locations = Location.where(id: upcoming.select(:location_id)).order(:name).to_a
+    @selected_location = @locations.find { |location| location.id == params[:location_id] } || @locations.first
+    @shifts = @selected_location ? upcoming.where(location_id: @selected_location.id).includes(:location, :shift_signups).order(:starts_at).limit(250) : []
     @signups = ShiftSignup.where(volunteer_id: current_user.id, status: "signed_up").pluck(:shift_id)
   end
   def join
@@ -12,7 +15,7 @@ class ShiftsController < ApplicationController
       signup.update!(status: "signed_up")
       Audit.record!(current_user, "shift.joined", shift)
     end
-    redirect_to shifts_path, notice: "You are signed up."
+    redirect_to shifts_path(location_id: VolunteerShift.find(params[:id]).location_id), notice: "You are signed up."
   end
   def leave
     Workflow.run do
@@ -20,6 +23,6 @@ class ShiftsController < ApplicationController
       raise Workflow::Error, "Only upcoming shifts can be cancelled." unless VolunteerShift.find(params[:id]).starts_at.future?
       signup.update!(status: "cancelled")
     end
-    redirect_to shifts_path, notice: "Shift signup cancelled."
+    redirect_to shifts_path(location_id: VolunteerShift.find(params[:id]).location_id), notice: "Shift signup cancelled."
   end
 end

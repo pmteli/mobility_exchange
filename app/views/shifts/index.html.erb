@@ -1,3 +1,11 @@
 <section class="page"><h1>Time well shared.</h1><p class="lede">Choose a shift that works for you. Volunteer approval is required before signing up.</p>
-<h2>Upcoming shifts available for signup</h2>
-<div class="grid"><% @shifts.each do |shift| %><article class="card"><p class="eyebrow"><%= shift.location.name %></p><h3><%= shift.activity %></h3><p><%= local_time(shift.starts_at, shift.location.timezone) %></p><p class="muted"><%= shift.shift_signups.where(status: "signed_up").count %> / <%= shift.capacity %> places filled</p><p><%= shift.notes %></p><% if @signups.include?(shift.id) %><%= button_to "Cancel my signup", leave_shift_path(shift), method: :delete %><% elsif allowed?("shifts.signup") %><%= button_to "Join shift", join_shift_path(shift) %><% end %></article><% end %></div><% if @shifts.empty? %><p class="empty">No upcoming shifts have been posted.</p><% end %></section>
+<% if @locations.any? %>
+<nav class="shift-location-tabs" aria-label="Shift locations">
+<% @locations.each do |location| %>
+<%= link_to location.name, shifts_path(location_id: location.id), class: "shift-location-tab", aria: { current: (@selected_location.id == location.id ? "page" : nil) } %>
+<% end %>
+</nav>
+<h2><%= @selected_location.name %></h2>
+<p class="muted">Upcoming shifts available for signup. Times are local to this location.</p>
+<% else %><h2>Upcoming shifts available for signup</h2><% end %>
+<div class="grid"><% @shifts.each do |shift| %><article class="card"><p class="eyebrow"><%= shift.location.name %></p><h3><%= shift.activity %></h3><p><%= local_time(shift.starts_at, shift.location.timezone) %></p><p class="muted"><%= shift.shift_signups.count { |signup| signup.status == "signed_up" } %> / <%= shift.capacity %> places filled</p><p><%= shift.notes %></p><% if @signups.include?(shift.id) %><%= button_to "Cancel my signup", leave_shift_path(shift), method: :delete %><% elsif allowed?("shifts.signup") %><%= button_to "Join shift", join_shift_path(shift) %><% end %></article><% end %></div><% if @shifts.empty? %><p class="empty">No upcoming shifts have been posted.</p><% end %></section>
