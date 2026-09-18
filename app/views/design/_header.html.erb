@@ -3,6 +3,7 @@
   <nav class="site-nav" aria-label="Main navigation">
     <%= link_to "Available equipment", catalogue_path, aria: { current: controller_name == "catalog" && request.path != root_path ? "page" : nil } %>
     <%= link_to "Donate equipment", new_donation_path %>
+    <%= link_to "Donate money", new_money_donation_path %>
     <%= link_to "Volunteer", new_volunteer_application_path %>
     <%= link_to "About us", page_path("about") %>
     <%= link_to "Common questions", page_path("faq") %>

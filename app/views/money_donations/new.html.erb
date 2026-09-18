@@ -1,0 +1,26 @@
+<% content_for :title, "Donate money | Mobility Exchange" %>
+<section class="page money-donation-page">
+  <p class="eyebrow">Give the gift of independence</p>
+  <h1>Support Mobility Exchange</h1>
+  <% if @error %><div class="signup-error-summary" role="alert"><%= @error %></div><% end %>
+  <p class="lede">Your generosity helps connect Bay Area neighbors with the mobility equipment they need.</p>
+  <div class="panel">
+    <p class="payment-test-notice"><strong>Test mode:</strong> No real money is collected. Use Stripe test card details only.</p>
+    <% unless DonationCheckout.configured? %><p role="status">Card donations are being set up. Checkout will be available once the test payment service is connected.</p><% end %>
+    <%= form_with url: money_donations_path, data: { turbo: false } do |f| %>
+      <%= hidden_field_tag :checkout_token, @checkout_token %>
+      <fieldset class="donation-amounts"><legend>Choose a one-time donation (USD)</legend>
+        <div class="donation-amount-grid">
+          <% MoneyDonation::PRESETS.each do |amount| %>
+            <label><%= radio_button_tag :amount, amount, (params[:amount].presence || "25") == amount.to_s, required: true %><span>$<%= amount %></span></label>
+          <% end %>
+          <label><%= radio_button_tag :amount, "custom", params[:amount] == "custom", required: true %><span>Custom</span></label>
+        </div>
+      </fieldset>
+      <div class="field"><%= label_tag :custom_amount, "Custom amount (USD)" %><%= number_field_tag :custom_amount, params[:custom_amount], min: 1, max: 10000, step: "0.01", inputmode: "decimal", placeholder: "Enter amount", aria: { describedby: "custom-amount-help" } %><p id="custom-amount-help" class="muted">Select Custom above to give between $1 and $10,000.</p></div>
+      <%= f.submit "Continue to secure checkout", disabled: !DonationCheckout.configured? %>
+      <p class="muted">Card details are entered securely on Stripe. Mobility Exchange does not store your card number or security code.</p>
+    <% end %>
+  </div>
+  <%= link_to "View my money donations", money_donations_path, class: "text-link" %>
+</section>

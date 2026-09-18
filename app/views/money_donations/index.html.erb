@@ -1,0 +1,6 @@
+<% content_for :title, "Money donations | Mobility Exchange" %>
+<section class="page">
+  <div class="section-head"><div><p class="eyebrow">Your generosity</p><h1>Money donations</h1><p>Test payments only. No real money is collected.</p></div><%= link_to "Donate money", new_money_donation_path, class: "button" %></div>
+  <% if @donations.empty? %><div class="empty"><h2>Make a difference.</h2><p>Your money donations will appear here.</p></div><% end %>
+  <% @donations.each do |donation| %><article class="panel"><h2><%= link_to number_to_currency(donation.amount_cents / 100.0), money_donation_path(donation) %></h2><p><%= donation.status.titleize %> · <%= local_time(donation.created_at) %></p></article><% end %>
+</section>

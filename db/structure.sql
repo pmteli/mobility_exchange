@@ -1367,6 +1367,29 @@ CREATE TABLE mobility_exchange.messages (
 
 
 --
+-- Name: money_donations; Type: TABLE; Schema: mobility_exchange; Owner: -
+--
+
+CREATE TABLE mobility_exchange.money_donations (
+    id text NOT NULL,
+    user_id text NOT NULL,
+    request_key text NOT NULL,
+    email text NOT NULL,
+    amount_cents integer NOT NULL,
+    currency text DEFAULT 'usd'::text NOT NULL,
+    status text DEFAULT 'pending'::text NOT NULL,
+    stripe_session_id text,
+    stripe_payment_intent_id text,
+    paid_at timestamp(6) without time zone,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    CONSTRAINT money_donation_amount CHECK ((((amount_cents >= 100) AND (amount_cents <= 1000000)) AND (currency = 'usd'::text))),
+    CONSTRAINT money_donation_paid_evidence CHECK (((status = 'paid'::text) = ((paid_at IS NOT NULL) AND (stripe_payment_intent_id IS NOT NULL)))),
+    CONSTRAINT money_donation_status CHECK ((status = ANY (ARRAY['pending'::text, 'paid'::text, 'expired'::text])))
+);
+
+
+--
 -- Name: notification_outbox; Type: TABLE; Schema: mobility_exchange; Owner: -
 --
 
@@ -2140,6 +2163,14 @@ ALTER TABLE ONLY mobility_exchange.messages
 
 
 --
+-- Name: money_donations money_donations_pkey; Type: CONSTRAINT; Schema: mobility_exchange; Owner: -
+--
+
+ALTER TABLE ONLY mobility_exchange.money_donations
+    ADD CONSTRAINT money_donations_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: notification_outbox notification_outbox_deduplication_key_key; Type: CONSTRAINT; Schema: mobility_exchange; Owner: -
 --
 
@@ -2552,10 +2583,31 @@ CREATE INDEX idx_waivers_recipient_date ON mobility_exchange.signed_waivers USIN
 
 
 --
+-- Name: index_money_donations_on_stripe_payment_intent_id; Type: INDEX; Schema: mobility_exchange; Owner: -
+--
+
+CREATE UNIQUE INDEX index_money_donations_on_stripe_payment_intent_id ON mobility_exchange.money_donations USING btree (stripe_payment_intent_id);
+
+
+--
+-- Name: index_money_donations_on_stripe_session_id; Type: INDEX; Schema: mobility_exchange; Owner: -
+--
+
+CREATE UNIQUE INDEX index_money_donations_on_stripe_session_id ON mobility_exchange.money_donations USING btree (stripe_session_id);
+
+
+--
 -- Name: login_sessions_user_id_idx; Type: INDEX; Schema: mobility_exchange; Owner: -
 --
 
 CREATE INDEX login_sessions_user_id_idx ON mobility_exchange.login_sessions USING btree (user_id);
+
+
+--
+-- Name: money_donations_request_unique; Type: INDEX; Schema: mobility_exchange; Owner: -
+--
+
+CREATE UNIQUE INDEX money_donations_request_unique ON mobility_exchange.money_donations USING btree (user_id, request_key);
 
 
 --
@@ -3865,6 +3917,14 @@ ALTER TABLE ONLY mobility_exchange.files
 
 
 --
+-- Name: money_donations fk_rails_fbb9cdfa76; Type: FK CONSTRAINT; Schema: mobility_exchange; Owner: -
+--
+
+ALTER TABLE ONLY mobility_exchange.money_donations
+    ADD CONSTRAINT fk_rails_fbb9cdfa76 FOREIGN KEY (user_id) REFERENCES mobility_exchange.users(id);
+
+
+--
 -- Name: intake_item_files intake_item_files_file_id_fkey; Type: FK CONSTRAINT; Schema: mobility_exchange; Owner: -
 --
 
@@ -4351,6 +4411,7 @@ ALTER TABLE ONLY mobility_exchange.volunteers
 SET search_path TO public,mobility_exchange;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260918000000'),
 ('20260916000000'),
 ('20260915000000'),
 ('20260912010000'),

@@ -1,0 +1,20 @@
+<% content_for :title, "Your donation | Mobility Exchange" %>
+<section class="page money-donation-page">
+  <p class="eyebrow">Money donation · Test mode</p>
+  <h1><%= @donation.status == "paid" ? "Thank you for your generosity!" : "Your donation" %></h1>
+  <% if @status_notice %><div class="signup-error-summary" role="status"><%= @status_notice %></div><% end %>
+  <div class="panel">
+    <h2><%= number_to_currency(@donation.amount_cents / 100.0) %> USD</h2>
+    <% if @donation.status == "paid" %>
+      <p>Your test payment was confirmed. Your support helps make independence possible for our Bay Area neighbors.</p><p>No real money was collected.</p>
+    <% elsif @donation.status == "expired" %>
+      <p>This checkout expired without a confirmed payment. You can start a new donation below.</p>
+    <% else %>
+      <% if params[:cancelled] %><p>You returned from checkout. This donation has not been confirmed as paid.</p><% end %>
+      <p>We have not yet confirmed a payment. If you completed checkout, refresh this page shortly to check the status.</p>
+      <%= link_to "Refresh payment status", money_donation_path(@donation), class: "button secondary" %>
+    <% end %>
+    <p class="muted">Reference: <%= @donation.id %></p>
+  </div>
+  <div class="actions"><%= link_to "Donation history", money_donations_path, class: "button secondary" %><%= link_to "Start a new donation", new_money_donation_path, class: "button" %></div>
+</section>

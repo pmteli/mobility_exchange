@@ -13,6 +13,8 @@ Rails.application.routes.draw do
   resource :account, only: [:show, :edit, :update]
   get "profile_email/:token", to: "profile_emails#show", as: :profile_email
   post "profile_email/:token", to: "profile_emails#update"
+  resources :money_donations, path: "donate-money", only: [:index, :new, :create, :show]
+  post "webhooks/stripe", to: "stripe_webhooks#create"
   resources :donations, only: [:new, :create, :show] do
     resources :photos, only: :show, controller: "donation_photos"
     post :sign, on: :member

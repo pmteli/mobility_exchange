@@ -118,7 +118,7 @@ class JourneysTest < ActionDispatch::IntegrationTest
     notification = Notification.find_by!(recipient_user_id: user.id)
     mail = AccountMailer.notification(notification)
     assert_includes mail.text_part.body.decoded, "Verify your email"
-    assert_includes mail.html_part.body.decoded, "Verify email address"
+    assert_includes mail.html_part.body.decoded, "Verify my email"
     token = notification.payload_json.fetch("token")
     get verification_path(token)
     assert_response :success

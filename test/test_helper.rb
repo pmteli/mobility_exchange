@@ -6,6 +6,7 @@ class ActiveSupport::TestCase
   # Schema requires SERIALIZABLE at the outermost transaction. Tests use unique IDs
   # and a dedicated disposable database, so Rails must not wrap them in transactions.
   self.use_transactional_tests = false
+  setup { Rails.cache.clear } # Isolate per-IP rate limits between test cases.
   def create_user(role: "public", verified: true)
     Workflow.run do
       user = User.create!(email: "test-#{SecureRandom.hex(8)}@example.test", first_name: "Test", last_name: "User", auth_subject: "test:#{SecureRandom.uuid}", account_status: verified ? "active" : "pending", email_verified_at: verified ? Time.current : nil)

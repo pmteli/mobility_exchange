@@ -10,3 +10,4 @@ gem "prawn", "~> 2.5"
 gem "csv", "~> 3.3"
 # Rails 8.1 passes positional options to JSON.parse; JSON 3 requires keywords.
 gem "json", ">= 2.9", "< 3"
+gem "stripe", "~> 19.0"
