@@ -1,7 +1,7 @@
 class ShiftsController < ApplicationController
   before_action :require_login
   def index
-    @shifts = VolunteerShift.where(cancelled_at: nil).where("starts_at > ?", Time.current).includes(:location).order(:starts_at).limit(100)
+    @shifts = VolunteerShift.where(cancelled_at: nil).where("starts_at > ?", Time.current).includes(:location).order(:starts_at).limit(250)
     @signups = ShiftSignup.where(volunteer_id: current_user.id, status: "signed_up").pluck(:shift_id)
   end
   def join

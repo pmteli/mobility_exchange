@@ -2,7 +2,7 @@ module Staff
   class ShiftsController < BaseController
     before_action -> { authorize!("shifts.manage") }
     def index
-      @shifts = VolunteerShift.includes(:location).order(starts_at: :desc).limit(100)
+      @shifts = VolunteerShift.includes(:location).order(starts_at: :desc).limit(250)
     end
     def new
       @record = VolunteerShift.new
