@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   get "up", to: "rails/health#show", as: :rails_health_check
   root "catalog#index"
+  get "photo-credits", to: "photo_credits#index", as: :photo_credits
   get "equipment", to: "catalog#index", as: :catalogue
   get "equipment/:id", to: "catalog#show", as: :catalog_item
   get "pages/:slug", to: "pages#show", as: :page

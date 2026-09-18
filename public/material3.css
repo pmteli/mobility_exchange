@@ -209,3 +209,12 @@ input[type=file]{height:auto;overflow:hidden}input[type=file]::file-selector-but
 }
 @media(forced-colors:active){.button,.icon-button,.badge,.site-nav a[aria-current=page],.operations-nav>a.active{border:1px solid ButtonText}.shift-location-tab[aria-current=page]::after{background:Highlight}}
 .money-donation-page input[type=submit]+p{margin-top:16px}
+/* Publicly sourced category photos; complete objects remain visible without cropping. */
+.equipment-art:has(.equipment-photo){background:var(--md-sys-color-surface-container-lowest);padding:36px 12px 34px}
+.equipment-photo{object-fit:contain;width:100%;height:100%;border-radius:8px}
+.illustration-label{background:var(--md-sys-color-surface-container-lowest);color:var(--muted);border-radius:6px;padding:3px 7px;font-size:11px;left:8px;right:auto;bottom:5px;max-width:calc(100% - 16px)}
+.auth-art .equipment-photo{height:245px;background:white;padding:12px;border-radius:20px}
+.credit-photo{width:100%;height:240px;object-fit:contain;background:white;border-radius:12px;margin-bottom:20px}
+.photo-credit-card{overflow-wrap:anywhere}.photo-credit-card h2{font-size:1.375rem}
+.equipment-photo-placeholder{color:var(--muted);padding:24px}
+@media(max-width:700px){.auth-art .equipment-photo{height:180px}}

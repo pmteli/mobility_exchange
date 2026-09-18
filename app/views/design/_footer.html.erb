@@ -2,7 +2,7 @@
   <div class="footer-grid">
     <div><%= render "design/brand" %><p>Connecting donors, volunteers, and people who need support—one thoughtful handoff at a time.</p><span class="footer-tag">Equipment. Empathy. Independence.</span></div>
     <nav aria-label="Get involved"><h3>Take the next step</h3><%= link_to "Find equipment", catalogue_path %><%= link_to "Donate equipment", new_donation_path %><%= link_to "Donate money", new_money_donation_path %><%= link_to "Become a volunteer", new_volunteer_application_path %></nav>
-    <nav aria-label="About Mobility Exchange"><h3>Get to know us</h3><%= link_to "Our story", page_path("about") %><%= link_to "Common questions", page_path("faq") %><%= link_to "Contact the team", page_path("contact") %></nav>
+    <nav aria-label="About Mobility Exchange"><h3>Get to know us</h3><%= link_to "Our story", page_path("about") %><%= link_to "Common questions", page_path("faq") %><%= link_to "Contact the team", page_path("contact") %><%= link_to "Photo credits", photo_credits_path %></nav>
     <nav aria-label="Your account"><h3>Your Mobility Exchange</h3><%= link_to "My account", account_path %><%= link_to "Upcoming shifts", shifts_path %><%= link_to "Team sign-in", new_session_path %></nav>
   </div>
   <div class="footer-bottom"><span>© <%= Date.current.year %> Mobility Exchange. Independence, dignity, and possibility.</span><span>Community powered <%= design_icon("heart") %></span></div>

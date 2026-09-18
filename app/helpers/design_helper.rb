@@ -2,16 +2,25 @@ module DesignHelper
   def design_icon(name)
     render "design/icons/#{name}"
   end
-  def equipment_illustration(category, type = "")
+  EQUIPMENT_PHOTO_CREDITS = JSON.parse(File.read(Rails.root.join("public/design/equipment-photos/credits.json"))).freeze
+  def equipment_photo_credits
+    EQUIPMENT_PHOTO_CREDITS
+  end
+  def equipment_photo(category, type = "")
     text = (type.present? ? type : category).to_s.downcase
     kind = if text.include?("wheelchair") then "wheelchair"
       elsif text.include?("bath") || text.include?("shower") then "shower-chair"
+      elsif text.include?("forearm") && text.include?("crutch") then "forearm-crutches"
       elsif text.include?("crutch") then "crutches"
       elsif text.include?("cane") then "cane"
       elsif text.include?("rollator") then "rollator"
-      else "walker"
+      elsif text.include?("walker") then "walker"
       end
-    image_tag "/design/#{kind}.svg", alt: "", class: "product-illustration", loading: "lazy"
+    photo = equipment_photo_credits[kind]
+    return tag.span("Photo not available", class: "equipment-photo-placeholder") unless photo
+    image_tag "/design/equipment-photos/#{photo.fetch('file')}",
+      alt: "Representative photo: #{photo.fetch('label')}. Not the specific donated item.",
+      class: "product-illustration equipment-photo", loading: "lazy", decoding: "async"
   end
   def operations_links
     [

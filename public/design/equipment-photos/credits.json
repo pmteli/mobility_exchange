@@ -1,0 +1,79 @@
+{
+  "wheelchair": {
+    "file": "wheelchair.jpg",
+    "title": "Wheelchair.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Wheelchair.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/c/c9/Wheelchair.jpg",
+    "author": "Beendy234",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "changes": "None; displayed scaled to fit.",
+    "label": "Manual wheelchair"
+  },
+  "walker": {
+    "file": "walker.jpg",
+    "title": "Walker extended.JPG",
+    "source": "https://commons.wikimedia.org/wiki/File:Walker_extended.JPG",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/f/f6/Walker_extended.JPG",
+    "author": "BrokenSphere",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "changes": "None; displayed scaled to fit.",
+    "label": "Walking frame"
+  },
+  "rollator": {
+    "file": "rollator.jpg",
+    "title": "Modern Rollator.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Modern_Rollator.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/e/e4/Modern_Rollator.jpg",
+    "author": "Hansimglueck70",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "changes": "None; displayed scaled to fit.",
+    "label": "Four-wheel rollator"
+  },
+  "cane": {
+    "file": "cane.jpg",
+    "title": "Cane IMG 2994.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Cane_IMG_2994.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/0/04/Cane_IMG_2994.jpg",
+    "author": "Eddau",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "changes": "None; displayed scaled to fit.",
+    "label": "Quad-base cane"
+  },
+  "crutches": {
+    "file": "crutches.jpg",
+    "title": "Axillary Crutches.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Axillary_Crutches.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/8/8a/Axillary_Crutches.jpg",
+    "author": "Jessica Fisher",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "changes": "None; displayed scaled to fit.",
+    "label": "Underarm crutches"
+  },
+  "forearm-crutches": {
+    "file": "forearm-crutches.jpg",
+    "title": "Forearm Crutches.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Forearm_Crutches.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/a/a6/Forearm_Crutches.jpg",
+    "author": "Jessica Fisher",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "changes": "None; displayed scaled to fit.",
+    "label": "Forearm crutches"
+  },
+  "shower-chair": {
+    "file": "shower-chair.jpg",
+    "title": "SOLD Shower chair, bath transfer bench, toilet riser (4861775529).jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:SOLD_Shower_chair,_bath_transfer_bench,_toilet_riser_(4861775529).jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/3/36/SOLD_Shower_chair%2C_bath_transfer_bench%2C_toilet_riser_%284861775529%29.jpg",
+    "author": "The Living Room from Kenmore, WA 98028, United States of America!",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "changes": "None; displayed scaled to fit.",
+    "label": "Bath safety equipment: shower stool, transfer bench and toilet riser"
+  }
+}

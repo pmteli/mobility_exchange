@@ -32,7 +32,7 @@ Workflow.run do
       next if Equipment.exists?(id: id)
       equipment = Equipment.create!(id: id, inventory_number: "TEST-#{category.upcase}-#{names.index(name) + 1}",
         type_id: type.id, name: "#{name} (Sample)", condition: "good", acquisition_kind: "legacy",
-        description: "Fictional #{name.downcase} for testing Mobility Exchange. The picture is a category illustration; it does not show a real donated item. No actual equipment is offered.",
+        description: "Fictional #{name.downcase} for testing Mobility Exchange. The picture is a representative equipment photo; it does not show this specific item. No actual equipment is offered.",
         location_id: location.id, received_at: Time.current, created_by: actor.id, updated_by: actor.id)
       %w[awaiting_inspection inspected awaiting_sanitization sanitized cataloged available].each do |status|
         if %w[inspected sanitized].include?(status)
@@ -45,4 +45,4 @@ Workflow.run do
     end
   end
 end
-puts "25 sample equipment items ready across 4 categories, with category illustrations. Existing items preserved."
+puts "25 sample equipment items ready across 4 categories, with representative equipment photos. Existing items preserved."

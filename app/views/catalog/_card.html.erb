@@ -1,4 +1,4 @@
 <article class="equipment-card">
-  <%= link_to catalog_item_path(item), class: "equipment-art", aria: { label: "View #{item.name}" } do %><%= status_badge("available") %><%= equipment_illustration(item.category, item.equipment_type) %><span class="illustration-label">Illustration · not a product photo</span><% end %>
+  <%= link_to catalog_item_path(item), class: "equipment-art", aria: { label: "View #{item.name}" } do %><%= status_badge("available") %><%= equipment_photo(item.category, item.equipment_type) %><span class="illustration-label">Representative photo · item may differ</span><% end %>
   <div class="equipment-info"><p class="eyebrow"><%= item.category %></p><h3><%= link_to item.name, catalog_item_path(item) %></h3><p class="equipment-meta"><%= item.condition.humanize %> condition <span>·</span> <%= item.pickup_location %></p><div class="equipment-bottom"><span><%= item.inventory_number %></span><%= link_to catalog_item_path(item), class: "text-link" do %>View details <%= design_icon("arrow") %><% end %></div></div>
 </article>

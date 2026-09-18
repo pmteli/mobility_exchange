@@ -1,0 +1,14 @@
+<% content_for :title, "Equipment photo credits | Mobility Exchange" %>
+<section class="page"><p class="eyebrow">Image sources</p><h1>Equipment photo credits</h1>
+<p class="lede">These publicly sourced photographs show examples of equipment categories. They do not show the specific donated item, its condition, or every feature. Some category photos show multiple related items. Our team confirms the actual equipment details.</p>
+<div class="grid">
+<% equipment_photo_credits.each do |kind, photo| %>
+<article class="panel photo-credit-card" id="<%= kind %>">
+<%= image_tag "/design/equipment-photos/#{photo.fetch('file')}", alt: photo.fetch('label'), class: "credit-photo", loading: "lazy" %>
+<h2><%= photo.fetch('label') %></h2>
+<p>Photo by <%= photo.fetch('author') %>.</p>
+<p><%= link_to photo.fetch('title'), photo.fetch('source') %> via Wikimedia Commons.</p>
+<p>License: <%= link_to photo.fetch('license'), photo.fetch('license_url') %>.</p>
+<p class="muted">Original photograph; displayed scaled to fit. No endorsement is implied.</p>
+</article>
+<% end %></div></section>
