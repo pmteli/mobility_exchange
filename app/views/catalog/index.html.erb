@@ -1,7 +1,13 @@
 <% home = request.path == root_path && params[:q].blank? && params[:category].blank? && params[:page].blank? %>
 <% content_for :title, home ? "More possibilities | Mobility Exchange" : "Available equipment | Mobility Exchange" %>
 <% if home %>
-<section class="hero-wrap"><div class="container hero"><div><div class="community-label"><%= design_icon("heart") %> One community. More possibilities.</div><h1>More independence.<br>More <em>possibilities.</em></h1><p class="hero-copy">New and gently used mobility equipment.<br>A renewed sense of independence.</p><p class="hero-subcopy">Bringing donors, volunteers, and people who need support together—one thoughtful handoff at a time.</p><div class="hero-buttons"><%= link_to catalogue_path, class: "button light" do %>Find equipment <%= design_icon("arrow") %><% end %><%= link_to new_donation_path, class: "button lime" do %>Donate equipment <%= design_icon("heart") %><% end %></div><div class="hero-trust"><span><%= design_icon("heart") %> Dignity & respect</span><span><%= design_icon("leaf") %> Reuse with purpose</span></div></div><%= render "design/hero_art" %></div></section>
+<section class="home-branded-hero" aria-labelledby="home-hero-title">
+<div class="container">
+<img class="home-hero-image" src="/design/mobility-exchange-email-branded-hero.png" width="2034" height="773" fetchpriority="high" alt="Mobility Exchange. More independence. More possibilities. An older Indian couple by San Francisco Bay.">
+<div class="home-hero-details">
+<div><h1 id="home-hero-title">Mobility support for our Bay Area community.</h1><p>New and gently used mobility equipment. A renewed sense of independence.</p></div>
+<div class="hero-buttons"><%= link_to catalogue_path, class: "button light" do %>Find equipment <%= design_icon("arrow") %><% end %><%= link_to new_donation_path, class: "button lime" do %>Donate equipment <%= design_icon("heart") %><% end %></div>
+</div></div></section>
 <div class="container"><div class="journey-ribbon" aria-label="Our equipment preparation process"><% [["Collect", "heart"], ["Inspect", "shield"], ["Sanitize", "sparkles"], ["Redistribute", "box"]].each_with_index do |(label, icon), index| %><div><span class="journey-icon"><%= design_icon(icon) %></span><span><small>0<%= index + 1 %></small><strong><%= label %></strong></span><%= design_icon("arrow") unless index == 3 %></div><% end %></div></div>
 <% else %>
 <div class="container page-intro"><p class="eyebrow">Support for your next step</p><h1>Find a little support.<br>A new possibility.</h1><p>Explore equipment ready for its next chapter. Our team confirms availability before arranging pickup.</p></div>

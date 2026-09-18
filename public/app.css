@@ -53,3 +53,5 @@
 .shift-folder-content{background:#fff;border:1px solid #c6d3e5;border-radius:0 0 16px 16px;padding:28px;box-shadow:0 8px 24px rgba(21,43,73,.04)}
 .shift-folder-content>.grid{margin-top:24px}.shift-folder-content .card{background:#f7f9fd}
 @media(max-width:600px){.shift-location-tab{max-width:205px;padding:14px 16px;font-size:13px}.shift-folder-content{padding:22px 14px}.shift-folder-content>h2{font-size:24px}}
+
+.home-branded-hero{background:#152b49;color:#fff;padding:24px 0 40px}.home-hero-image{display:block;width:100%;height:auto;border-radius:14px}.home-hero-details{display:flex;align-items:center;justify-content:space-between;gap:24px;padding-top:26px}.home-hero-details h1{font-size:28px;line-height:1.25;color:#fff;margin:0 0 10px;max-width:600px}.home-hero-details p{color:#dce7f5;margin:0}.home-hero-details .hero-buttons{flex-shrink:0;margin:0}@media(max-width:800px){.home-hero-details{flex-direction:column;align-items:flex-start}.home-hero-details h1{font-size:24px}.home-branded-hero{padding-top:16px}.home-hero-details .hero-buttons{flex-wrap:wrap}}
