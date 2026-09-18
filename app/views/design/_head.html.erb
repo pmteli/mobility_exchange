@@ -3,5 +3,5 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="New possibilities through shared mobility equipment. Donate, find support, and volunteer with Mobility Exchange.">
 <%= csrf_meta_tags %><%= csp_meta_tag %>
-<link rel="stylesheet" href="/app.css">
+<link rel="stylesheet" href="/app.css?v=<%= File.mtime(Rails.root.join("public/app.css")).to_i %>">
 <link rel="icon" href="/design/wheelchair.svg" type="image/svg+xml">
