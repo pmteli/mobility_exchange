@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Welcome to Mobility Exchange</title></head>
+<body style="margin:0;background:#eaf0f8;color:#152b49;font-family:Arial,Helvetica,sans-serif">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="#eaf0f8"><tr><td align="center" style="padding:24px 12px">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background:#fff;border-radius:16px;overflow:hidden">
+<tr><td bgcolor="#152b49"><img src="<%= root_url %>design/mobility-exchange-email-branded-hero.png" width="600" alt="Mobility Exchange — More independence. More possibilities." style="display:block;width:100%;max-width:600px;height:auto;border:0;color:white"></td></tr>
+<tr><td height="5" bgcolor="#c1f346" style="font-size:0;line-height:0">&nbsp;</td></tr>
+<tr><td style="padding:30px 24px">
+<p style="color:#315ec0;font-size:12px;font-weight:bold;letter-spacing:1px">WELCOME TO THE COMMUNITY</p>
+<h1 style="font-size:28px;line-height:1.25;color:#152b49"><%= @heading %></h1>
+<p style="font-size:16px;line-height:1.7">Hi <%= @first_name %>,</p>
+<p style="font-size:16px;line-height:1.7;color:#465b73"><%= @intro %></p>
+<p style="font-size:16px;line-height:1.7;color:#465b73"><%= @body %></p>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="#f1f6fc"><tr><td style="padding:20px"><strong>Your next step</strong><p style="margin:8px 0 0;line-height:1.7;color:#465b73"><%= @next_step %></p></td></tr></table>
+<p style="margin:28px 0"><a href="<%= @target %>" style="display:inline-block;background:#2559d6;color:white;padding:15px 22px;border-radius:8px;text-decoration:none;font-weight:bold"><%= @button %></a></p>
+<p style="line-height:1.7;color:#465b73">Questions? Email <a href="mailto:inquiry@mobilityexchange.org" style="color:#2559d6">inquiry@mobilityexchange.org</a>.</p>
+<p style="line-height:1.7">Thank you for being part of this effort.<br><strong>The Mobility Exchange team</strong></p>
+<p style="font-size:12px;line-height:1.6;color:#617187">You received this welcome because you registered as a <%= @donor ? "donor" : "volunteer" %> and verified your email address.</p>
+</td></tr><tr><td align="center" bgcolor="#152b49" style="padding:24px;color:#fff;font-size:14px">More independence. More possibilities.<br><span style="font-size:12px;color:#dce7f5">Serving the Bay Area, California</span></td></tr>
+</table></td></tr></table></body></html>
