@@ -1,13 +1,6 @@
 <header class="site-header"><div class="container nav-inner">
   <%= render "design/brand" %>
-  <nav class="site-nav" aria-label="Main navigation">
-    <%= link_to "Available equipment", catalogue_path, aria: { current: controller_name == "catalog" && request.path != root_path ? "page" : nil } %>
-    <%= link_to "Donate equipment", new_donation_path %>
-    <%= link_to "Donate money", new_money_donation_path %>
-    <%= link_to "Volunteer", new_volunteer_application_path %>
-    <%= link_to "About us", page_path("about") %>
-    <%= link_to "Common questions", page_path("faq") %>
-  </nav>
+  <nav class="site-nav" aria-label="Main navigation"><%= render "design/navigation_links" %></nav>
   <div class="nav-right">
     <% if current_user %>
       <%= link_to "My account", account_path, class: "text-link" %>
@@ -15,7 +8,23 @@
       <%= button_to session_path, method: :delete, class: "icon-button", aria: { label: "Sign out" } do %><%= design_icon("logout") %><% end %>
     <% else %>
       <%= link_to "Sign in", new_session_path, class: "text-link" %>
-      <%= link_to catalogue_path, class: "button nav-cta" do %>Find equipment <%= design_icon("arrow") %><% end %>
+      <%= link_to "Create account", new_registration_path, class: "button" %>
     <% end %>
   </div>
+  <details class="public-menu">
+    <summary><%= design_icon("menu") %><span>Menu</span></summary>
+    <div class="public-menu-panel">
+      <nav aria-label="Mobile navigation"><%= render "design/navigation_links" %><%= link_to "Volunteer shifts", shifts_path %><%= link_to "Contact us", page_path("contact") %></nav>
+      <hr>
+      <nav aria-label="Account navigation">
+        <% if current_user %>
+          <%= link_to "My account", account_path %>
+          <%= link_to "Team portal", staff_root_path if staff_access? %>
+        <% else %>
+          <%= link_to "Sign in", new_session_path %><%= link_to "Create account", new_registration_path %>
+        <% end %>
+      </nav>
+      <%= button_to "Sign out", session_path, method: :delete, class: "text-button" if current_user %>
+    </div>
+  </details>
 </div></header>

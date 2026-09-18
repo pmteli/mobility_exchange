@@ -5,3 +5,7 @@
 <%= csrf_meta_tags %><%= csp_meta_tag %>
 <link rel="stylesheet" href="/app.css?v=<%= File.mtime(Rails.root.join("public/app.css")).to_i %>">
 <link rel="icon" href="/design/wheelchair.svg" type="image/svg+xml">
+
+<meta name="theme-color" content="#f9f9ff">
+<link rel="stylesheet" href="/material3.css?v=<%= File.mtime(Rails.root.join("public/material3.css")).to_i %>">
+<script src="/material3.js?v=<%= File.mtime(Rails.root.join("public/material3.js")).to_i %>" defer></script>

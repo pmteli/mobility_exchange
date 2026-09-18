@@ -1,0 +1,3 @@
+<% [["Available equipment", catalogue_path, "catalog"], ["Donate equipment", new_donation_path, "donations"], ["Donate money", new_money_donation_path, "money_donations"], ["Volunteer", new_volunteer_application_path, "volunteer_applications"], ["About us", page_path("about"), nil], ["Common questions", page_path("faq"), nil]].each do |label, path, controller| %>
+  <%= link_to label, path, aria: { current: (controller ? controller_name == controller && request.path != root_path : current_page?(path)) ? "page" : nil } %>
+<% end %>
