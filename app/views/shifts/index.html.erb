@@ -5,7 +5,8 @@
 <%= link_to location.name, shifts_path(location_id: location.id), class: "shift-location-tab", aria: { current: (@selected_location.id == location.id ? "page" : nil) } %>
 <% end %>
 </nav>
+<div class="shift-folder-content">
 <h2><%= @selected_location.name %></h2>
 <p class="muted">Upcoming shifts available for signup. Times are local to this location.</p>
-<% else %><h2>Upcoming shifts available for signup</h2><% end %>
-<div class="grid"><% @shifts.each do |shift| %><article class="card"><p class="eyebrow"><%= shift.location.name %></p><h3><%= shift.activity %></h3><p><%= local_time(shift.starts_at, shift.location.timezone) %></p><p class="muted"><%= shift.shift_signups.count { |signup| signup.status == "signed_up" } %> / <%= shift.capacity %> places filled</p><p><%= shift.notes %></p><% if @signups.include?(shift.id) %><%= button_to "Cancel my signup", leave_shift_path(shift), method: :delete %><% elsif allowed?("shifts.signup") %><%= button_to "Join shift", join_shift_path(shift) %><% end %></article><% end %></div><% if @shifts.empty? %><p class="empty">No upcoming shifts have been posted.</p><% end %></section>
+<% else %><div class="shift-folder-content"><h2>Upcoming shifts available for signup</h2><% end %>
+<div class="grid"><% @shifts.each do |shift| %><article class="card"><p class="eyebrow"><%= shift.location.name %></p><h3><%= shift.activity %></h3><p><%= local_time(shift.starts_at, shift.location.timezone) %></p><p class="muted"><%= shift.shift_signups.count { |signup| signup.status == "signed_up" } %> / <%= shift.capacity %> places filled</p><p><%= shift.notes %></p><% if @signups.include?(shift.id) %><%= button_to "Cancel my signup", leave_shift_path(shift), method: :delete %><% elsif allowed?("shifts.signup") %><%= button_to "Join shift", join_shift_path(shift) %><% end %></article><% end %></div><% if @shifts.empty? %><p class="empty">No upcoming shifts have been posted.</p><% end %></div></section>
