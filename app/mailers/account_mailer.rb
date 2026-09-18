@@ -2,6 +2,11 @@ class AccountMailer < ActionMailer::Base
   default from: -> { ENV.fetch("MAIL_FROM", "no-reply@example.test") }
   def notification(record)
     @kind = record.template_key
+    if @kind == "equipment_request_confirmation"
+      @details = record.payload_json
+      @target = equipment_request_url(@details.fetch("request_id"))
+      return mail(to: record.destination, subject: "We received your equipment request #{@details.fetch('reference_number')}", template_name: "equipment_request_confirmation")
+    end
     if %w[welcome_donor welcome_volunteer].include?(@kind)
       @donor = @kind == "welcome_donor"
       @first_name = record.payload_json.fetch("first_name", "there")

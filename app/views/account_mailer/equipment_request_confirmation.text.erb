@@ -1,0 +1,25 @@
+We've received your equipment request.
+
+Hi <%= @details.fetch("first_name") %>,
+
+Thank you for requesting equipment through Mobility Exchange. Our team will review your request and confirm availability. Your equipment is not yet reserved and a pickup has not been booked.
+
+Request: <%= @details.fetch("reference_number") %>
+Equipment: <%= @details.fetch("equipment_name") %>
+Inventory number: <%= @details.fetch("inventory_number") %>
+Type: <%= @details.fetch("equipment_type") %>
+Category: <%= @details.fetch("category") %>
+Condition: <%= @details.fetch("condition") %>
+
+Next steps for pickup:
+1. Sign in and open your request to track its status while our team reviews it and reserves available equipment.
+2. Review and sign the recipient waiver on your request page.
+3. Once approved and equipment is reserved, choose an available time under Arrange pickup and select Book appointment.
+4. Check the booked date, time, and location before traveling. If no appointments are available, check back or contact us.
+
+View my request: <%= @target %>
+
+Questions? Email inquiry@mobilityexchange.org.
+
+The Mobility Exchange team
+Serving the Bay Area, California
