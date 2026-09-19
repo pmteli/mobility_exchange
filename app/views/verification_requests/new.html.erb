@@ -1,2 +1,7 @@
 <section class="auth-layout">
-<%= render "design/auth_art" %><div class="auth-form"><h1>Verify your account.</h1><div class="panel"><%= form_with url: verification_request_path do |f| %><div class="field"><%= f.label :email %><%= f.email_field :email, required: true, autocomplete: "email" %></div><%= f.submit "Send a new verification link" %><% end %></div></div></section>
+<aside class="auth-art login-welcome verification-welcome" aria-labelledby="verification-welcome-title">
+  <p class="eyebrow">Mobility Exchange · Bay Area</p>
+  <h2 id="verification-welcome-title">One small step.<br><span>A community of possibilities.</span></h2>
+  <p class="login-welcome-copy">Confirm your email to get started. Enter the address you used to sign up to request a new verification link, then check your inbox and spam folder.</p>
+  <p class="login-welcome-purpose">Give equipment. Find support.<br><strong>Your next step starts here.</strong></p>
+</aside><div class="auth-form"><h1>Verify your account.</h1><div class="panel"><%= form_with url: verification_request_path do |f| %><div class="field"><%= f.label :email %><%= f.email_field :email, required: true, autocomplete: "email" %></div><%= f.submit "Send a new verification link" %><% end %></div></div></section>
