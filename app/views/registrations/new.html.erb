@@ -1,5 +1,10 @@
 <section class="auth-layout">
-<%= render "design/auth_art" %><div class="auth-form"><p class="eyebrow">Join the exchange</p><h1>Start with an account.</h1>
+<aside class="auth-art login-welcome" aria-labelledby="signup-welcome-title">
+  <p class="eyebrow">Mobility Exchange · Bay Area</p>
+  <h2 id="signup-welcome-title">Join our community.<br><span>Open up new possibilities.</span></h2>
+  <p class="login-welcome-copy">Donate equipment, volunteer your time, or find the mobility support you need. Your account connects you with a community that cares.</p>
+  <p class="login-welcome-purpose">Give a little. Connect with others.<br><strong>Help independence grow.</strong></p>
+</aside><div class="auth-form"><p class="eyebrow">Join the exchange</p><h1>Start with an account.</h1>
 <% if @signup_errors.present? %>
 <div id="signup-errors" class="signup-error-summary" role="alert" tabindex="-1">
 <p><strong>Please correct the following:</strong></p>
