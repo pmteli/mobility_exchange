@@ -1,2 +1,7 @@
 <section class="auth-layout">
-<%= render "design/auth_art" %><div class="auth-form"><h1>Reset your password.</h1><div class="panel"><%= form_with url: password_resets_path do |f| %><div class="field"><%= f.label :email %><%= f.email_field :email, required: true, autocomplete: "email" %></div><%= f.submit "Send reset link" %><% end %></div></div></section>
+<aside class="auth-art login-welcome password-reset-welcome" aria-labelledby="password-reset-welcome-title">
+  <p class="eyebrow">Mobility Exchange · Bay Area</p>
+  <h2 id="password-reset-welcome-title">Let’s get you back.<br><span>Your community is here.</span></h2>
+  <p class="login-welcome-copy">Forgot your password? Enter the email address you used to sign up. If it matches an account, we’ll email you a link to choose a new password.</p>
+  <p class="login-welcome-purpose">A fresh start is a few steps away.<br><strong>Reconnect with your community.</strong></p>
+</aside><div class="auth-form"><h1>Reset your password.</h1><div class="panel"><%= form_with url: password_resets_path do |f| %><div class="field"><%= f.label :email %><%= f.email_field :email, required: true, autocomplete: "email" %></div><%= f.submit "Send reset link" %><% end %></div></div></section>
