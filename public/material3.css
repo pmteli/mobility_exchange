@@ -130,7 +130,7 @@ input[type=file]{height:auto;overflow:hidden}input[type=file]::file-selector-but
 .auth-art h2,.auth-art p:not(.eyebrow),.auth-art>span{color:inherit}.auth-art h2{font-size:2.25rem}
 .auth-form h1{font-size:2rem}.auth-form .panel{background:transparent}.auth-form{padding:40px}
 .home-branded-hero{background:var(--md-sys-color-surface);color:var(--ink);padding-block:24px}
-.home-hero-image{border-radius:28px}.home-hero-details{background:var(--md-sys-color-primary-container);border-radius:28px;padding:32px;margin-top:16px}
+.home-hero-image{border-radius:28px;aspect-ratio:2034 / 618.4;object-fit:cover;object-position:50% 20%}.home-hero-details{background:var(--md-sys-color-primary-container);border-radius:28px;padding:32px;margin-top:16px}
 .home-hero-details h1{font-size:2rem;font-weight:400;color:var(--md-sys-color-on-primary-container)}
 .home-hero-details p{color:var(--md-sys-color-on-primary-container)}
 .home-hero-details .button.light{background:var(--blue);color:white}
