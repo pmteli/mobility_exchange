@@ -835,7 +835,7 @@ CREATE TABLE mobility_exchange.appointment_slots (
     ends_at timestamp with time zone NOT NULL,
     capacity integer NOT NULL,
     cancelled_at timestamp with time zone,
-    created_by text NOT NULL,
+    created_by text,
     CONSTRAINT appointment_slots_capacity_check CHECK ((capacity > 0)),
     CONSTRAINT appointment_slots_check CHECK ((ends_at > starts_at)),
     CONSTRAINT appointment_slots_kind_check CHECK ((kind = ANY (ARRAY['dropoff'::text, 'pickup'::text])))
@@ -903,7 +903,7 @@ CREATE TABLE mobility_exchange.content_pages (
     title text NOT NULL,
     body_markdown text NOT NULL,
     published_at timestamp with time zone,
-    updated_by text NOT NULL,
+    updated_by text,
     updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
@@ -1026,8 +1026,8 @@ CREATE TABLE mobility_exchange.equipment (
     public_notes text,
     private_notes text,
     disposition_reason text,
-    created_by text NOT NULL,
-    updated_by text NOT NULL,
+    created_by text,
+    updated_by text,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     archived_at timestamp with time zone,
@@ -1265,7 +1265,7 @@ CREATE TABLE mobility_exchange.legal_document_versions (
     exact_text text NOT NULL,
     text_sha256 text NOT NULL,
     published_at timestamp with time zone NOT NULL,
-    published_by text NOT NULL,
+    published_by text,
     CONSTRAINT legal_document_versions_kind_check CHECK ((kind = ANY (ARRAY['recipient_waiver'::text, 'donor_certification'::text]))),
     CONSTRAINT legal_document_versions_text_sha256_check CHECK ((length(text_sha256) = 64))
 );
@@ -1383,7 +1383,7 @@ CREATE TABLE mobility_exchange.money_donations (
     paid_at timestamp(6) without time zone,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    CONSTRAINT money_donation_amount CHECK ((((amount_cents >= 100) AND (amount_cents <= 1000000)) AND (currency = 'usd'::text))),
+    CONSTRAINT money_donation_amount CHECK (((amount_cents >= 100) AND (amount_cents <= 1000000) AND (currency = 'usd'::text))),
     CONSTRAINT money_donation_paid_evidence CHECK (((status = 'paid'::text) = ((paid_at IS NOT NULL) AND (stripe_payment_intent_id IS NOT NULL)))),
     CONSTRAINT money_donation_status CHECK ((status = ANY (ARRAY['pending'::text, 'paid'::text, 'expired'::text])))
 );
@@ -1421,7 +1421,7 @@ CREATE TABLE mobility_exchange.notification_outbox (
 CREATE TABLE mobility_exchange.organization_settings (
     key text NOT NULL,
     value_json jsonb NOT NULL,
-    updated_by text NOT NULL,
+    updated_by text,
     updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
@@ -1764,7 +1764,7 @@ CREATE TABLE mobility_exchange.volunteer_shifts (
     starts_at timestamp with time zone NOT NULL,
     ends_at timestamp with time zone NOT NULL,
     capacity integer NOT NULL,
-    created_by text NOT NULL,
+    created_by text,
     cancelled_at timestamp with time zone,
     notes text,
     CONSTRAINT volunteer_shifts_capacity_check CHECK ((capacity > 0)),
@@ -4411,6 +4411,7 @@ ALTER TABLE ONLY mobility_exchange.volunteers
 SET search_path TO public,mobility_exchange;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260918010000'),
 ('20260918000000'),
 ('20260916000000'),
 ('20260915000000'),
