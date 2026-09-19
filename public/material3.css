@@ -228,3 +228,5 @@ input[type=file]{height:auto;overflow:hidden}input[type=file]::file-selector-but
 .auth-art.login-welcome .login-welcome-purpose{font-size:23px;line-height:1.5;color:#17345e;margin:0;padding-top:24px;border-top:1px solid #bac9e4}
 .login-welcome-purpose strong{color:#236348;font-weight:650}
 @media(max-width:700px){.auth-art.login-welcome{gap:20px}.auth-art.login-welcome .login-welcome-copy{font-size:18px}.auth-art.login-welcome .login-welcome-purpose{font-size:20px;padding-top:20px}}
+
+.auth-art.signup-welcome{justify-content:flex-start}
