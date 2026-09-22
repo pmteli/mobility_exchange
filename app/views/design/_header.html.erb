@@ -1,16 +1,19 @@
-<header class="site-header"><div class="container nav-inner">
-  <%= render "design/brand" %>
-  <nav class="site-nav" aria-label="Main navigation"><%= render "design/navigation_links" %></nav>
-  <div class="nav-right">
-    <% if current_user %>
-      <%= link_to "My account", account_path, class: "text-link" %>
-      <%= link_to "Team portal", staff_root_path, class: "button" if staff_access? %>
-      <%= button_to session_path, method: :delete, class: "icon-button", aria: { label: "Sign out" } do %><%= design_icon("logout") %><% end %>
-    <% else %>
-      <%= link_to "Sign in", new_session_path, class: "text-link" %>
-      <%= link_to "Create account", new_registration_path, class: "button" %>
-    <% end %>
-  </div>
+<header class="exchange-header">
+<div class="exchange-container exchange-account-links" aria-label="Account links">
+  <% if current_user %>
+    <%= link_to "My account", account_path %>
+    <%= link_to "Team portal", staff_root_path if staff_access? %>
+    <%= button_to "Sign out", session_path, method: :delete, class: "exchange-signout" %>
+  <% else %>
+    <%= link_to "Sign in", new_session_path %><%= link_to "Create account", new_registration_path %>
+  <% end %>
+</div>
+<div class="exchange-container exchange-header-inner">
+  <%= link_to root_path, class: "exchange-brand", aria: { label: "Mobility Exchange home" } do %>
+    <svg class="exchange-brand-mark" viewBox="306 157 208 208" aria-hidden="true"><image href="/design/homepage-reference-art.png" width="2048" height="1005"/></svg>
+    <span><span class="exchange-brand-name">MOBILITY <span>EXCHANGE</span></span><span class="exchange-brand-tag">NEIGHBORS HELPING NEIGHBORS</span></span>
+  <% end %>
+  <nav class="exchange-nav" aria-label="Main navigation"><%= render "design/navigation_links" %></nav>
   <details class="public-menu">
     <summary><%= design_icon("menu") %><span>Menu</span></summary>
     <div class="public-menu-panel">

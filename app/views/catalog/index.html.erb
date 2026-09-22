@@ -1,13 +1,23 @@
 <% home = request.path == root_path && params[:q].blank? && params[:category].blank? && params[:page].blank? %>
 <% content_for :title, home ? "More possibilities | Mobility Exchange" : "Available equipment | Mobility Exchange" %>
 <% if home %>
-<section class="home-branded-hero" aria-labelledby="home-hero-title">
-<div class="container">
-<img class="home-hero-image" src="/design/mobility-exchange-email-branded-hero.png" width="2034" height="773" fetchpriority="high" alt="Mobility Exchange. More independence. More possibilities. An older Indian couple by San Francisco Bay.">
-<div class="home-hero-details">
-<div><h1 id="home-hero-title">Mobility support for our Bay Area community.</h1><p>New and gently used mobility equipment. A renewed sense of independence.</p></div>
-<div class="hero-buttons"><%= link_to catalogue_path, class: "button light" do %>Find equipment <%= design_icon("arrow") %><% end %><%= link_to new_donation_path, class: "button lime" do %>Donate equipment <%= design_icon("heart") %><% end %></div>
-</div></div></section>
+<div class="exchange-container">
+<section class="exchange-hero" aria-labelledby="home-hero-title">
+  <div class="exchange-hero-body">
+    <p class="exchange-eyebrow">A Bay Area nonprofit initiative</p>
+    <h1 id="home-hero-title"><span><em>Free,</em> gently used</span> <span>home medical</span> <span>equipment.</span></h1>
+    <p class="exchange-hero-description">Connecting donated equipment with Bay Area neighbors who need it.</p>
+    <div class="exchange-hero-actions">
+      <%= link_to new_donation_path, class: "exchange-action exchange-action-primary" do %>Donate equipment <span aria-hidden="true">→</span><% end %>
+      <%= link_to catalogue_path, class: "exchange-action exchange-action-secondary" do %>Find free equipment <span aria-hidden="true">→</span><% end %>
+    </div>
+    <p class="exchange-tagline">More independence. More possibilities.</p>
+  </div>
+  <div class="exchange-hero-art" role="img" aria-label="An illustration of a man using a wheelchair beside a woman, overlooking San Francisco Bay and the Golden Gate Bridge.">
+    <svg viewBox="1320 122 683 602" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><image href="/design/homepage-reference-art.png" width="2048" height="1005"/></svg>
+  </div>
+</section>
+</div>
 <div class="container"><div class="journey-ribbon" aria-label="Our equipment preparation process"><% [["Collect", "heart"], ["Inspect", "shield"], ["Sanitize", "sparkles"], ["Redistribute", "box"]].each_with_index do |(label, icon), index| %><div><span class="journey-icon"><%= design_icon(icon) %></span><span><small>0<%= index + 1 %></small><strong><%= label %></strong></span><%= design_icon("arrow") unless index == 3 %></div><% end %></div></div>
 <% else %>
 <div class="container page-intro"><p class="eyebrow">Support for your next step</p><h1>Find a little support.<br>A new possibility.</h1><p>Explore equipment ready for its next chapter. Our team confirms availability before arranging pickup.</p></div>
