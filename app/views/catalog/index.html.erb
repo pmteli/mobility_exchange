@@ -18,7 +18,6 @@
   </div>
 </section>
 </div>
-<div class="container"><div class="journey-ribbon" aria-label="Our equipment preparation process"><% [["Collect", "heart"], ["Inspect", "shield"], ["Sanitize", "sparkles"], ["Redistribute", "box"]].each_with_index do |(label, icon), index| %><div><span class="journey-icon"><%= design_icon(icon) %></span><span><small>0<%= index + 1 %></small><strong><%= label %></strong></span><%= design_icon("arrow") unless index == 3 %></div><% end %></div></div>
 <% else %>
 <div class="container page-intro"><p class="eyebrow">Support for your next step</p><h1>Find a little support.<br>A new possibility.</h1><p>Explore equipment ready for its next chapter. Our team confirms availability before arranging pickup.</p></div>
 <% end %>
