@@ -1748,6 +1748,7 @@ CREATE TABLE mobility_exchange.users (
     postal_code character varying(20),
     pending_email character varying(254),
     pending_email_nonce character varying(64),
+    google_subject character varying(255),
     CONSTRAINT users_account_status_check CHECK ((account_status = ANY (ARRAY['pending'::text, 'active'::text, 'suspended'::text, 'archived'::text]))),
     CONSTRAINT users_community_roles_allowed CHECK ((community_roles <@ ARRAY['volunteer'::text, 'donor'::text, 'recipient'::text]))
 );
@@ -2594,6 +2595,13 @@ CREATE UNIQUE INDEX index_money_donations_on_stripe_payment_intent_id ON mobilit
 --
 
 CREATE UNIQUE INDEX index_money_donations_on_stripe_session_id ON mobility_exchange.money_donations USING btree (stripe_session_id);
+
+
+--
+-- Name: index_users_on_google_subject; Type: INDEX; Schema: mobility_exchange; Owner: -
+--
+
+CREATE UNIQUE INDEX index_users_on_google_subject ON mobility_exchange.users USING btree (google_subject);
 
 
 --
@@ -4411,6 +4419,7 @@ ALTER TABLE ONLY mobility_exchange.volunteers
 SET search_path TO public,mobility_exchange;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260923010000'),
 ('20260918010000'),
 ('20260918000000'),
 ('20260916000000'),

@@ -5,6 +5,10 @@ Rails.application.routes.draw do
   get "equipment", to: "catalog#index", as: :catalogue
   get "equipment/:id", to: "catalog#show", as: :catalog_item
   get "pages/:slug", to: "pages#show", as: :page
+  post "auth/google", to: "google_sessions#start", as: :google_sign_in
+  get "auth/google/callback", to: "google_sessions#callback"
+  get "google_registration/new", to: "google_sessions#new", as: :new_google_registration
+  post "google_registration", to: "google_sessions#create", as: :google_registration
   resource :session, only: [:new, :create, :destroy]
   resource :registration, only: [:new, :create]
   resources :password_resets, only: [:new, :create, :edit, :update], param: :token

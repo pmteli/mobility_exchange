@@ -7,6 +7,6 @@ Rails.application.config.content_security_policy do |policy|
   policy.font_src :self
   policy.object_src :none
   policy.base_uri :self
-  policy.form_action :self, "https://checkout.stripe.com"
+  policy.form_action :self, "https://checkout.stripe.com", "https://accounts.google.com"
   policy.frame_ancestors :none
 end

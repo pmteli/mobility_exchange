@@ -1,0 +1,6 @@
+<% if GoogleOauth.enabled? %>
+<div class="panel">
+  <%= button_to "Continue with Google", google_sign_in_path, method: :post, data: { turbo: false }, class: "button secondary" %>
+  <p class="muted">Or continue with your email and password below.</p>
+</div>
+<% end %>
