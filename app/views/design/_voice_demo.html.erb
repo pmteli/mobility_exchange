@@ -1,0 +1,13 @@
+<button type="button" class="voice-launch" id="voice-launch" aria-haspopup="dialog">Talk to Mobility Exchange</button>
+<dialog id="voice-demo" aria-labelledby="voice-title">
+  <header class="voice-top"><h2 id="voice-title">Talk to Mobility Exchange</h2><button type="button" id="voice-close" aria-label="Close voice assistant">Close</button></header>
+  <p class="voice-notice"><strong>Guided voice demo</strong> · Sample inventory only. No real reservation, pickup or delivery request is created. This demo uses scripted responses, not an AI service.</p>
+  <p>Try “Find a walker in Fremont,” “Reserve the first one,” then “Confirm.” After that, try “Request delivery” and “Confirm delivery.” You can also type or use the buttons.</p>
+  <p class="voice-privacy">Microphone access starts only when you select Speak. Your browser may send audio to its speech provider for transcription. Mobility Exchange does not store demo audio or messages.</p>
+  <div id="voice-log" role="log" aria-live="polite" aria-relevant="additions" tabindex="0"></div>
+  <div id="voice-results" aria-label="Sample equipment results"></div>
+  <p id="voice-status" role="status"></p>
+  <form id="voice-form"><label for="voice-input">Your message</label><div class="voice-entry"><input id="voice-input" autocomplete="off" maxlength="500" placeholder="Find a walker in Fremont" required><button type="submit">Send</button></div></form>
+  <div class="voice-controls"><button type="button" id="voice-mic">Speak</button><button type="button" id="voice-stop">Stop audio</button><button type="button" id="voice-reset">Start over</button><label><input type="checkbox" id="voice-read" checked> Read replies aloud</label></div>
+  <p><a href="<%= catalogue_path %>">Browse actual equipment</a> · <a href="<%= page_path('contact') %>">Contact our team</a></p>
+</dialog>
