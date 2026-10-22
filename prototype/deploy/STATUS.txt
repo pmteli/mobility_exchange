@@ -1,0 +1,83 @@
+FreeDME design demo deployment — 19 October 2026
+Target: https://demo.freedme.org
+Lightsail: mobility-exchange-test, us-west-2, 34.212.115.157
+Remote directory: /home/ubuntu/freedme-demo
+Docker Compose project: freedme-demo
+Service: Caddy static file server, restart unless-stopped, persistent TLS volumes.
+Only prototype/dist was uploaded; no PRS, credentials, or private project documents.
+Browser-local fictional data only. This is not a production exchange.
+
+Installation verified: container running; deployed HTML, JS and CSS hashes match local files; external HTTP returns 308 to HTTPS.
+Verified: demo.freedme.org resolves to 34.212.115.157; trusted HTTPS returns HTTP 200. Public browser checks passed for homepage, hero/logo assets, equipment navigation and image rotation. HTTP redirects to HTTPS. Completed 19 October 2026.
+Temporary SSH deployment key removed from the server and removal verified.
+
+Maintenance (SSH as ubuntu):
+cd /home/ubuntu/freedme-demo
+sudo docker compose ps
+sudo docker compose logs --tail=50 web
+sudo docker compose restart web
+To stop this demo only: sudo docker compose down (keep TLS volumes).
+
+DNS changes should affect only the demo subdomain. Existing root-domain records are not modified.
+
+19 October 2026 update: New condition and Loan Until date selection published. Remote app.js matches local exactly. Browser verified New selected, loan date enabled for loan and accepted 2026-10-30. Previous remote app.js backed up as /home/ubuntu/freedme-demo/app-before-loan-date.js.
+
+19 October 2026: responsive single-line hero headline published and verified in browser at 320–1440px. Remote CSS backup: /home/ubuntu/freedme-demo/style-before-single-line-hero.css.
+
+21 October 2026: registration simulation published using the authenticated Lightsail browser terminal. Public app.js matches tested local file byte-for-byte. Live unknown-mobile registration, sample OTP and return to donation form verified. No backend or SMS provider added. Backup: /home/ubuntu/freedme-demo/app-before-registration.js.
+
+21 October 2026: Other category published. Live app.js matches local exactly; donation menu verified. Backup: /home/ubuntu/freedme-demo/app-before-other-category.js.
+
+21 October 2026: Requires Repairs replaces Condition uncertain in donation dropdown. Live menu and file match verified. Backup: /home/ubuntu/freedme-demo/app-before-requires-repairs.js.
+
+21 October 2026: mandatory no-missing-parts-or-defects checkbox published for new donations; live field and required validation verified. Backup: /home/ubuntu/freedme-demo/app-before-no-defects.js.
+
+21 October 2026: No known missing parts wording published; Requires Repairs retained. Backup: /home/ubuntu/freedme-demo/app-before-known-parts.js.
+
+21 October 2026: question popup, simulated donor SMS notice and Pending questions section published; live walkthrough and byte-for-byte file match verified. Backup: /home/ubuntu/freedme-demo/app-before-questions.js.
+
+21 October 2026: donor Answer popup and recipient Questions & Answers history published. Live end-to-end workflow and file match verified. Backup: /home/ubuntu/freedme-demo/app-before-answers.js.
+
+21 October 2026: My Activity equipment title links published; live navigation and file match verified. Backup: /home/ubuntu/freedme-demo/app-before-activity-links.js.
+
+21 October 2026: Ask Another Question and visible per-question IDs published. Live follow-up submission and separate statuses verified; deployed file matches local. Backup: /home/ubuntu/freedme-demo/app-before-followup-question.js.
+
+21 October 2026: equipment-grouped Q&A published and verified. Backup: /home/ubuntu/freedme-demo/app-before-grouped-questions.js.
+
+21 October 2026: donor Material-style activity tabs published; file match, visual layout and keyboard navigation verified. Backup: /home/ubuntu/freedme-demo/app-before-donor-tabs.js.
+
+21 October 2026: donor Pending Questions Answer button uses blue background, white text, compact regular button sizing and darker hover. Live computed colors and visual size verified. Backup: /home/ubuntu/freedme-demo/style-before-blue-answer.css.
+
+21 October 2026: global enabled action buttons and selected tabs use navy #103560 with white text; hover #082543. Disabled controls and inactive tabs remain distinguishable. Live item/hero computed colors verified. Backup: /home/ubuntu/freedme-demo/style-before-navy-buttons.css.
+
+21 October 2026: reverted sitewide navy-button theme at user request. Previous colors restored, including blue donor Answer button. Live stylesheet matches local reverted version.
+
+21 October 2026: shared Material-style regular buttons published: blue #1565c0, light-blue hover #bbdefb with dark text, 4px corners, subtle elevation, keyboard focus and disabled states. Selected tabs blue; inactive tabs retain distinction. Live computed styles and visual appearance verified; stylesheet matches local. Backup: /home/ubuntu/freedme-demo/style-before-material-buttons.css.
+
+21 October 2026: reverted the shared Material-style button update at user request. Prior button appearance restored; blue donor Answer button and donor tabs retained. Live stylesheet matches local restored version.
+
+21 October 2026: shape-only update gives all buttons 4px corners. Existing colors and behavior preserved. Live radius/color and stylesheet match verified. Backup: /home/ubuntu/freedme-demo/style-before-button-shape.css.
+
+21 October 2026: recipient My Activity now has Questions & Answers and Requests & Offers tabs matching donor styling and keyboard behavior. Live switching, arrow navigation, grouped question history and file match verified. Backup: /home/ubuntu/freedme-demo/app-before-recipient-tabs.js.
+
+21 October 2026: status badges now use larger 16px bold uppercase text, light-blue background #d9edff and dark-blue text, including warning/hold variants. Live styles and visual rendering verified. Backup: /home/ubuntu/freedme-demo/style-before-status-labels.css.
+
+21 October 2026: Equipment-list card status labels now have transparent backgrounds and regular 400 weight, reduced by 2pt from 12pt (16px) to 10pt. Uppercase retained. Supersedes Section 9 badge styling for equipment-list cards only (FR008/FR045). Local and live computed styles verified; remote stylesheet SHA256 matches local. Backup: /home/ubuntu/freedme-demo/style-before-list-labels.css.
+
+21 October 2026: Removed distance information from equipment cards and detail pages, including sample-distance filter, filter predicate and distance explanatory text. Town/location remains. Explicit user revision to FR007/FR008 distance presentation; no geocoding added. Live browse and detail verified; remote JS/CSS hashes match local. Backups: app.js.before-remove-distance and style.css.before-remove-distance in /home/ubuntu/freedme-demo.
+
+21 October 2026: Removed Equipment price/$0 display from shared gift and loan details. No other equipment-price amounts/fields found in runtime pages. Free to keep / Free loan labels retained. User-directed presentation exception to FR001/FR008; free-exchange policy unchanged. Live details and remote/local app.js hash verified. Backup: /home/ubuntu/freedme-demo/app-before-remove-price.js.
+
+21 October 2026: Removed the gift identity/address-document sentence from demo details; checked runtime pages for other occurrences. Copy-only change; verification workflow unchanged. Live text and remote/local app.js hashes verified. Backup: /home/ubuntu/freedme-demo/app-before-gift-copy.js.
+
+21 October 2026: Loan equipment badges show Loan Until with formatted calendar date instead of maximum days (FR008/FR020). Uses stored donor date; sample wheelchair/crutches assigned fixed fictional dates Oct 30/23 2026, including matching older sample records on load. Other undated legacy entries show Date not specified. Request duration and existing handoff remaining-period fields unchanged. Local rendering checks and live list/detail verified; deployed source hash matches. Backup: /home/ubuntu/freedme-demo/app-before-loan-until-label.js.
+
+21 October 2026: Loan badge wording simplified to FREE LOAN: UNTIL Oct 30, 2026 (stored calendar date). Date capitalization preserved. Live exact wording verified; remote files match local. Backups: app-before-loan-label-copy.js and style-before-loan-label-copy.css.
+
+21 October 2026: Donor pending requests in Requests & Handoffs now use Approve, Decline and Unavailable action labels; Report an issue removed from these pending donor entries. Existing action behavior and other reporting paths retained. Local donor/recipient rendering checks pass; remote JS hash matches local. Backup: app-before-pending-actions.js.
+
+21 October 2026: Approve now opens optional handoff day/time/public-location form (FR010/FR018/FR023). All three fields required if any supplied; valid future Pacific-local date/time and 200-character location limit. Saved on offered request; visible to donor/recipient while offered/reserved unless paused/held. Approval creates generic simulated SMS preview with no exact location/time; opt-out suppresses notice. No real SMS. Recipient acceptance still required; suggestion is not appointment confirmation. Checks passed for optional/incomplete/past inputs, duplicate approval, escaped location, recipient offered/reserved rendering and opt-out. Live donor form submission and recipient suggestion/SMS preview verified. Backup: /home/ubuntu/freedme-demo/app-before-handoff-suggestion.js.
+
+21 October 2026: Recipient reserved Requests & Offers entries no longer display donor mobile or direct phone/text instruction. Removed obsolete sample-number warning. Suggested handoff, donor name and pickup safety copy retained. User-directed presentation revision to FR010. Local reserved rendering and live reserved view verified; remote/local JS hashes match. Backup: app-before-reserved-mobile-removal.js.
+
+2026-10-21: Handoff negotiation (FR010, FR018, FR023; explicit user revision). Recipient accepts or counters donor meeting suggestions using prefilled day/time/location fields. Donor confirms or counters; changed arrangements require renewed agreement. Proposal snapshots and simulated SMS previews are retained. Stale revisions, own/duplicate acceptance, invalid/past dates, paused/closed exchanges are blocked. Meeting agreement does not confirm physical handoff or reset offer deadlines. Local checks and live recipient counterproposal/donor confirmation verified.
