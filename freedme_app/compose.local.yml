@@ -1,0 +1,41 @@
+name: freedme-framework
+services:
+  web:
+    image: freedme-framework-web
+    build:
+      context: .
+      dockerfile: Dockerfile.local
+    env_file: .env.docker
+    environment:
+      RAILS_ENV: development
+      PGHOST: mobility-exchange-rails-db-1
+      PGPORT: "5432"
+    ports:
+      - "127.0.0.1:3001:3000"
+    networks:
+      - existing_postgres
+    volumes:
+      - equipment_photos:/app/storage/equipment_photos
+    init: true
+    restart: unless-stopped
+  journey_worker:
+    image: freedme-framework-web
+    command: ["bin/rails", "runner", "script/journey_worker.rb"]
+    env_file: .env.docker
+    environment:
+      RAILS_ENV: development
+      PGHOST: mobility-exchange-rails-db-1
+      PGPORT: "5432"
+    networks:
+      - existing_postgres
+    volumes:
+      - equipment_photos:/app/storage/equipment_photos
+    init: true
+    restart: unless-stopped
+networks:
+  existing_postgres:
+    external: true
+    name: mobility-exchange-rails_default
+
+volumes:
+  equipment_photos:

@@ -1,0 +1,25 @@
+FreeDME Rails MVC framework — validation 2026-10-26
+
+Runtime: Ruby 3.4.10, Rails 8.1.4, PostgreSQL 18.6.
+All database checks used an isolated /tmp cluster (port 55438, Unix socket only).
+No production database or Lightsail deployment was changed.
+
+PASS: initial v0.2 migration executed through Rails on a new development database.
+PASS: SQL structure dump restored into the separate test database.
+PASS: SQL dump preserves private-function PUBLIC privilege revocations.
+PASS: Rails suite: 9 tests, 590 assertions, 0 failures, 0 errors, 0 skips.
+      Covers public routes, private dashboard denial, hostile search input,
+      unavailable item lookup, all 53 model mappings, association keys,
+      read-only public projection, fail-closed adapters, restored permissions,
+      repeatable reference seeds and disabled pilot gates.
+PASS: existing PostgreSQL v0.2 rollback-only regression suite on Rails-created DB.
+PASS: Zeitwerk eager-load check.
+PASS: asset compilation; compiled development assets removed afterward to permit edits.
+PASS: RuboCop: 94 files inspected, no offenses after formatting corrections.
+PASS: Brakeman: 0 errors, 0 security warnings.
+
+These checks validate the framework, not a completed pilot or production readiness.
+No real OTP, SMS, document verification, file upload or authenticated journey
+has been integrated. Private dashboard templates are deliberately inaccessible.
+Authorization policies, workflow services, durable scheduling and operational
+controls remain implementation work. See README.md for scope and requirement IDs.

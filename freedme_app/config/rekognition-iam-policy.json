@@ -1,0 +1,19 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ScreenFreeDMEEquipmentImages",
+      "Effect": "Allow",
+      "Action": [
+        "rekognition:DetectModerationLabels",
+        "rekognition:DetectLabels"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringEquals": {
+          "aws:RequestedRegion": "us-west-2"
+        }
+      }
+    }
+  ]
+}

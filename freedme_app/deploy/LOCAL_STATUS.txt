@@ -1,0 +1,20 @@
+Local Docker deployment completed 2026-10-26
+
+Website: http://localhost:3001
+Rails 8.1.4 / Ruby 3.4.10 / PostgreSQL 18.6
+Rails container: freedme-framework-web-1
+Existing PostgreSQL container: mobility-exchange-rails-db-1
+Application database: freedme_framework_development
+Separate test database: freedme_framework_test
+Dedicated database owner/login: freedme_framework (non-superuser)
+
+Schema v0.2 loaded through Rails database setup; reference seed data applied.
+PASS: 9 Rails tests, 590 assertions, no failures/errors/skips, run inside Docker.
+PASS: Homepage and equipment list return HTTP 200.
+PASS: Donor private dashboard redirects to sign-in (HTTP 302).
+
+Existing mobility_exchange_development database and app on port 3000 preserved.
+No Lightsail changes. This local framework does not enable OTP, SMS, document
+verification or authenticated transaction workflows.
+
+See LOCAL_DOCKER.md for startup, rebuild, test and stop commands.

@@ -1,0 +1,4 @@
+<div class="<%= role %>-tabs" role="tablist" aria-label="<%= role.humanize %> activity">
+<% sections.each_with_index do |title, index| %><button type="button" role="tab" id="<%= role %>-tab-<%= index %>" aria-controls="<%= role %>-panel-<%= index %>" aria-selected="<%= index.zero? %>" tabindex="<%= index.zero? ? 0 : -1 %>" data-action="<%= role %>-tab"><%= title %></button><% end %>
+</div>
+<% sections.each_with_index do |title, index| %><section class="<%= role %>-tab-panel panel" role="tabpanel" id="<%= role %>-panel-<%= index %>" aria-labelledby="<%= role %>-tab-<%= index %>" <%= 'hidden' unless index.zero? %>><h2><%= title %></h2><p>Your authorized activity will appear here when account services are connected.</p></section><% end %>

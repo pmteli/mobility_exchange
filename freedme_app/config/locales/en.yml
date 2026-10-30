@@ -1,0 +1,22 @@
+# SMS catalog — FR003 / FR018. Use named Rails I18n placeholders.
+# Keep placeholders unchanged when translating. Delivery remains simulated.
+en:
+  sms:
+    registration_welcome: "Welcome to FreeDME %{display_name}. Take the next step to either donate, lend or find a mobility equipment for yourself or your loved ones. Visit https://freedme.org"
+    listing_submitted: "Thank you for offering %{item_title} to a neighbor. Your listing is under review. You will be notified when it is published."
+    request_received: "%{verified_name} from %{town} has requested your %{item_title}. You may approve or decline the request. If the item is no longer available, please indicate “not available”. Please respond within 48 hours."
+    donor_approval_ack: "The requester is notified of your approval as well as the proposed location and time for the hand-off. We will notify you when the requester accepts/rejects your offer"
+    request_approved: "Your request for the %{item_title} has been approved by the donor. Please review the proposed pick up location and time and respond."
+    request_declined: "Your request for “%{item_title}” has been declined by the donor. You may review the inventory for similar items and make a new request."
+    item_unavailable: "Your requested equipment (%{item_title}) is no longer available. You may review the inventory for similar items and make a new request."
+    question_received: "An interested recipient has a question about your equipment. Open My Activity to answer."
+    question_answered: "The donor has answered your question. Open My Activity to view the answer."
+    handoff_proposed: "A new pickup time and location have been suggested. Open My Activity to review."
+    handoff_accepted: "Your proposed pickup arrangement has been accepted. Open My Activity for details."
+    sign_in_otp: "SIMULATED FreeDME code: %{code}. Expires in %{expiry_minutes} minutes."
+    listing_published: "Your listing %{item_title} was published. Review My Activity. (Simulated)"
+    listing_rejected: "Your listing %{item_title} was rejected. Review My Activity. (Simulated)"
+    handoff_confirmed: "Handoff of %{item_title} was confirmed. (Simulated)"
+    return_confirmed: "Return of %{item_title} was confirmed. (Simulated)"
+    request_cancelled: "The request for %{item_title} was cancelled. (Simulated)"
+    request_expired: "The request for %{item_title} expired. Check My Activity. (Simulated)"

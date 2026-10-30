@@ -1,0 +1,10 @@
+# Optional override for a named local AWS profile. No credentials enter the image.
+# AWS credentials/config files must be readable by the container's rails user.
+services:
+  web:
+    environment:
+      AWS_PROFILE: ${FREEDME_AWS_PROFILE:-freedme}
+      AWS_SHARED_CREDENTIALS_FILE: /home/rails/.aws/credentials
+      AWS_CONFIG_FILE: /home/rails/.aws/config
+    volumes:
+      - ${HOME}/.aws:/home/rails/.aws:ro

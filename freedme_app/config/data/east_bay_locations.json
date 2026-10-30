@@ -1,0 +1,787 @@
+{
+  "retrieved_on": "2026-10-29",
+  "sources": [
+    "https://www.californiavolunteers.ca.gov/look-up-your-county-by-zip-code/",
+    "https://alamedacountyca.gov/about/cities.htm",
+    "https://alamedacountyca.gov/uninc/",
+    "https://www.contracosta.ca.gov/1243/View-Cities-Communities-of-Contra-Costa"
+  ],
+  "notes": "Postal names and ZIP codes follow the state directory, including PO box/unique ZIPs. County community names supplement postal names without inventing ZIP mappings. ZIPs may cross county boundaries; this is a suggestion directory, not address verification or eligibility enforcement. Refresh against sources when postal data changes.",
+  "locations": [
+    {
+      "zip_code": null,
+      "town": "Acalanes Ridge",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94501",
+      "town": "Alameda",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94502",
+      "town": "Alameda",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94507",
+      "town": "Alamo",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94706",
+      "town": "Albany",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": null,
+      "town": "Alhambra Valley",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94509",
+      "town": "Antioch",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94531",
+      "town": "Antioch",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": null,
+      "town": "Ashland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": null,
+      "town": "Bay Point",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": null,
+      "town": "Bayview",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94701",
+      "town": "Berkeley",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94702",
+      "town": "Berkeley",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94703",
+      "town": "Berkeley",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94704",
+      "town": "Berkeley",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94705",
+      "town": "Berkeley",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94707",
+      "town": "Berkeley",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94708",
+      "town": "Berkeley",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94709",
+      "town": "Berkeley",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94710",
+      "town": "Berkeley",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94712",
+      "town": "Berkeley",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94720",
+      "town": "Berkeley",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94511",
+      "town": "Bethel Island",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": null,
+      "town": "Blackhawk",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94513",
+      "town": "Brentwood",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": null,
+      "town": "Briones",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94514",
+      "town": "Byron",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": null,
+      "town": "Camino Tassajara",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94516",
+      "town": "Canyon",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": null,
+      "town": "Castle Hill",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": null,
+      "town": "Castlewood",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94546",
+      "town": "Castro Valley",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94552",
+      "town": "Castro Valley",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": null,
+      "town": "Cherryland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94517",
+      "town": "Clayton",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": null,
+      "town": "Clyde",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94518",
+      "town": "Concord",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94519",
+      "town": "Concord",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94520",
+      "town": "Concord",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94521",
+      "town": "Concord",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94522",
+      "town": "Concord",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94524",
+      "town": "Concord",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94527",
+      "town": "Concord",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94529",
+      "town": "Concord",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": null,
+      "town": "Contra Costa Centre",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94525",
+      "town": "Crockett",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94506",
+      "town": "Danville",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94526",
+      "town": "Danville",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94528",
+      "town": "Diablo",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94505",
+      "town": "Discovery Bay",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94568",
+      "town": "Dublin",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": null,
+      "town": "East Richmond Heights",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94530",
+      "town": "El Cerrito",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94803",
+      "town": "El Sobrante",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94820",
+      "town": "El Sobrante",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94608",
+      "town": "Emeryville",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94662",
+      "town": "Emeryville",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": null,
+      "town": "Fairview",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94536",
+      "town": "Fremont",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94537",
+      "town": "Fremont",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94538",
+      "town": "Fremont",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94539",
+      "town": "Fremont",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94555",
+      "town": "Fremont",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": null,
+      "town": "Happy Valley",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94540",
+      "town": "Hayward",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94541",
+      "town": "Hayward",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94542",
+      "town": "Hayward",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94543",
+      "town": "Hayward",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94544",
+      "town": "Hayward",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94545",
+      "town": "Hayward",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94557",
+      "town": "Hayward",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": null,
+      "town": "Hayward Acres",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94547",
+      "town": "Hercules",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": null,
+      "town": "Hillcrest Knolls",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": null,
+      "town": "Kensington",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94548",
+      "town": "Knightsen",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94549",
+      "town": "Lafayette",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94550",
+      "town": "Livermore",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94551",
+      "town": "Livermore",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94553",
+      "town": "Martinez",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": null,
+      "town": "Montalvin Manor",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94556",
+      "town": "Moraga",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94570",
+      "town": "Moraga",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94575",
+      "town": "Moraga",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": null,
+      "town": "Mountain View",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94560",
+      "town": "Newark",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": null,
+      "town": "Norris Canyon",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": null,
+      "town": "North Gate",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": null,
+      "town": "North Richmond",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94601",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94602",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94603",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94604",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94605",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94606",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94607",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94609",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94610",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94611",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94612",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94613",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94614",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94615",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94617",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94618",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94619",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94621",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94622",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94623",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94624",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94649",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94659",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94660",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94661",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94666",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94561",
+      "town": "Oakley",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94563",
+      "town": "Orinda",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": null,
+      "town": "Pacheco",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": null,
+      "town": "Parkmead",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94620",
+      "town": "Piedmont",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94564",
+      "town": "Pinole",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94565",
+      "town": "Pittsburg",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94523",
+      "town": "Pleasant Hill",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94566",
+      "town": "Pleasanton",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94588",
+      "town": "Pleasanton",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94569",
+      "town": "Port Costa",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": null,
+      "town": "Reliez Valley",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94801",
+      "town": "Richmond",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94802",
+      "town": "Richmond",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94804",
+      "town": "Richmond",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94805",
+      "town": "Richmond",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94807",
+      "town": "Richmond",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94808",
+      "town": "Richmond",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94850",
+      "town": "Richmond",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94572",
+      "town": "Rodeo",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": null,
+      "town": "Rollingwood",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94577",
+      "town": "San Leandro",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94578",
+      "town": "San Leandro",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94579",
+      "town": "San Leandro",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94580",
+      "town": "San Lorenzo",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": null,
+      "town": "San Miguel",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94806",
+      "town": "San Pablo",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94582",
+      "town": "San Ramon",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94583",
+      "town": "San Ramon",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": null,
+      "town": "Sandmound Slough",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": null,
+      "town": "Saranap",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": null,
+      "town": "Shell Ridge",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94586",
+      "town": "Sunol",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": null,
+      "town": "Tara Hills",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94587",
+      "town": "Union City",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": null,
+      "town": "Vine Hill",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94595",
+      "town": "Walnut Creek",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94596",
+      "town": "Walnut Creek",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94597",
+      "town": "Walnut Creek",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94598",
+      "town": "Walnut Creek",
+      "county": "Contra Costa"
+    }
+  ]
+}

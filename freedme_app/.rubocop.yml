@@ -1,0 +1,5 @@
+inherit_gem:
+  rubocop-rails-omakase: rubocop.yml
+AllCops:
+  Exclude:
+    - db/migrate/20261026000000_create_freedme_v02_schema.rb

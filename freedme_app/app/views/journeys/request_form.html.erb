@@ -1,0 +1,8 @@
+<div class="reading"><h1>Verify identity for your request</h1><h2><%= @revision.title %></h2>
+<p>Please upload a utility bill or a government issued id showing your name and address to verify your identity and location. If you are a caregiver, provide your own evidence, not the care recipient’s.</p>
+<p class="note"><strong>SIMULATION ONLY</strong> — real uploads are disabled. This test uses your display name, a sample ZIP and a fictional address. No identity document is collected or verified.</p>
+<p>The donor will then see your verified name and ZIP code and decide to approve or decline your request. In this local test, those details are simulated.</p>
+<%= form_with url: equipment_request_path(@listing), class: "journey-form" do |f| %><%= hidden_field_tag :retry_id, params[:retry_id] %>
+<label class="check"><%= check_box_tag :consent, '1', false, required: true %> I consent to share my verified name and ZIP code with <%= @listing.donor.display_name %> (simulated values for this test).</label>
+<%= f.label :outcome, "Simulated verification result" %><%= f.select :outcome, [['Pass — submit request to donor','pass'],['Fail — do not send request','fail']] %>
+<%= f.button "Verify and submit request", class: "primary" %><%= link_to "Cancel", equipment_path(@listing), class: "button-link" %><% end %></div>

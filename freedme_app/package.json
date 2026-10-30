@@ -1,0 +1,18 @@
+{
+  "name": "freedme_app",
+  "version": "1.0.0",
+  "description": "Rails 8.1 MVC foundation for the FreeDME website, backed by the PostgreSQL 18 v0.2 schema. The existing interactive prototype remains separate and unchanged. This is a development foundation, not a production-ready implementation of all journeys.",
+  "scripts": {
+    "build:selects": "esbuild app/javascript/material_selects.js --bundle --minify --format=esm --target=es2022 --outfile=app/assets/javascripts/material_selects.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@material/web": "2.5.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
+  },
+  "private": true
+}

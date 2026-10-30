@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title><%= content_for(:title) || "FreeDME · Neighbors helping neighbors" %></title><%= csrf_meta_tags %><%= csp_meta_tag %><%= stylesheet_link_tag :app %><%= javascript_include_tag "design", defer: true %><%= javascript_include_tag "material_selects", type: "module" %></head>
+<body data-view-preview="<%= @design_preview ? 'true' : 'false' %>">
+<a class="skip" href="#main">Skip to content</a>
+<%= render "shared/header" %><div id="identity"></div>
+<main id="main" tabindex="-1">
+<% flash.each do |type, message| %><% is_error = %w[alert error].include?(type.to_s) %><p class="<%= is_error ? "form-error" : "note" %>" role="<%= is_error ? "alert" : "status" %>"><%= message %></p><% end %>
+<% if @design_preview %><aside class="note preview-notice"><b>VIEW PREVIEW · Fictional examples only</b><p>Forms and actions demonstrate the design. No accounts, requests, documents or messages are saved.</p><%= link_to "All screen previews →", design_preview_index_path %></aside><% end %>
+<% if Journeys::Support.enabled? && !@design_preview %><aside class="note"><strong>LOCAL JOURNEY TEST</strong> · Real database actions; simulated SMS, identity and equipment-safety checks. <%= EquipmentMedia::Moderation.enabled? ? "Photo content screening uses Amazon Rekognition." : "Photo content screening is awaiting AWS setup." %> <%= link_to "Test users & SMS inbox", test_data_path %><% if current_account %> · Signed in as <%= current_account.display_name %><% end %></aside><% end %>
+<%= yield %></main>
+<%= render "shared/footer" %>
+<div class="framework-review-bar"><span>RAILS FRAMEWORK · Integrations pending</span><%= link_to "Review screen designs →", design_preview_index_path %></div>
+<dialog id="dialog" aria-label="FreeDME dialog"><button class="close" aria-label="Close dialog" data-action="close">×</button><div id="modal"></div></dialog>
+<%= render "shared/dialogs" %><div id="toast" role="status" aria-live="polite"></div>
+</body></html>

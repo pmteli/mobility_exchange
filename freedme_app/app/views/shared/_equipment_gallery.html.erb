@@ -1,0 +1,8 @@
+<% photos = equipment_photos(revision_id).to_a %>
+<% if photos.any? %>
+<section class="detail-gallery" aria-label="Equipment photos" data-view="0">
+<div class="detail-art swipe-area" tabindex="0" aria-label="Equipment image. Swipe or use arrow keys to change photos."><%= image_tag equipment_photo_path(photos.first), class: "detail-image", alt: "#{title} — photo 1" %></div>
+<% if photos.length > 1 %><div class="rotator-controls"><button type="button" data-action="rotate" data-id="-1" aria-label="Previous image">←</button><span class="rotator-status" aria-live="polite">1 / <%= photos.length %> · Photo 1</span><button type="button" data-action="rotate" data-id="1" aria-label="Next image">→</button></div>
+<div class="gallery-thumbs"><% photos.each_with_index do |photo,i| %><button type="button" class="gallery-thumb" data-action="detailphoto" data-id="<%= i %>" aria-pressed="<%= i.zero? %>" aria-label="<%= title %> — photo <%= i+1 %>"><%= image_tag equipment_photo_path(photo), alt: "", loading: "lazy" %><span>Photo <%= i+1 %></span></button><% end %></div><p class="swipe-hint">Swipe images, use arrow keys, or select a thumbnail.</p><% end %>
+</section>
+<% else %><div class="detail-art"><img src="/prototype-assets/equipment-placeholder.svg" alt="Equipment photo not yet available"></div><% end %>

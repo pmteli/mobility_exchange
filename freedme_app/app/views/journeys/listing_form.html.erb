@@ -1,0 +1,29 @@
+<p class="eyebrow">Make room for a little kindness</p>
+<h1><%= @listing ? "Edit Equipment" : "Offer equipment to a neighbor." %></h1>
+<p class="muted">Submitted listings stay private until a moderator screens them.</p>
+<div class="steps"><span class="active">1 · Describe</span><span>2 · Submit for review</span><span>3 · Connect</span></div>
+<%= form_with url: @listing ? update_listing_path(@listing) : listings_path, method: @listing ? :patch : :post, scope: :listing, class: "panel reading journey-form" do |f| %>
+<p class="note">Photos are saved locally and remain private until moderator approval. Screening and SMS notifications remain simulated.</p>
+<div class="form-grid">
+<div class="wide"><%= f.label :title, "Listing title" %><%= f.text_field :title, value: @data['title'], required: true, maxlength: 120, placeholder: "Example: Folding walker" %></div>
+<div><%= f.label :category_id, "Category" %><%= f.select :category_id, @categories.map { |c| [c.name,c.id] }, {selected: @data['category_id']}, {required: true} %></div>
+<div><%= f.label :public_locality, "Location" %><%= f.text_field :public_locality, list: "east-bay-locations", autocomplete: "off", value: @data['public_locality'], required: true, maxlength: 160, placeholder: "ZIP code or town name", aria: {describedby: "location-help"} %><small id="location-help">Type a town name or ZIP code to see suggestions in Alameda and Contra Costa counties. Do not enter a street address.</small></div>
+<div><%= f.label :offer_kind, "Gift or loan" %><%= f.select :offer_kind, [['Free to keep','gift'],['Free Loan','loan']], {selected: @data['offer_kind']}, required: true, data: {loan_toggle: true} %></div>
+<div data-loan-field <%= 'hidden' unless @data['offer_kind'] == 'loan' %>><%= f.label :loan_until, "Loan Until" %><%= f.date_field :loan_until, value: @data['loan_until'], min: Date.tomorrow, disabled: @data['offer_kind'] != 'loan', required: @data['offer_kind'] == 'loan' %></div>
+<div><%= f.label :condition_code, "Condition" %><%= f.select :condition_code, [['New','new'],['Gently used','gently_used'],['Good','good'],['Requires Repairs','requires_repairs']], {selected: @data['condition_code']}, {required: true} %></div>
+<div class="wide"><%= f.label :description %><%= f.text_area :description, value: @data['description'], required: true, maxlength: 4000, placeholder: "Provide dimensions, weight, capacity, folding or not, and any other information that may be useful to the recipient." %></div>
+</div>
+<fieldset data-required-group class="equipment-upload" data-screening-url="<%= photo_screenings_path %>"><legend>Equipment photos</legend>
+<% unless EquipmentMedia::Moderation.enabled? %><p class="note warn">Automated image screening is awaiting AWS setup. You can fill out this form, but new photos cannot be submitted until screening is connected.</p><% end %>
+<p id="photo-help">Choose photos one at a time or together. Each selection adds to your photos; use Remove to discard one. Add 1–5 JPEG or PNG photos, up to 5 MB each (25 megapixels maximum). Use photos of the actual equipment, without people, addresses or private information.</p>
+<% existing_photos = @listing ? equipment_photos(@listing.current_revision_id).to_a : [] %>
+<% if existing_photos.any? %><div class="photo-choices"><% existing_photos.each do |photo| %><div class="existing-photo"><%= image_tag equipment_photo_path(photo), alt: "Existing equipment photo #{photo.slot}" %><span>Image <%= photo.slot %></span><label class="check"><%= check_box_tag "listing[remove_photo_ids][]", photo.id, Array(@data['remove_photo_ids']).include?(photo.id), id: "remove_photo_#{photo.id}" %> Remove photo <%= photo.slot %></label></div><% end %></div><% end %>
+<%= f.label :photos, existing_photos.any? ? "Add or replace photos" : "Choose equipment photos" %>
+<%= f.file_field :photos, multiple: true, accept: "image/jpeg,image/png", data: {equipment_upload: true}, aria: {describedby: "photo-help photo-upload-error"} %>
+<p id="photo-upload-error" class="error-text" role="alert"></p><div class="photo-choices" data-upload-previews></div><div data-photo-errors aria-live="polite"></div>
+<% if flash[:alert] %><small>Your text entries are preserved. Please reselect any new photos before submitting again.</small><% end %>
+</fieldset>
+<% {no_missing_parts_affirmed: 'This equipment is not missing any parts', fully_functional_affirmed: 'This equipment is fully functional', truthfulness_affirmed: 'The above disclosures are truthful to the best of my knowledge'}.each do |key,label| %><label class="check"><%= f.check_box key, checked: [true,'1'].include?(@data[key.to_s]), required: true %> <span><%= label %></span></label><% end %>
+<div class="actions"><%= f.button "Submit for review", class: "primary" %><%= link_to "Cancel and discard edits", activity_path, class: "button-link" %></div><% end %>
+
+<%= render "shared/location_options" %>
