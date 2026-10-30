@@ -13,10 +13,27 @@
     }
     dialog.showModal(); }
   function close() { dialog.close(); opener?.focus(); }
-  function tabs(tab) {
+  function tabs(tab, focus = true) {
     const list = tab.closest('[role=tablist]');
     list.querySelectorAll('[role=tab]').forEach(other => { const selected = other === tab; other.setAttribute('aria-selected', selected); other.tabIndex = selected ? 0 : -1; document.getElementById(other.getAttribute('aria-controls')).hidden = !selected; });
-    tab.focus();
+    if (list.dataset.tabMemory) {
+      try { sessionStorage.setItem(list.dataset.tabMemory, tab.id); } catch (_) { /* Storage may be disabled. */ }
+      history.replaceState(null, '', `${location.pathname}${location.search}#${tab.getAttribute('aria-controls')}`);
+    }
+    if (focus) tab.focus();
+  }
+  // Restore only presentation state, scoped to the signed-in account and browser tab.
+  const rememberedTabs = document.querySelector('[data-tab-memory]');
+  if (rememberedTabs) {
+    const choices = [...rememberedTabs.querySelectorAll('[role=tab]')];
+    let saved;
+    try { saved = sessionStorage.getItem(rememberedTabs.dataset.tabMemory); } catch (_) { /* Use URL or default tab. */ }
+    const selected = choices.find(tab => `#${tab.getAttribute('aria-controls')}` === location.hash) || choices.find(tab => tab.id === saved) || choices[0];
+    if (selected) tabs(selected, false);
+    window.addEventListener('hashchange', () => {
+      const target = choices.find(tab => `#${tab.getAttribute('aria-controls')}` === location.hash);
+      if (target) tabs(target, false);
+    });
   }
   function photo(gallery, index) {
     const buttons = [...gallery.querySelectorAll('.gallery-thumb')]; if (!buttons.length) return;
@@ -92,7 +109,7 @@
   const kept = [...document.querySelectorAll('.existing-photo input[type=checkbox]')].filter(c => !c.checked).length;
   const invalid = files.some(f => !valid(f));
   const blocked = files.some(f=>!['accepted','needs_review'].includes(checks.get(f)?.state));
-  const message = invalid ? 'Choose JPEG or PNG photos up to 5 MB each.' : files.length + kept > 5 ? 'Keep at most five photos. Remove an existing or selected photo.' : blocked ? 'Finish image checks or remove flagged photos before submitting.' : '';
+  const message = invalid ? 'Choose JPEG or PNG photos up to 5 MB each.' : files.length + kept > 5 ? 'Keep at most five photos. Remove an existing or selected photo.' : blocked ? 'Remove flagged photos before submitting' : '';
   input.setCustomValidity(message); error.textContent = message;
   files.forEach((file, index) => {
    const box = document.createElement('div'); box.className = 'selected-photo';
@@ -231,4 +248,30 @@
     });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded',setupLocations); else setupLocations();
+})();
+
+// Native multipart submission keeps the waiting state visible until navigation.
+(() => {
+  function resetScanForms() {
+    document.querySelectorAll('form[data-identity-scan]').forEach(form => {
+      form.removeAttribute('aria-busy');
+      form.querySelector('.identity-scan-progress').hidden = true;
+      form.querySelectorAll('button[type=submit], input[type=submit]').forEach(button => button.disabled = false);
+    });
+  }
+  document.addEventListener('submit', event => {
+    const form = event.target.closest('form[data-identity-scan]');
+    if (!form || event.defaultPrevented) return;
+    if (form.getAttribute('aria-busy') === 'true') { event.preventDefault(); return; }
+    const input = form.querySelector('input[type=file]');
+    input.setCustomValidity(input.files[0]?.size > 20 * 1024 * 1024 ? 'Choose a document file up to 20 MB.' : '');
+    if (!form.reportValidity()) { event.preventDefault(); return; }
+    form.setAttribute('aria-busy', 'true');
+    form.querySelector('.identity-scan-progress').hidden = false;
+    form.querySelectorAll('button[type=submit], input[type=submit]').forEach(button => button.disabled = true);
+  });
+  document.addEventListener('change', event => {
+    if (event.target.matches('form[data-identity-scan] input[type=file]')) event.target.setCustomValidity('');
+  });
+  window.addEventListener('pageshow', resetScanForms);
 })();

@@ -1,3 +1,17 @@
+<% if IdentityDocuments::Intake.enabled? %>
+<div class="reading"><h1>Verify identity for your request</h1><h2><%= @revision.title %></h2>
+<p>Upload a clear utility bill or US government-issued ID showing your first name, last name, residential address and ZIP code. Caregivers must use their own document. A passport without an address is not sufficient.</p>
+<p>Amazon Textract extracts the text. You will review and confirm it before your request is sent. This does not authenticate the document or independently verify your identity.</p>
+<%= form_with url: scan_identity_document_path(@listing), multipart: true, class: "journey-form", data: { identity_scan: true, turbo: false } do |f| %>
+<%= hidden_field_tag :retry_id, params[:retry_id] %>
+<%= f.label :document_kind, 'Document type' %><%= f.select :document_kind, [['Utility bill','utility_bill'],['Government-issued ID','government_id']], {}, required: true %>
+<%= f.label :identity_document, 'Document file' %><%= f.file_field :identity_document, accept: 'image/jpeg,image/png,application/pdf,.pdf', required: true %>
+<p>One JPEG, PNG or unlocked single-page PDF, up to 20 MB. For a multi-page bill, save and upload the page showing your name and residential address. PDFs are converted to an image for scanning and private review. Your image is stored encrypted for moderator review and automatically deleted seven days after upload. Extracted name and address fields are stored privately. Only your consented name and ZIP code are shown to this donor.</p>
+<label class="check"><%= check_box_tag :processing_consent, '1', false, required: true %> I agree to send this document to Amazon Textract for extraction and allow private moderator access for seven days.</label>
+<div class="identity-scan-progress" role="status" aria-live="polite" hidden><span class="identity-scan-spinner" aria-hidden="true"></span><span>Uploading and scanning your document. Please wait and keep this page open.</span></div>
+<%= f.button 'Upload and scan', class: 'primary' %><%= link_to 'Cancel', equipment_path(@listing), class: 'button-link' %>
+<% end %></div>
+<% else %>
 <div class="reading"><h1>Verify identity for your request</h1><h2><%= @revision.title %></h2>
 <p>Please upload a utility bill or a government issued id showing your name and address to verify your identity and location. If you are a caregiver, provide your own evidence, not the care recipient’s.</p>
 <p class="note"><strong>SIMULATION ONLY</strong> — real uploads are disabled. This test uses your display name, a sample ZIP and a fictional address. No identity document is collected or verified.</p>
@@ -6,3 +20,5 @@
 <label class="check"><%= check_box_tag :consent, '1', false, required: true %> I consent to share my verified name and ZIP code with <%= @listing.donor.display_name %> (simulated values for this test).</label>
 <%= f.label :outcome, "Simulated verification result" %><%= f.select :outcome, [['Pass — submit request to donor','pass'],['Fail — do not send request','fail']] %>
 <%= f.button "Verify and submit request", class: "primary" %><%= link_to "Cancel", equipment_path(@listing), class: "button-link" %><% end %></div>
+
+<% end %>

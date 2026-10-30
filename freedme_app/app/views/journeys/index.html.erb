@@ -1,10 +1,13 @@
 <p class="eyebrow">My Activity</p><h1>Hello, <%= current_account.display_name %></h1>
 <div class="actions"><%= link_to "Find Equipment", equipment_index_path, class: "button-link" %><% unless @roles == ["moderator"] %><%= link_to "Donate Equipment", new_listing_path, class: "button-link primary" %><% end %></div>
-<div class="donor-tabs journey-tabs" role="tablist" aria-label="My Activity sections">
-<% sections = @roles.include?("moderator") ? [["review","Listing Reviews"],["followups","Follow-up Tasks"],["messages","Simulated SMS"]] : [["questions","Questions & Answers"],["inventory","Your Equipment"],["requests","Requests & Handoffs"],["messages","Simulated SMS"]] %>
+<div class="donor-tabs journey-tabs" data-tab-memory="activity-<%= current_account.id %>" role="tablist" aria-label="My Activity sections">
+<% sections = @roles.include?("moderator") ? [["review","Listing Reviews"],["documents","Identity Documents"],["followups","Follow-up Tasks"],["messages","Simulated SMS"]] : [["questions","Questions & Answers"],["inventory","Your Equipment"],["requests","Requests & Handoffs"],["messages","Simulated SMS"]] %>
 <% sections.each_with_index do |(key,label),i| %><button type="button" role="tab" id="tab-<%= key %>" aria-controls="panel-<%= key %>" aria-selected="<%= i == 0 %>" tabindex="<%= i == 0 ? 0 : -1 %>" data-action="journey-tab"><%= label %></button><% end %></div>
 <% sections.each_with_index do |(key,label),i| %><section class="panel" role="tabpanel" id="panel-<%= key %>" aria-labelledby="tab-<%= key %>" <%= 'hidden' unless i == 0 %>><h2><%= label %></h2>
-<% case key; when "inventory" %>
+<% case key; when "documents" %>
+<p>Private document images are available for seven days after upload. Access is audited. Requesters confirm extracted details; OCR does not authenticate identity documents.</p>
+<% @identity_uploads.each do |upload| %><article class="panel"><h3><%= upload.account.display_name %> — <%= ListingRevision.find(upload.revision_id).title %></h3><p><%= upload.state.humanize %> · Image deletion due <%= upload.purge_due_at %></p><% if upload.image_ciphertext && upload.purge_due_at > Time.current %><%= link_to 'View private document', identity_document_image_path(upload), class: 'button-link', target: '_blank', rel: 'noopener' %><% else %><p>Image deleted or unavailable.</p><% end %></article><% end %>
+<% when "inventory" %>
 <% if @listings.empty? %><p>No equipment added yet.</p><% end %>
 <% @listings.each do |listing| %><% revision = revision_for(listing) %><article class="panel journey-card"><h3><%= link_to revision.title, equipment_path(listing) %></h3><span class="badge"><%= listing.status.humanize.upcase %></span>
 <% if listing.status == 'unavailable' %><p>New requests are closed. Confirm availability to reopen.</p><%= form_with url: reopen_listing_path(listing) do |f| %><label class="check"><%= check_box_tag :confirmed, '1', false, required: true, id: "confirmed_#{listing.id}" %> I still have this equipment and it is available.</label><%= f.button "Make available again" %><% end %><% end %>

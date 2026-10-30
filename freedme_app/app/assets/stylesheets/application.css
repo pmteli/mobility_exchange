@@ -329,3 +329,8 @@ md-select-option { --md-menu-item-label-text-font: system-ui; --md-menu-item-lab
 
 .photo-screening-status.photo-status-accepted { color: #15803d; }
 .photo-screening-status.photo-status-rejected { color: #b91c1c; }
+
+.identity-scan-progress:not([hidden]) { display:flex; align-items:center; gap:12px; padding:16px; border-radius:12px; background:#e8f1ff; color:#143963; }
+.identity-scan-spinner { width:24px; height:24px; flex-shrink:0; border:3px solid #b9d4f5; border-top-color:#174f91; border-radius:50%; animation:identity-scan-spin 1s linear infinite; }
+@keyframes identity-scan-spin { to { transform:rotate(360deg); } }
+@media (prefers-reduced-motion:reduce) { .identity-scan-spinner { animation:none; } }

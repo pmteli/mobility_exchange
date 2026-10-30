@@ -1,0 +1,15 @@
+<div class="reading"><h1>Confirm your document details</h1>
+<p>Check every field against your document. Correct any spelling errors in your first or last name below to match your document. If the address is wrong, upload a clearer or different document. No request has been sent yet.</p>
+<dl><% {'first_name'=>'First name','last_name'=>'Last name','home_address'=>'Residential address','zip_code'=>'ZIP code'}.each do |key,label| %><dt><strong><%= label %></strong></dt><dd><%= @fields[key] %></dd><% end %></dl>
+<details><summary>View your uploaded document</summary><img src="<%= identity_document_image_path(@upload) %>" alt="Your private identity evidence" style="max-width:100%"></details>
+<%= form_with url: confirm_identity_document_path(@upload), class: 'journey-form' do |f| %>
+<%= hidden_field_tag :retry_id, params[:retry_id] %>
+<p>Fields marked with * are mandatory. Correct the name spelling or split to match your document.</p>
+<%= f.label :first_name, 'First name *' %><%= f.text_field :first_name, value: @fields['first_name'], required: true, maxlength: 500 %>
+<%= f.label :last_name, 'Last name *' %><%= f.text_field :last_name, value: @fields['last_name'], required: true, maxlength: 500 %>
+<label class="check"><%= check_box_tag :confirmed, '1', false, required: true %> I confirm these details match my document and describe my own name and residential location.</label>
+<label class="check"><%= check_box_tag :consent, '1', false, required: true %> I consent to share my name and ZIP code with <%= @upload.listing.donor.display_name %> for <%= ListingRevision.find(@upload.revision_id).title %>.</label>
+<p>Unchanged details are labeled “Verified” (document-extracted and requester-confirmed). If you correct the name, the donor will see “Requester-corrected.” This is not independent identity or document authentication.</p>
+<%= f.button 'Confirm and submit request', class: 'primary' %><%= link_to 'Upload a different document', new_equipment_request_path(@upload.listing_id, retry_id: params[:retry_id]), class: 'button-link' %>
+<%= link_to 'Cancel', equipment_path(@upload.listing_id), class: 'button-link' %>
+<% end %></div>

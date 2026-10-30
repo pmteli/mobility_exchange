@@ -28,6 +28,23 @@ class LiveJourneysTest < ActionDispatch::IntegrationTest
   def approve(exchange)
     Journeys::Workflow.new(@donor).change!(exchange.id, "approve", meeting_at: 2.days.from_now.strftime("%Y-%m-%dT12:00"), location: "Sample public library")
   end
+  test "equipment back link returns owners to activity and moderators to reviews" do
+    login(5)
+    get equipment_path(@listing)
+    assert_response :success
+    assert_select "a.back[href=?]", activity_path(anchor: "panel-review"), text: "← Back to Listing Reviews"
+    login(1)
+    get equipment_path(@listing)
+    assert_select "a.back[href=?]", activity_path, text: "← Back to My Activity"
+    publish
+    login(3)
+    get equipment_path(@listing)
+    assert_select "a.back[href=?]", equipment_index_path, text: "← Back to equipment"
+    delete sign_out_path
+    get equipment_path(@listing)
+    assert_select "a.back[href=?]", equipment_index_path, text: "← Back to equipment"
+  end
+
   test "OTP sign-in role permissions and private pages" do
     login(3)
     get activity_path

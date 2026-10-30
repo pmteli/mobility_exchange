@@ -23,6 +23,10 @@ Rails.application.routes.draw do
   post "listings/:id/review", to: "journeys#review", as: :review_listing
   post "listings/:id/reopen", to: "journeys#reopen", as: :reopen_listing
   get "equipment/:id/request", to: "journeys#request_form", as: :new_equipment_request
+  post "equipment/:id/identity-document", to: "identity_documents#create", as: :scan_identity_document
+  get "identity-documents/:id", to: "identity_documents#show", as: :identity_document
+  get "identity-documents/:id/image", to: "identity_documents#image", as: :identity_document_image
+  post "identity-documents/:id/confirm", to: "identity_documents#confirm", as: :confirm_identity_document
   post "equipment/:id/request", to: "journeys#create_request", as: :equipment_request
   post "equipment/:id/questions", to: "journeys#ask", as: :equipment_questions
   post "questions/:id/answer", to: "journeys#answer", as: :answer_question

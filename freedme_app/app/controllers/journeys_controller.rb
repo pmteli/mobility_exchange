@@ -8,6 +8,7 @@ class JourneysController < AuthenticatedController
     @exchanges = @exchanges.where.not(id: ExchangeDisplayPreference.where(account_id: current_account.id).where.not(hidden_at: nil).select(:exchange_id))
     @questions = EquipmentQuestion.where("donor_id=? OR requester_id=?", current_account.id, current_account.id).order(asked_at: :desc).group_by(&:listing_id)
     @reviews = Listing.where(status: "pending_review").newest_first if @roles.include?("moderator")
+    @identity_uploads = IdentityDocumentUpload.order(created_at: :desc).limit(50) if @roles.include?("moderator")
     @tasks = ModeratorTask.order(due_at: :asc) if @roles.include?("moderator")
     contact = AccountContact.find_by!(account_id: current_account.id, kind: "mobile", revoked_at: nil)
     @messages = SimulatedSmsMessage.where(recipient: Journeys::Support.decrypt(contact.value_ciphertext)).where.not(template_code: "sign_in_otp").order(created_at: :desc).limit(30)
@@ -57,6 +58,9 @@ class JourneysController < AuthenticatedController
     if @exchange.donor_id == current_account.id && %w[pending offered reserved].include?(@exchange.state)
       sql = ApplicationRecord.sanitize_sql_array(["SELECT field_name, encode(value_ciphertext, 'base64') AS ciphertext FROM freedme.read_donor_identity(?, ?)", current_account.id, @exchange.id])
       # The database function audits access and returns only granted name/ZIP fields.
+      confirmed_upload = IdentityDocumentUpload.find_by(exchange_id: @exchange.id, state: 'confirmed')
+      @document_confirmed = confirmed_upload.present?
+      @name_corrected = confirmed_upload&.name_corrected?
       @identity = ApplicationRecord.connection.select_all(sql).to_a.to_h { |row| [row["field_name"], Journeys::Support.decrypt(Base64.decode64(row["ciphertext"]))] }
     end
   end

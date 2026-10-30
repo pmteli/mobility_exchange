@@ -272,3 +272,40 @@ remains simulated; adding translations does not enable an external provider.
 
 Example: `Support.notify(account, "listing_submitted", { item_title: revision.title })`.
 Add future SMS templates here and route all delivery through the gateway.
+
+### Textract identity intake (FR021–022; explicit 30 October 2026 decisions)
+
+Enable `TEXTRACT_ENABLED=true` only after granting the dedicated AWS profile the
+minimal regional permissions in `config/textract-iam-policy.json`. Use the existing
+AWS profile mount; do not commit access keys. Scanning uses AnalyzeID for US IDs
+and AnalyzeDocument Queries for utility bills. Supports one JPEG/PNG up to 20 MB;
+a passport without an address cannot satisfy the four required fields.
+
+Requesters must consent to AWS processing, inspect the four extracted fields,
+confirm they match their document, and separately consent to donor name/ZIP
+disclosure. The request is created only after confirmation and a fresh availability
+check. OCR does not authenticate the document. “Verified” is qualified in the donor
+view as document-extracted and requester-confirmed. This remains the local journey
+implementation, with simulated SMS and existing local policy validity windows;
+production policy/consent approval is still outstanding.
+
+Images and extracted fields are encrypted with a purpose-separated application key.
+Only the owner and authenticated moderators can view images through an audited,
+no-store route; no public image URL or original filename is retained. Raw provider
+responses, ID numbers and DOB are not stored. Images are deleted from active database
+rows seven days after upload, including failed or abandoned scans. The journey worker
+runs purge every 30 seconds; image access is denied at the deadline even if the worker
+is stopped. Run `IdentityDocuments::Vault.purge!` after downtime. This does not erase
+historical database backups/WAL: backup retention needs an appropriate production
+schedule before launch. Extracted fields are retained separately; their production
+retention remains DEC03. Keep SECRET_KEY_BASE stable and private.
+
+A moderator Identity Documents tab provides private review access during the seven-day
+window. Ten scan attempts per account/hour limit retries. API errors and incomplete
+extraction never submit requests. Tests use stubbed AWS calls, never real documents.
+
+Identity document uploads (FR021–FR022, latest user revision): accept JPEG/PNG up to 20 MB and 50 megapixels. Dedicated sanitization preserves resolution up to 10,000 pixels per side, strips metadata, and compresses to Textract’s 10 MB limit; dimensions are reduced only if necessary. The form shows an indeterminate scanning indicator and prevents duplicate submissions until navigation. Equipment photo limits are unchanged.
+
+Identity uploads also accept unlocked single-page PDFs up to 20 MB. PDFs are rendered at up to 300 DPI, bounded by the same pixel and Textract byte limits. Only the sanitized rendered image is retained encrypted for seven days; the original PDF is discarded. Multi-page, encrypted and malformed PDFs are rejected explicitly.
+
+Utility-bill extraction uses the customer full name and falls back to the trailing ZIP in the extracted service address when the ZIP query is unanswered. Nine-digit ZIP+4 values are normalized with a hyphen. Requesters can correct first/last-name spelling for bills and IDs before consented submission. Original extracted names remain encrypted with the scan; edited names are labeled “Requester-corrected” to the donor rather than unqualified “Verified.” Address fields remain read-only. Regression tests cover missing AWS query answers, ZIP normalization/recovery, name corrections, and disclosure boundaries.

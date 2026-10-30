@@ -6,7 +6,8 @@ class EquipmentController < ApplicationController
   end
   def show
     @listing = Listing.find(params[:id])
-    authorized = current_account && (@listing.donor_id == current_account.id || AccountRole.exists?(account_id: current_account.id, role: "moderator") || Exchange.where(listing_id: @listing.id, requester_id: current_account.id).exists? || EquipmentQuestion.where(listing_id: @listing.id, requester_id: current_account.id).exists?)
+    @moderator_view = current_account && AccountRole.exists?(account_id: current_account.id, role: "moderator")
+    authorized = current_account && (@listing.donor_id == current_account.id || @moderator_view || Exchange.where(listing_id: @listing.id, requester_id: current_account.id).exists? || EquipmentQuestion.where(listing_id: @listing.id, requester_id: current_account.id).exists?)
     raise ActiveRecord::RecordNotFound unless AvailableListingCard.exists?(id: @listing.id) || authorized
     @item = ListingRevision.find(@listing.current_revision_id)
     @donor_name = @listing.donor.display_name

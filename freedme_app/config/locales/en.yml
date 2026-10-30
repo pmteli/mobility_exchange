@@ -14,7 +14,7 @@ en:
     handoff_proposed: "A new pickup time and location have been suggested. Open My Activity to review."
     handoff_accepted: "Your proposed pickup arrangement has been accepted. Open My Activity for details."
     sign_in_otp: "SIMULATED FreeDME code: %{code}. Expires in %{expiry_minutes} minutes."
-    listing_published: "Your listing %{item_title} was published. Review My Activity. (Simulated)"
+    listing_published: "Your listing %{item_title} was published. We will notify you when a neighbor is interested in your equipment."
     listing_rejected: "Your listing %{item_title} was rejected. Review My Activity. (Simulated)"
     handoff_confirmed: "Handoff of %{item_title} was confirmed. (Simulated)"
     return_confirmed: "Return of %{item_title} was confirmed. (Simulated)"

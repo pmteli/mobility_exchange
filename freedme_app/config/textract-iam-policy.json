@@ -1,0 +1,1 @@
+{"Version":"2012-10-17","Statement":[{"Sid":"ExtractFreeDMEIdentityFields","Effect":"Allow","Action":["textract:AnalyzeID","textract:AnalyzeDocument"],"Resource":"*","Condition":{"StringEquals":{"aws:RequestedRegion":"us-west-2"}}}]}

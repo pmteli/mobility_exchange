@@ -128,9 +128,15 @@ module Journeys
       end
       listing
     end
-    def request!(listing_id, consent:, outcome:, retry_id: nil)
+    def request!(listing_id, consent:, outcome:, retry_id: nil, document_upload: nil)
       member!
-      raise Error, "Consent to share the simulated name and ZIP is required." unless consent == "1"
+      raise Error, "Consent to share your name and ZIP code is required." unless consent == "1"
+      if IdentityDocuments::Intake.enabled? && !document_upload
+        raise Error, "Upload and confirm your identity document before submitting."
+      end
+      if document_upload && (document_upload.account_id != @actor.id || document_upload.listing_id != listing_id || document_upload.state != 'extracted' || document_upload.purge_due_at <= Time.current)
+        raise Error, "Invalid document confirmation."
+      end
       listing = Listing.find(listing_id)
       result = nil
       listing.with_lock do
@@ -145,10 +151,12 @@ module Journeys
         end
         raise Error, "Select a verification outcome." unless outcome == "pass"
         policy = LocalPolicy.enable_transaction_fixtures!
-        evidence = IdentityEvidence.create!(submitted_by: @actor.id, document_kind: "government_id", verification_provider: "local_simulation_no_document",
+        evidence = IdentityEvidence.create!(submitted_by: @actor.id, document_kind: document_upload&.document_kind || "government_id", verification_provider: document_upload ? "textract_requester_confirmed" : "local_simulation_no_document",
+          reviewer_id: document_upload ? @actor.id : nil,
           review_state: "approved", reviewed_at: Time.current, valid_until: 30.days.from_now, policy_id: policy.id)
         names = @actor.display_name.split(" ", 2)
-        {first_name: names.first, last_name: names.last || "Sample", home_address: "FICTIONAL ADDRESS — NO DOCUMENT", zip_code: @actor.public_locality[/\d{5}/] || "94536"}.each do |name, value|
+        fields = document_upload ? document_upload.extracted_fields.slice(*IdentityDocuments::Extractor::FIELDS) : {first_name: names.first, last_name: names.last || "Sample", home_address: "FICTIONAL ADDRESS — NO DOCUMENT", zip_code: @actor.public_locality[/\d{5}/] || "94536"}
+        fields.each do |name, value|
           BorrowerField.create!(evidence_id: evidence.id, field_name: name, value_ciphertext: Support.encrypt(value), key_version: "fictional-seed-v1",
             source: "document", verification: "reviewed_against_evidence", verified_at: Time.current)
         end
@@ -157,10 +165,10 @@ module Journeys
           requested_at: now, pending_reminder_at: now+24.hours, pending_expires_at: now+48.hours, idempotency_key: SecureRandom.uuid,
           proposed_start_date: revision.offer_kind == "loan" ? Date.current : nil, proposed_end_date: revision.loan_until)
         DisclosureGrant.create!(exchange_id: result.id, evidence_id: evidence.id, consented_by: @actor.id, donor_id: listing.donor_id,
-          consent_policy_id: policy.id, allowed_fields: %w[first_name last_name zip_code], expires_at: 30.days.from_now)
+          consent_policy_id: policy.id, allowed_fields: %w[first_name last_name zip_code], expires_at: evidence.valid_until)
         intent.update!(state: "submitted", evidence_id: evidence.id, exchange_id: result.id)
         event(result, "requested")
-        Support.notify(listing.donor, "request_received", {verified_name: @actor.display_name, town: @actor.public_locality, item_title: revision.title})
+        Support.notify(listing.donor, "request_received", {verified_name: document_upload ? [fields['first_name'],fields['last_name']].join(' ') : @actor.display_name, town: document_upload ? fields['zip_code'] : @actor.public_locality, item_title: revision.title})
         if retry_id.present?
           old = Exchange.find_by!(id: retry_id, requester_id: @actor.id, listing_id: listing.id, state: "expired")
           ExchangeDisplayPreference.find_or_create_by!(exchange_id: old.id, account_id: @actor.id).update!(hidden_at: Time.current, replaced_by_exchange_id: result.id)

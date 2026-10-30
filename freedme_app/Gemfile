@@ -44,3 +44,4 @@ end
 
 # Equipment image content screening (FR005).
 gem "aws-sdk-rekognition", "~> 1"
+gem "aws-sdk-textract", "~> 1"
