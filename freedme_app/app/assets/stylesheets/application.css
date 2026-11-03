@@ -334,3 +334,17 @@ md-select-option { --md-menu-item-label-text-font: system-ui; --md-menu-item-lab
 .identity-scan-spinner { width:24px; height:24px; flex-shrink:0; border:3px solid #b9d4f5; border-top-color:#174f91; border-radius:50%; animation:identity-scan-spin 1s linear infinite; }
 @keyframes identity-scan-spin { to { transform:rotate(360deg); } }
 @media (prefers-reduced-motion:reduce) { .identity-scan-spinner { animation:none; } }
+
+/* Current navigation section: visible in desktop and mobile menus. */
+#main-navigation a[aria-current="page"]:not(.auth-button) {
+  color: #17385b;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: inset 0 -3px 0 #006b60;
+  font-weight: 700;
+  text-decoration: none;
+}
+#main-navigation a[aria-current="page"].auth-button {
+  box-shadow: 0 0 0 3px #bbd8f3;
+  text-decoration: underline;
+}

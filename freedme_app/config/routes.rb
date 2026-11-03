@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "s/:code", to: "sms_links#show", as: :sms_short_link
   get "test-data", to: "test_data#index" if Rails.env.development? || Rails.env.test?
   get "up" => "rails/health#show", as: :rails_health_check
   root "pages#home"

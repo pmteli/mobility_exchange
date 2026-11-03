@@ -1,0 +1,27 @@
+name: freedme-recording
+services:
+  web:
+    image: freedme-framework-web
+    env_file: .env.docker
+    environment:
+      RAILS_ENV: development
+      FREEDME_RECORDING_MODE: 'true'
+      TEXTRACT_ENABLED: 'true'
+      REKOGNITION_ENABLED: 'true'
+      REKOGNITION_EQUIPMENT_ENABLED: 'false'
+      AWS_EC2_METADATA_DISABLED: 'true'
+      PGHOST: mobility-exchange-rails-db-1
+      PGPORT: '5432'
+    command: [ruby, script/recordings/boot.rb]
+    ports: ['127.0.0.1:3002:3000']
+    networks: [existing_postgres]
+    volumes:
+      - recording_photos:/app/storage/equipment_photos
+      - ../output/rails-demo:/app/public/recordings:ro
+    init: true
+networks:
+  existing_postgres:
+    external: true
+    name: mobility-exchange-rails_default
+volumes:
+  recording_photos:

@@ -16,3 +16,6 @@
 /storage/test_equipment_photos/
 
 node_modules/
+
+__pycache__/
+*.pyc

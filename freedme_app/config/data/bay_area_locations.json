@@ -1,0 +1,2373 @@
+{
+  "retrieved_on": "2026-11-03",
+  "sources": [
+    "https://www.californiavolunteers.ca.gov/look-up-your-county-by-zip-code/",
+    "https://alamedacountyca.gov/about/cities.htm",
+    "https://alamedacountyca.gov/uninc/",
+    "https://www.contracosta.ca.gov/1243/View-Cities-Communities-of-Contra-Costa"
+  ],
+  "notes": "Postal names and ZIP codes follow the state directory, including PO box/unique ZIPs. County community names supplement postal names without inventing ZIP mappings. ZIPs may cross county boundaries; this is a suggestion directory, not address verification or eligibility enforcement. Refresh against sources when postal data changes.",
+  "locations": [
+    {
+      "zip_code": null,
+      "town": "Acalanes Ridge",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94501",
+      "town": "Alameda",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94502",
+      "town": "Alameda",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94507",
+      "town": "Alamo",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94706",
+      "town": "Albany",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": null,
+      "town": "Alhambra Valley",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "95002",
+      "town": "Alviso",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "94503",
+      "town": "American Canyon",
+      "county": "Napa"
+    },
+    {
+      "zip_code": "94508",
+      "town": "Angwin",
+      "county": "Napa"
+    },
+    {
+      "zip_code": "95412",
+      "town": "Annapolis",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "94509",
+      "town": "Antioch",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94531",
+      "town": "Antioch",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": null,
+      "town": "Ashland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94027",
+      "town": "Atherton",
+      "county": "San Mateo"
+    },
+    {
+      "zip_code": null,
+      "town": "Bay Point",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": null,
+      "town": "Bayview",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94002",
+      "town": "Belmont",
+      "county": "San Mateo"
+    },
+    {
+      "zip_code": "94920",
+      "town": "Belvedere Tiburon",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "94510",
+      "town": "Benicia",
+      "county": "Solano"
+    },
+    {
+      "zip_code": "94701",
+      "town": "Berkeley",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94702",
+      "town": "Berkeley",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94703",
+      "town": "Berkeley",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94704",
+      "town": "Berkeley",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94705",
+      "town": "Berkeley",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94707",
+      "town": "Berkeley",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94708",
+      "town": "Berkeley",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94709",
+      "town": "Berkeley",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94710",
+      "town": "Berkeley",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94712",
+      "town": "Berkeley",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94720",
+      "town": "Berkeley",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94511",
+      "town": "Bethel Island",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94512",
+      "town": "Birds Landing",
+      "county": "Solano"
+    },
+    {
+      "zip_code": null,
+      "town": "Blackhawk",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94922",
+      "town": "Bodega",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "94923",
+      "town": "Bodega Bay",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "94924",
+      "town": "Bolinas",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "95416",
+      "town": "Boyes Hot Springs",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "94513",
+      "town": "Brentwood",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": null,
+      "town": "Briones",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94005",
+      "town": "Brisbane",
+      "county": "San Mateo"
+    },
+    {
+      "zip_code": "94010",
+      "town": "Burlingame",
+      "county": "San Mateo"
+    },
+    {
+      "zip_code": "94011",
+      "town": "Burlingame",
+      "county": "San Mateo"
+    },
+    {
+      "zip_code": "94514",
+      "town": "Byron",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94515",
+      "town": "Calistoga",
+      "county": "Napa"
+    },
+    {
+      "zip_code": null,
+      "town": "Camino Tassajara",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "95419",
+      "town": "Camp Meeker",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "95008",
+      "town": "Campbell",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95009",
+      "town": "Campbell",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95011",
+      "town": "Campbell",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "94516",
+      "town": "Canyon",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": null,
+      "town": "Castle Hill",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": null,
+      "town": "Castlewood",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94546",
+      "town": "Castro Valley",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94552",
+      "town": "Castro Valley",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "95421",
+      "town": "Cazadero",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": null,
+      "town": "Cherryland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94517",
+      "town": "Clayton",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "95425",
+      "town": "Cloverdale",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": null,
+      "town": "Clyde",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94518",
+      "town": "Concord",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94519",
+      "town": "Concord",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94520",
+      "town": "Concord",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94521",
+      "town": "Concord",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94522",
+      "town": "Concord",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94524",
+      "town": "Concord",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94527",
+      "town": "Concord",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94529",
+      "town": "Concord",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": null,
+      "town": "Contra Costa Centre",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94925",
+      "town": "Corte Madera",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "94976",
+      "town": "Corte Madera",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "94931",
+      "town": "Cotati",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "95013",
+      "town": "Coyote",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "94525",
+      "town": "Crockett",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "95014",
+      "town": "Cupertino",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95015",
+      "town": "Cupertino",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "94014",
+      "town": "Daly City",
+      "county": "San Mateo"
+    },
+    {
+      "zip_code": "94015",
+      "town": "Daly City",
+      "county": "San Mateo"
+    },
+    {
+      "zip_code": "94016",
+      "town": "Daly City",
+      "county": "San Mateo"
+    },
+    {
+      "zip_code": "94017",
+      "town": "Daly City",
+      "county": "San Mateo"
+    },
+    {
+      "zip_code": "94506",
+      "town": "Danville",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94526",
+      "town": "Danville",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94576",
+      "town": "Deer Park",
+      "county": "Napa"
+    },
+    {
+      "zip_code": "94528",
+      "town": "Diablo",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94929",
+      "town": "Dillon Beach",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "94505",
+      "town": "Discovery Bay",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "95620",
+      "town": "Dixon",
+      "county": "Solano"
+    },
+    {
+      "zip_code": "94568",
+      "town": "Dublin",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "95430",
+      "town": "Duncans Mills",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": null,
+      "town": "East Richmond Heights",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94530",
+      "town": "El Cerrito",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94018",
+      "town": "El Granada",
+      "county": "San Mateo"
+    },
+    {
+      "zip_code": "94803",
+      "town": "El Sobrante",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94820",
+      "town": "El Sobrante",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "95433",
+      "town": "El Verano",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "95431",
+      "town": "Eldridge",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "95625",
+      "town": "Elmira",
+      "county": "Solano"
+    },
+    {
+      "zip_code": "94608",
+      "town": "Emeryville",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94662",
+      "town": "Emeryville",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94930",
+      "town": "Fairfax",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "94978",
+      "town": "Fairfax",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "94533",
+      "town": "Fairfield",
+      "county": "Solano"
+    },
+    {
+      "zip_code": "94534",
+      "town": "Fairfield",
+      "county": "Solano"
+    },
+    {
+      "zip_code": null,
+      "town": "Fairview",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94933",
+      "town": "Forest Knolls",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "95436",
+      "town": "Forestville",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "94536",
+      "town": "Fremont",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94537",
+      "town": "Fremont",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94538",
+      "town": "Fremont",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94539",
+      "town": "Fremont",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94555",
+      "town": "Fremont",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "95439",
+      "town": "Fulton",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "95441",
+      "town": "Geyserville",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "95020",
+      "town": "Gilroy",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95021",
+      "town": "Gilroy",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95442",
+      "town": "Glen Ellen",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "95444",
+      "town": "Graton",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "94904",
+      "town": "Greenbrae",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "95446",
+      "town": "Guerneville",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "94019",
+      "town": "Half Moon Bay",
+      "county": "San Mateo"
+    },
+    {
+      "zip_code": null,
+      "town": "Happy Valley",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94540",
+      "town": "Hayward",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94541",
+      "town": "Hayward",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94542",
+      "town": "Hayward",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94543",
+      "town": "Hayward",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94544",
+      "town": "Hayward",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94545",
+      "town": "Hayward",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94557",
+      "town": "Hayward",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": null,
+      "town": "Hayward Acres",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "95448",
+      "town": "Healdsburg",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "94547",
+      "town": "Hercules",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": null,
+      "town": "Hillcrest Knolls",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "95026",
+      "town": "Holy City",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "94937",
+      "town": "Inverness",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "95450",
+      "town": "Jenner",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": null,
+      "town": "Kensington",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94914",
+      "town": "Kentfield",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "95452",
+      "town": "Kenwood",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "94548",
+      "town": "Knightsen",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94020",
+      "town": "La Honda",
+      "county": "San Mateo"
+    },
+    {
+      "zip_code": "94549",
+      "town": "Lafayette",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94938",
+      "town": "Lagunitas",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "94939",
+      "town": "Larkspur",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "94977",
+      "town": "Larkspur",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "94550",
+      "town": "Livermore",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94551",
+      "town": "Livermore",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94021",
+      "town": "Loma Mar",
+      "county": "San Mateo"
+    },
+    {
+      "zip_code": "94022",
+      "town": "Los Altos",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "94023",
+      "town": "Los Altos",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "94024",
+      "town": "Los Altos",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95030",
+      "town": "Los Gatos",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95031",
+      "town": "Los Gatos",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95032",
+      "town": "Los Gatos",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95033",
+      "town": "Los Gatos",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "94940",
+      "town": "Marshall",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "94553",
+      "town": "Martinez",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94025",
+      "town": "Menlo Park",
+      "county": "San Mateo"
+    },
+    {
+      "zip_code": "94026",
+      "town": "Menlo Park",
+      "county": "San Mateo"
+    },
+    {
+      "zip_code": "94941",
+      "town": "Mill Valley",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "94942",
+      "town": "Mill Valley",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "94030",
+      "town": "Millbrae",
+      "county": "San Mateo"
+    },
+    {
+      "zip_code": "95035",
+      "town": "Milpitas",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95036",
+      "town": "Milpitas",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": null,
+      "town": "Montalvin Manor",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94037",
+      "town": "Montara",
+      "county": "San Mateo"
+    },
+    {
+      "zip_code": "95462",
+      "town": "Monte Rio",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "94556",
+      "town": "Moraga",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94570",
+      "town": "Moraga",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94575",
+      "town": "Moraga",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "95037",
+      "town": "Morgan Hill",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95038",
+      "town": "Morgan Hill",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "94038",
+      "town": "Moss Beach",
+      "county": "San Mateo"
+    },
+    {
+      "zip_code": "95140",
+      "town": "Mount Hamilton",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": null,
+      "town": "Mountain View",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94035",
+      "town": "Mountain View",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "94039",
+      "town": "Mountain View",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "94040",
+      "town": "Mountain View",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "94041",
+      "town": "Mountain View",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "94042",
+      "town": "Mountain View",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "94043",
+      "town": "Mountain View",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "94558",
+      "town": "Napa",
+      "county": "Napa"
+    },
+    {
+      "zip_code": "94559",
+      "town": "Napa",
+      "county": "Napa"
+    },
+    {
+      "zip_code": "94581",
+      "town": "Napa",
+      "county": "Napa"
+    },
+    {
+      "zip_code": "95042",
+      "town": "New Almaden",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "94560",
+      "town": "Newark",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94946",
+      "town": "Nicasio",
+      "county": "Marin"
+    },
+    {
+      "zip_code": null,
+      "town": "Norris Canyon",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": null,
+      "town": "North Gate",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": null,
+      "town": "North Richmond",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94945",
+      "town": "Novato",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "94947",
+      "town": "Novato",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "94948",
+      "town": "Novato",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "94949",
+      "town": "Novato",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "94998",
+      "town": "Novato",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "94601",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94602",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94603",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94604",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94605",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94606",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94607",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94609",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94610",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94611",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94612",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94613",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94614",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94615",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94617",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94618",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94619",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94621",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94622",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94623",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94624",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94649",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94659",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94660",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94661",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94666",
+      "town": "Oakland",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94561",
+      "town": "Oakley",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94562",
+      "town": "Oakville",
+      "county": "Napa"
+    },
+    {
+      "zip_code": "95465",
+      "town": "Occidental",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "94950",
+      "town": "Olema",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "94563",
+      "town": "Orinda",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": null,
+      "town": "Pacheco",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94044",
+      "town": "Pacifica",
+      "county": "San Mateo"
+    },
+    {
+      "zip_code": "94301",
+      "town": "Palo Alto",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "94302",
+      "town": "Palo Alto",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "94303",
+      "town": "Palo Alto",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "94304",
+      "town": "Palo Alto",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "94306",
+      "town": "Palo Alto",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "94309",
+      "town": "Palo Alto",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": null,
+      "town": "Parkmead",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94951",
+      "town": "Penngrove",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "94060",
+      "town": "Pescadero",
+      "county": "San Mateo"
+    },
+    {
+      "zip_code": "94952",
+      "town": "Petaluma",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "94953",
+      "town": "Petaluma",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "94954",
+      "town": "Petaluma",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "94955",
+      "town": "Petaluma",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "94975",
+      "town": "Petaluma",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "94999",
+      "town": "Petaluma",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "94620",
+      "town": "Piedmont",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94564",
+      "town": "Pinole",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94565",
+      "town": "Pittsburg",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94523",
+      "town": "Pleasant Hill",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94566",
+      "town": "Pleasanton",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94588",
+      "town": "Pleasanton",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94956",
+      "town": "Point Reyes Station",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "94567",
+      "town": "Pope Valley",
+      "county": "Napa"
+    },
+    {
+      "zip_code": "94569",
+      "town": "Port Costa",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94028",
+      "town": "Portola Valley",
+      "county": "San Mateo"
+    },
+    {
+      "zip_code": "94061",
+      "town": "Redwood City",
+      "county": "San Mateo"
+    },
+    {
+      "zip_code": "94062",
+      "town": "Redwood City",
+      "county": "San Mateo"
+    },
+    {
+      "zip_code": "94063",
+      "town": "Redwood City",
+      "county": "San Mateo"
+    },
+    {
+      "zip_code": "94064",
+      "town": "Redwood City",
+      "county": "San Mateo"
+    },
+    {
+      "zip_code": "94065",
+      "town": "Redwood City",
+      "county": "San Mateo"
+    },
+    {
+      "zip_code": "95044",
+      "town": "Redwood Estates",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": null,
+      "town": "Reliez Valley",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94801",
+      "town": "Richmond",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94802",
+      "town": "Richmond",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94804",
+      "town": "Richmond",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94805",
+      "town": "Richmond",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94807",
+      "town": "Richmond",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94808",
+      "town": "Richmond",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94850",
+      "town": "Richmond",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "95471",
+      "town": "Rio Nido",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "94571",
+      "town": "Rio Vista",
+      "county": "Solano"
+    },
+    {
+      "zip_code": "94572",
+      "town": "Rodeo",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94926",
+      "town": "Rohnert Park",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "94927",
+      "town": "Rohnert Park",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "94928",
+      "town": "Rohnert Park",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": null,
+      "town": "Rollingwood",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94957",
+      "town": "Ross",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "94573",
+      "town": "Rutherford",
+      "county": "Napa"
+    },
+    {
+      "zip_code": "94574",
+      "town": "Saint Helena",
+      "county": "Napa"
+    },
+    {
+      "zip_code": "94960",
+      "town": "San Anselmo",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "94979",
+      "town": "San Anselmo",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "94066",
+      "town": "San Bruno",
+      "county": "San Mateo"
+    },
+    {
+      "zip_code": "94070",
+      "town": "San Carlos",
+      "county": "San Mateo"
+    },
+    {
+      "zip_code": "94102",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94103",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94104",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94105",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94107",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94108",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94109",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94110",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94111",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94112",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94114",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94115",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94116",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94117",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94118",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94119",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94120",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94121",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94122",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94123",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94124",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94125",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94126",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94127",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94128",
+      "town": "San Francisco",
+      "county": "San Mateo"
+    },
+    {
+      "zip_code": "94129",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94130",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94131",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94132",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94133",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94134",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94137",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94139",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94140",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94141",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94142",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94143",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94144",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94145",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94146",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94147",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94151",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94158",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94159",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94160",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94161",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94163",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94164",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94172",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94177",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94188",
+      "town": "San Francisco",
+      "county": "San Francisco"
+    },
+    {
+      "zip_code": "94963",
+      "town": "San Geronimo",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "94074",
+      "town": "San Gregorio",
+      "county": "San Mateo"
+    },
+    {
+      "zip_code": "95101",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95103",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95106",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95108",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95109",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95110",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95111",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95112",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95113",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95115",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95116",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95117",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95118",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95119",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95120",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95121",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95122",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95123",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95124",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95125",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95126",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95127",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95128",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95129",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95130",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95131",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95132",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95133",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95134",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95135",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95136",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95138",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95139",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95141",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95148",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95150",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95151",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95152",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95153",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95154",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95155",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95156",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95157",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95158",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95159",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95160",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95161",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95164",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95170",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95172",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95173",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95190",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95191",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95192",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95193",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95194",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95196",
+      "town": "San Jose",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "94577",
+      "town": "San Leandro",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94578",
+      "town": "San Leandro",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94579",
+      "town": "San Leandro",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "94580",
+      "town": "San Lorenzo",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "95046",
+      "town": "San Martin",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "94401",
+      "town": "San Mateo",
+      "county": "San Mateo"
+    },
+    {
+      "zip_code": "94402",
+      "town": "San Mateo",
+      "county": "San Mateo"
+    },
+    {
+      "zip_code": "94403",
+      "town": "San Mateo",
+      "county": "San Mateo"
+    },
+    {
+      "zip_code": "94404",
+      "town": "San Mateo",
+      "county": "San Mateo"
+    },
+    {
+      "zip_code": "94497",
+      "town": "San Mateo",
+      "county": "San Mateo"
+    },
+    {
+      "zip_code": null,
+      "town": "San Miguel",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94806",
+      "town": "San Pablo",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94964",
+      "town": "San Quentin",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "94974",
+      "town": "San Quentin",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "94901",
+      "town": "San Rafael",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "94903",
+      "town": "San Rafael",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "94912",
+      "town": "San Rafael",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "94913",
+      "town": "San Rafael",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "94915",
+      "town": "San Rafael",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "94582",
+      "town": "San Ramon",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94583",
+      "town": "San Ramon",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": null,
+      "town": "Sandmound Slough",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "95050",
+      "town": "Santa Clara",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95051",
+      "town": "Santa Clara",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95052",
+      "town": "Santa Clara",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95053",
+      "town": "Santa Clara",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95054",
+      "town": "Santa Clara",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95055",
+      "town": "Santa Clara",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95056",
+      "town": "Santa Clara",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95401",
+      "town": "Santa Rosa",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "95402",
+      "town": "Santa Rosa",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "95403",
+      "town": "Santa Rosa",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "95404",
+      "town": "Santa Rosa",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "95405",
+      "town": "Santa Rosa",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "95406",
+      "town": "Santa Rosa",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "95407",
+      "town": "Santa Rosa",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "95409",
+      "town": "Santa Rosa",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": null,
+      "town": "Saranap",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "95070",
+      "town": "Saratoga",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95071",
+      "town": "Saratoga",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "94965",
+      "town": "Sausalito",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "94966",
+      "town": "Sausalito",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "95472",
+      "town": "Sebastopol",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "95473",
+      "town": "Sebastopol",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": null,
+      "town": "Shell Ridge",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "95476",
+      "town": "Sonoma",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "94080",
+      "town": "South San Francisco",
+      "county": "San Mateo"
+    },
+    {
+      "zip_code": "94083",
+      "town": "South San Francisco",
+      "county": "San Mateo"
+    },
+    {
+      "zip_code": "94305",
+      "town": "Stanford",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "95480",
+      "town": "Stewarts Point",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "94970",
+      "town": "Stinson Beach",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "94585",
+      "town": "Suisun City",
+      "county": "Solano"
+    },
+    {
+      "zip_code": "94085",
+      "town": "Sunnyvale",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "94086",
+      "town": "Sunnyvale",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "94087",
+      "town": "Sunnyvale",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "94088",
+      "town": "Sunnyvale",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "94089",
+      "town": "Sunnyvale",
+      "county": "Santa Clara"
+    },
+    {
+      "zip_code": "94586",
+      "town": "Sunol",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": null,
+      "town": "Tara Hills",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "95497",
+      "town": "The Sea Ranch",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "94971",
+      "town": "Tomales",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "94535",
+      "town": "Travis AFB",
+      "county": "Solano"
+    },
+    {
+      "zip_code": "94587",
+      "town": "Union City",
+      "county": "Alameda"
+    },
+    {
+      "zip_code": "95687",
+      "town": "Vacaville",
+      "county": "Solano"
+    },
+    {
+      "zip_code": "95688",
+      "town": "Vacaville",
+      "county": "Solano"
+    },
+    {
+      "zip_code": "95696",
+      "town": "Vacaville",
+      "county": "Solano"
+    },
+    {
+      "zip_code": "94589",
+      "town": "Vallejo",
+      "county": "Solano"
+    },
+    {
+      "zip_code": "94590",
+      "town": "Vallejo",
+      "county": "Solano"
+    },
+    {
+      "zip_code": "94591",
+      "town": "Vallejo",
+      "county": "Solano"
+    },
+    {
+      "zip_code": "94592",
+      "town": "Vallejo",
+      "county": "Solano"
+    },
+    {
+      "zip_code": "94972",
+      "town": "Valley Ford",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "95486",
+      "town": "Villa Grande",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": null,
+      "town": "Vine Hill",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "95487",
+      "town": "Vineburg",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "94595",
+      "town": "Walnut Creek",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94596",
+      "town": "Walnut Creek",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94597",
+      "town": "Walnut Creek",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "94598",
+      "town": "Walnut Creek",
+      "county": "Contra Costa"
+    },
+    {
+      "zip_code": "95492",
+      "town": "Windsor",
+      "county": "Sonoma"
+    },
+    {
+      "zip_code": "94973",
+      "town": "Woodacre",
+      "county": "Marin"
+    },
+    {
+      "zip_code": "94599",
+      "town": "Yountville",
+      "county": "Napa"
+    }
+  ],
+  "counties": [
+    "Alameda",
+    "Contra Costa",
+    "Marin",
+    "Napa",
+    "San Francisco",
+    "San Mateo",
+    "Santa Clara",
+    "Solano",
+    "Sonoma"
+  ]
+}

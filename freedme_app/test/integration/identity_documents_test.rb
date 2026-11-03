@@ -53,7 +53,8 @@ class IdentityDocumentsTest < ActionDispatch::IntegrationTest
     get transaction_path(exchange)
     assert_response :success
     assert_includes response.body,'Verified'
-    assert_includes response.body,'not been independently verified'
+    assert_includes response.body,'Verified Recipient Identity'
+    refute_includes response.body,'not been independently verified'
     assert_includes response.body,'Maya Patel'
     refute_includes response.body,'123 Example Street'
     login(5)
@@ -187,7 +188,8 @@ class IdentityDocumentsTest < ActionDispatch::IntegrationTest
     assert_equal 'Mary', upload.extracted_fields['_extracted_name']['first_name']
     login(1)
     get transaction_path(upload.exchange_id)
-    assert_includes response.body, 'Requester-corrected'
+    assert_includes response.body, 'Verified Recipient Identity'
+    refute_includes response.body, 'Requester-corrected'
   end
 
 end

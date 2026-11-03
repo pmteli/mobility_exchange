@@ -5,7 +5,12 @@ class FrameworkTest < ActionDispatch::IntegrationTest
     [ root_path, equipment_index_path, how_it_works_path, resources_path, our_team_path ].each do |path|
       get path
       assert_response :success
-      assert_select "h1", minimum: 1
+      if path == resources_path
+        assert_select "[role=tablist][aria-label]", count: 1
+        assert_select "[role=tabpanel]", count: 4
+      else
+        assert_select "h1", minimum: 1
+      end
       assert_select "input[name=phone]", count: 0
     end
   end

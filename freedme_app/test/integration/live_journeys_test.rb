@@ -149,7 +149,8 @@ class LiveJourneysTest < ActionDispatch::IntegrationTest
     account = Account.find_by!(display_name: "New Tester")
     welcome = SimulatedSmsMessage.where(template_code: "registration_welcome", recipient: "+15105550111")
     assert_equal 1, welcome.count
-    assert_equal "Welcome to FreeDME New Tester. Take the next step to either donate, lend or find a mobility equipment for yourself or your loved ones. Visit https://freedme.org", welcome.first!.body
+    assert_equal "Welcome to FreeDME New Tester. Take the next step to either donate, lend or find a mobility equipment for yourself or your loved ones. Visit #{Integrations::SmsLinks.url("registration_welcome")}", welcome.first!.body
+    assert_equal "/s/home", URI.parse(Integrations::SmsLinks.url("registration_welcome")).path
     assert AccountContact.where(account_id: account.id).where.not(verified_at: nil).exists?
     publish
     post equipment_questions_path(@listing), params: {question: "Does it fold?"}
@@ -171,11 +172,11 @@ class LiveJourneysTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_entity
     assert_includes response.body, "Fictional folding cane"
     post listings_path, params: {listing: data.merge(photos: [Rack::Test::UploadedFile.new(Rails.root.join("public/simulation/equipment-placeholder.png"), "image/png")])}
-    assert_redirected_to activity_path
+    assert_redirected_to activity_path(anchor: "panel-inventory")
     listing = Listing.where(donor_id: @donor.id).newest_first.first!
     assert_equal "pending_review", listing.status
     patch update_listing_path(listing), params: {listing: data.merge(title: "Revised sample cane")}
-    assert_redirected_to activity_path
+    assert_redirected_to activity_path(anchor: "panel-inventory")
     assert_equal 2, listing.revisions.count
     login(5)
     get activity_path

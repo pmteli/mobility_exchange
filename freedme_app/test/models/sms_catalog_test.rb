@@ -3,12 +3,14 @@ require "test_helper"
 class SmsCatalogTest < ActiveSupport::TestCase
   test "every SMS template renders its named variables" do
     catalog = I18n.t!("sms", locale: :en)
-    assert_equal 18, catalog.size
+    assert_equal 19, catalog.size
     catalog.each do |key, text|
       parameters = text.scan(/%\{([a-z_]+)\}/).flatten.to_h { |name| [name.to_sym, "Sample #{name}"] }
       message = Integrations::SmsGateway.new.deliver(to: "+15105550199", template: key, parameters: parameters)
       refute_match(/%\{/, message.body)
-      parameters.each_value { |value| assert_includes message.body, value }
+      parameters.except(:link).each_value { |value| assert_includes message.body, value }
+      assert_includes message.body, Integrations::SmsLinks.url(key)
+      assert Integrations::SmsLinks::DESTINATIONS.key?(Integrations::SmsLinks::TEMPLATE_CODES.fetch(key.to_s))
     end
   end
 

@@ -1,0 +1,160 @@
+{
+  "01-gift": [
+    {
+      "time": 3.0,
+      "role": "moderator"
+    },
+    {
+      "time": 12.5,
+      "role": "recipient"
+    },
+    {
+      "time": 39.0,
+      "role": "donor"
+    },
+    {
+      "time": 53.5,
+      "role": "recipient"
+    },
+    {
+      "time": 64.5,
+      "role": "donor"
+    }
+  ],
+  "02-negotiation": [
+    {
+      "time": 2.5,
+      "role": "recipient"
+    },
+    {
+      "time": 12.5,
+      "role": "donor"
+    }
+  ],
+  "03-declined": [
+    {
+      "time": 2.5,
+      "role": "moderator"
+    },
+    {
+      "time": 11.5,
+      "role": "recipient"
+    },
+    {
+      "time": 23.0,
+      "role": "donor"
+    },
+    {
+      "time": 28.5,
+      "role": "recipient"
+    }
+  ],
+  "04-unavailable": [
+    {
+      "time": 3.0,
+      "role": "moderator"
+    },
+    {
+      "time": 7.5,
+      "role": "recipient"
+    },
+    {
+      "time": 19.0,
+      "role": "donor"
+    },
+    {
+      "time": 24.0,
+      "role": "recipient"
+    }
+  ],
+  "05-loan": [
+    {
+      "time": 3.0,
+      "role": "moderator"
+    },
+    {
+      "time": 8.0,
+      "role": "recipient"
+    },
+    {
+      "time": 19.0,
+      "role": "donor"
+    },
+    {
+      "time": 24.5,
+      "role": "recipient"
+    },
+    {
+      "time": 31.0,
+      "role": "donor"
+    }
+  ],
+  "06-questions": [
+    {
+      "time": 3.0,
+      "role": "moderator"
+    },
+    {
+      "time": 7.5,
+      "role": "recipient"
+    },
+    {
+      "time": 13.0,
+      "role": "donor"
+    },
+    {
+      "time": 22.0,
+      "role": "recipient"
+    }
+  ],
+  "07-listing": [
+    {
+      "time": 2.5,
+      "role": "donor"
+    },
+    {
+      "time": 21.5,
+      "role": "moderator"
+    },
+    {
+      "time": 30.5,
+      "role": "donor"
+    }
+  ],
+  "08-registration": [
+    {
+      "time": 2.0,
+      "role": "recipient"
+    }
+  ],
+  "09-scan-recovery": [
+    {
+      "time": 3.0,
+      "role": "recipient"
+    }
+  ],
+  "10-expiry": [
+    {
+      "time": 3.0,
+      "role": "recipient"
+    },
+    {
+      "time": 18.0,
+      "role": "donor"
+    },
+    {
+      "time": 27.0,
+      "role": "recipient"
+    }
+  ],
+  "11-followup": [
+    {
+      "time": 2.5,
+      "role": "donor"
+    },
+    {
+      "time": 13.5,
+      "role": "moderator"
+    }
+  ]
+}

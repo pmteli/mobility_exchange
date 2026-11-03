@@ -1,1 +1,35 @@
-<div class="reading"><p class="eyebrow">You don’t have to figure it out alone</p><h1>A little help with the next step.</h1><p>If there’s no suitable item, try another category or a broader area. Equipment availability and transportation are never guaranteed.</p><div class="grid two"><article class="panel"><h3>Help using FreeDME</h3><p>Account access, caregiver help, or trouble with a request.</p><button class="primary" data-action="help" data-id="">Try a sample help request</button></article><article class="panel"><h3>Pickup is a barrier?</h3><p>Record the barrier on your request. FreeDME does not arrange transport.</p><a class="" href="/recipient/dashboard">Go to My activity →</a></article></div><h2>Community resource directory preview</h2><p>The PRS names candidate organizations, including ReCARES and Ability Tools. These have not been verified here. This prototype does not claim partnerships, current eligibility, stock, hours or transport service.</p><div class="panel"><span class="badge warn">Publication pending review</span><h3 data-design-style="s0">Resource records will distinguish</h3><ul><li>Free equipment donations</li><li>Temporary equipment loans</li><li>Mixed-cost exchanges</li><li>Referral-only organizations</li></ul><p>Each published record needs verified official contact details, service area, cost model, restrictions, review date and reviewer.</p></div><div class="note warn">The support telephone number, staffed hours and response targets are not yet approved. No real support is available here. This is not an emergency service.</div></div>
+<div class="donor-tabs journey-tabs" data-tab-memory="resources-tabs" role="tablist" aria-label="<%= t('resources.tabs_label') %>">
+  <button type="button" role="tab" id="tab-help" aria-controls="panel-help" aria-selected="true" tabindex="0" data-action="journey-tab"><%= t("resources.help_tab") %></button>
+  <button type="button" role="tab" id="tab-faq" aria-controls="panel-faq" aria-selected="false" tabindex="-1" data-action="journey-tab"><%= t("resources.faq_tab") %></button>
+  <button type="button" role="tab" id="tab-mission" aria-controls="panel-mission" aria-selected="false" tabindex="-1" data-action="journey-tab"><%= t("resources.mission_tab") %></button>
+  <button type="button" role="tab" id="tab-team" aria-controls="panel-team" aria-selected="false" tabindex="-1" data-action="journey-tab"><%= t("resources.team_tab") %></button>
+</div>
+<section role="tabpanel" id="panel-help" aria-labelledby="tab-help">
+
+<%= render "resource_help" %></section>
+<section role="tabpanel" id="panel-faq" aria-labelledby="tab-faq" hidden>
+  <div class="reading">
+    <h2><%= t("resources.faq_tab") %></h2>
+    <p><%= t("resources.faq_intro") %></p>
+    <% t("resources.faqs").each_key do |key| %>
+      <details class="panel" id="faq-<%= key %>">
+        <summary><%= t("resources.faqs.#{key}.question") %></summary>
+        <p><%= t("resources.faqs.#{key}.answer", website: "https://www.freedme.org") %></p>
+      </details>
+    <% end %>
+  </div>
+</section>
+<section role="tabpanel" id="panel-mission" aria-labelledby="tab-mission" hidden>
+<section id="mission-statement" aria-labelledby="mission-title">
+  <h2 id="mission-title"><%= t("resources.mission.title") %></h2>
+  <p><%= t("resources.mission.statement") %></p>
+  <p><%= t("resources.mission.description") %></p>
+</section>
+</section>
+<section role="tabpanel" id="panel-team" aria-labelledby="tab-team" hidden>
+  <div class="reading">
+    <h2><%= t("resources.team_tab") %></h2>
+    <p><%= t("resources.team_intro") %></p>
+    <div class="panel"><h3><%= t("resources.team_pending_title") %></h3><p><%= t("resources.team_pending_body") %></p></div>
+  </div>
+</section>

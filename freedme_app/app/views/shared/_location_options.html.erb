@@ -1,5 +1,5 @@
-<datalist id="east-bay-locations">
-<% east_bay_location_options.each do |location| %>
+<datalist id="bay-area-locations">
+<% bay_area_location_options.each do |location| %>
   <option value="<%= [location['town'], location['zip_code']].compact.join(' · ') %>" label="<%= location['county'] %> County"></option>
 <% end %>
 </datalist>

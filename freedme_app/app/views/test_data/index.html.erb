@@ -6,5 +6,5 @@
 <p>Each donor has five categories. Moderator publication and requests create synthetic screening and policy records for this local simulation only; these are not production approvals. No real documents are collected.</p>
 <% @listings.each do |listing| %><% revision = ListingRevision.find(listing.current_revision_id) %><article class="panel"><h3><%= revision.title %></h3><p><%= listing.donor.display_name %> · <%= listing.status.humanize %> · <%= revision.offer_kind == "loan" ? "Loan until #{revision.loan_until}" : "Free to keep" %></p></article><% end %>
 <h2>Simulated SMS inbox</h2><p>Most recent first. These are local records, not delivery confirmations.</p>
-<% @messages.each do |message| %><article class="panel"><strong>SIMULATED · <%= message.recipient %></strong><p><%= message.body %></p><small><%= message.created_at %></small></article><% end %>
+<% @messages.each do |message| %><article class="panel"><strong>SIMULATED · <%= message.recipient %></strong><p><%= sms_message_body(message.body) %></p><small><%= message.created_at %></small></article><% end %>
 </section>

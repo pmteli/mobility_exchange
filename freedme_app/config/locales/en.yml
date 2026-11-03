@@ -2,21 +2,114 @@
 # Keep placeholders unchanged when translating. Delivery remains simulated.
 en:
   sms:
-    registration_welcome: "Welcome to FreeDME %{display_name}. Take the next step to either donate, lend or find a mobility equipment for yourself or your loved ones. Visit https://freedme.org"
-    listing_submitted: "Thank you for offering %{item_title} to a neighbor. Your listing is under review. You will be notified when it is published."
-    request_received: "%{verified_name} from %{town} has requested your %{item_title}. You may approve or decline the request. If the item is no longer available, please indicate “not available”. Please respond within 48 hours."
-    donor_approval_ack: "The requester is notified of your approval as well as the proposed location and time for the hand-off. We will notify you when the requester accepts/rejects your offer"
-    request_approved: "Your request for the %{item_title} has been approved by the donor. Please review the proposed pick up location and time and respond."
-    request_declined: "Your request for “%{item_title}” has been declined by the donor. You may review the inventory for similar items and make a new request."
-    item_unavailable: "Your requested equipment (%{item_title}) is no longer available. You may review the inventory for similar items and make a new request."
-    question_received: "An interested recipient has a question about your equipment. Open My Activity to answer."
-    question_answered: "The donor has answered your question. Open My Activity to view the answer."
-    handoff_proposed: "A new pickup time and location have been suggested. Open My Activity to review."
-    handoff_accepted: "Your proposed pickup arrangement has been accepted. Open My Activity for details."
-    sign_in_otp: "SIMULATED FreeDME code: %{code}. Expires in %{expiry_minutes} minutes."
-    listing_published: "Your listing %{item_title} was published. We will notify you when a neighbor is interested in your equipment."
-    listing_rejected: "Your listing %{item_title} was rejected. Review My Activity. (Simulated)"
-    handoff_confirmed: "Handoff of %{item_title} was confirmed. (Simulated)"
-    return_confirmed: "Return of %{item_title} was confirmed. (Simulated)"
-    request_cancelled: "The request for %{item_title} was cancelled. (Simulated)"
-    request_expired: "The request for %{item_title} expired. Check My Activity. (Simulated)"
+    registration_welcome: "Welcome to FreeDME %{display_name}. Take the next step to either donate, lend or find a mobility equipment for yourself or your loved ones. Visit %{link}"
+    listing_submitted: "Thank you for offering %{item_title} to a neighbor. Your listing is under review. You will be notified when it is published. %{link}"
+    request_received: "%{verified_name} from %{town} has requested your %{item_title}. You may approve or decline the request. If the item is no longer available, please indicate “not available”. Please respond within 48 hours. %{link}"
+    donor_approval_ack: "The requester is notified of your approval as well as the proposed location and time for the hand-off. We will notify you when the requester accepts/rejects your offer %{link}"
+    request_approved: "Your request for the %{item_title} has been approved by the donor. Please review the proposed pick up location and time and respond. %{link}"
+    request_declined: "Your request for “%{item_title}” has been declined by the donor. You may review the inventory for similar items and make a new request. %{link}"
+    item_unavailable: "Your requested equipment (%{item_title}) is no longer available. You may review the inventory for similar items and make a new request. %{link}"
+    question_received: "An interested recipient has a question about your equipment. Open My Activity to answer. %{link}"
+    question_answered: "The donor has answered your question. Open My Activity to view the answer. %{link}"
+    handoff_proposed: "A new pickup time and location have been suggested. Open My Activity to review. %{link}"
+    handoff_accepted: "Your proposed pickup arrangement has been accepted. Open My Activity for details. %{link}"
+    sign_in_otp: "SIMULATED FreeDME code: %{code}. Expires in %{expiry_minutes} minutes. %{link}"
+    listing_published: "Your listing %{item_title} was published. We will notify you when a neighbor is interested in your equipment. %{link}"
+    listing_rejected: "Your listing %{item_title} was rejected. Review My Activity. (Simulated) %{link}"
+    handoff_confirmed: "Handoff of %{item_title} was confirmed. (Simulated) %{link}"
+    return_confirmed: "Return of %{item_title} was confirmed. (Simulated) %{link}"
+    request_cancelled: "The request for %{item_title} was cancelled. (Simulated) %{link}"
+    request_expired: "The request for %{item_title} expired. Check My Activity. (Simulated) %{link}"
+    pickup_followup: "Thank you for using FreeDME. Did you pick up the %{item_title} from %{donor_name} as scheduled on %{date} at %{time}? Please reply YES if you received the equipment and NO if you did not receive it. %{link}"
+
+  resources:
+    mission_tab: "Our Mission"
+    team_tab: "Our Team"
+    team_intro: "Meet the people behind FreeDME."
+    team_pending_title: "Team profiles coming soon"
+    team_pending_body: "Names, roles, and biographies will be added here when they are ready to share."
+    mission:
+      title: "Mission Statement"
+      statement: "FreeDME connects people to give, lend, and receive free mobility equipment, helping those in need while keeping equipment in use."
+      description: "Neighbors helping Neighbors. We bring together donors, recipients, and caregivers across the San Francisco Bay Area to make mobility equipment easier to access, support independence, and reduce waste through reuse."
+    title: "Resources & Help"
+    tabs_label: "Resources and help sections"
+    help_tab: "Resources & Help"
+    faq_tab: "Questions & Answers"
+    faq_intro: "Learn about FreeDME, offering and requesting equipment, and arranging a safe handoff."
+    faqs:
+      about:
+        question: "What is FreeDME?"
+        answer: "FreeDME connects neighbors who want to give, lend, or receive free mobility equipment. Our mission is to help people while keeping equipment in use and reducing waste."
+      who:
+        question: "Who can use FreeDME?"
+        answer: "People of all ages and incomes across the San Francisco Bay Area can offer or request equipment. Caregivers can also request equipment for someone they support."
+      area:
+        question: "What areas does FreeDME serve?"
+        answer: "We serve Alameda, Contra Costa, Marin, Napa, San Francisco, San Mateo, Santa Clara, Solano, and Sonoma counties."
+      launch:
+        question: "Is FreeDME available now?"
+        answer: "FreeDME is preparing for its pilot launch. Visit %{website} for updates. Listings and requests are not open to the public yet."
+      equipment:
+        question: "What equipment can I offer or request?"
+        answer: "Categories include manual wheelchairs, walkers, canes, crutches, shower chairs, and commodes. An “Other” category lets donors submit additional equipment for review."
+      cost:
+        question: "Does the equipment cost anything?"
+        answer: "Equipment offered through FreeDME is free to keep or borrow. You do not need insurance paperwork or proof of income."
+      gift_loan:
+        question: "What is the difference between a gift and a loan?"
+        answer: "A gift is yours to keep after the handoff. A loan must be returned to the donor by the agreed date. Loan listings show when the equipment is available until."
+      account:
+        question: "How do I create an account?"
+        answer: "Provide a display name, your town or ZIP code, and a mobile phone number. Verify your number using a one-time code. No email address is required."
+      offer:
+        question: "How do I offer equipment?"
+        answer: "Choose “Donate Equipment,” enter the equipment details and approximate location, upload photos, and select whether it is a gift or loan. Your listing goes through moderator review before publication."
+      description:
+        question: "What should I include in my listing?"
+        answer: "Describe the equipment’s condition, dimensions, weight, capacity, whether it folds, and anything else a recipient should know. Include clear photos and accurate information about its functionality and any repairs it needs."
+      inspection:
+        question: "Does FreeDME inspect or certify equipment?"
+        answer: "FreeDME reviews listings and screens uploaded photos, but this does not replace a physical inspection or certify that equipment is safe or suitable for you. Review the donor’s description, ask questions, and inspect the equipment before accepting it."
+      request:
+        question: "How do I request equipment?"
+        answer: "Open a listing and select “Request this Item.” You will be guided through identity and location verification before the request is sent to the donor. The donor can approve, decline, or mark the equipment unavailable."
+      evidence:
+        question: "Why do I need to upload an identity or address document?"
+        answer: "The request process uses a document showing your name and address to help establish who is requesting equipment and where they are located. You can review the extracted information and correct spelling errors before confirming it."
+      caregiver:
+        question: "Can a caregiver request equipment?"
+        answer: "Yes. If you are requesting on someone else’s behalf, use your own account and provide your own identity and location evidence."
+      privacy:
+        question: "What identity information does the donor see?"
+        answer: "The donor sees your confirmed name and ZIP code with the request. Your uploaded document is retained for moderator review and scheduled for automatic deletion after one week."
+      questions:
+        question: "Can I ask questions before requesting an item?"
+        answer: "Yes. Select “Ask a Question” on the equipment details page. You can read the donor’s response and ask follow-up questions in “Questions & Answers” under My Activity."
+      guarantee:
+        question: "Does submitting a request guarantee the equipment?"
+        answer: "No. The donor must approve the request. Review the status in My Activity and wait for confirmation before making pickup plans."
+      arrange:
+        question: "How do we arrange pickup?"
+        answer: "The donor can propose a day, time, and public meeting location. You can accept the suggestion or propose an alternative. Both people should agree on the arrangements before traveling."
+      meeting:
+        question: "Where should we meet?"
+        answer: "Choose a public, nonresidential location. Meet during daylight while the venue is open. Confirm the meeting point and inspect the equipment before completing the handoff."
+      delivery:
+        question: "Does FreeDME provide delivery?"
+        answer: "No. You and the donor arrange pickup and transportation. Consider whether the equipment will fit in your vehicle and whether you need help loading it."
+      confirm:
+        question: "How do I confirm that the equipment was handed over?"
+        answer: "Either the donor or the recipient can confirm the handoff through the transaction page. Confirm only after the equipment has actually changed hands."
+      reschedule:
+        question: "What if I cannot attend the agreed pickup?"
+        answer: "Use the transaction page to suggest another time or location as soon as possible. Wait for the other person to accept the revised arrangement."
+      expired:
+        question: "What if my request expires or the equipment becomes unavailable?"
+        answer: "Check My Activity for the current status. For an expired request, you can request again if the equipment is available or remove the request from your list. You can also browse for similar equipment."
+      activity:
+        question: "How do I keep track of my activity?"
+        answer: "My Activity organizes your equipment, requests and handoffs, and questions and answers. The current demonstration also includes a Simulated SMS tab; it does not send real text messages."
+      share:
+        question: "How can I help before launch?"
+        answer: "Share %{website} with neighbors, caregivers, and community organizations. The “Share the idea” button lets you choose how to share the website."

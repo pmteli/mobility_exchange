@@ -27,7 +27,7 @@ class JourneysController < AuthenticatedController
   end
   def save_listing
     @listing = @workflow.save_listing!(listing_params.to_h, id: params[:id])
-    redirect_to activity_path, notice: "Thank you for offering your equipment to a neighbor. Your listing is under review. You will be notified when it is published. (Simulated SMS recorded.)"
+    redirect_to activity_path(anchor: "panel-inventory"), notice: "Thank you for offering your equipment to a neighbor. Your listing is under review. You will be notified when it is published. (Simulated SMS recorded.)"
   rescue Journeys::Error, ActiveRecord::RecordInvalid => error
     @categories = Category.order(:name)
     @data = listing_params.to_h

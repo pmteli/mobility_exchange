@@ -15,6 +15,7 @@ module Journeys
           end
         end
       end
+      PickupFollowups.run!
       ApplicationRecord.connection.execute("SELECT freedme.enqueue_handoff_followups()")
     end
   end

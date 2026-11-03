@@ -13,12 +13,12 @@
     }
     dialog.showModal(); }
   function close() { dialog.close(); opener?.focus(); }
-  function tabs(tab, focus = true) {
+  function tabs(tab, focus = true, updateUrl = true) {
     const list = tab.closest('[role=tablist]');
     list.querySelectorAll('[role=tab]').forEach(other => { const selected = other === tab; other.setAttribute('aria-selected', selected); other.tabIndex = selected ? 0 : -1; document.getElementById(other.getAttribute('aria-controls')).hidden = !selected; });
     if (list.dataset.tabMemory) {
       try { sessionStorage.setItem(list.dataset.tabMemory, tab.id); } catch (_) { /* Storage may be disabled. */ }
-      history.replaceState(null, '', `${location.pathname}${location.search}#${tab.getAttribute('aria-controls')}`);
+      if (updateUrl) history.replaceState(null, '', `${location.pathname}${location.search}#${tab.getAttribute('aria-controls')}`);
     }
     if (focus) tab.focus();
   }
@@ -28,12 +28,26 @@
     const choices = [...rememberedTabs.querySelectorAll('[role=tab]')];
     let saved;
     try { saved = sessionStorage.getItem(rememberedTabs.dataset.tabMemory); } catch (_) { /* Use URL or default tab. */ }
-    const selected = choices.find(tab => `#${tab.getAttribute('aria-controls')}` === location.hash) || choices.find(tab => tab.id === saved) || choices[0];
-    if (selected) tabs(selected, false);
-    window.addEventListener('hashchange', () => {
-      const target = choices.find(tab => `#${tab.getAttribute('aria-controls')}` === location.hash);
-      if (target) tabs(target, false);
-    });
+    const hashTarget = () => document.getElementById(location.hash.slice(1));
+    const tabForHash = () => {
+      const target = hashTarget();
+      return choices.find(tab => {
+        const panel = document.getElementById(tab.getAttribute('aria-controls'));
+        return target && panel && (panel === target || panel.contains(target));
+      });
+    };
+    const restoreHash = () => {
+      const tab = tabForHash();
+      if (!tab) return false;
+      tabs(tab, false, false);
+      requestAnimationFrame(() => hashTarget()?.scrollIntoView({block: 'start'}));
+      return true;
+    };
+    if (!restoreHash()) {
+      const selected = choices.find(tab => tab.id === saved) || choices[0];
+      if (selected) tabs(selected, false, !location.hash);
+    }
+    window.addEventListener('hashchange', restoreHash);
   }
   function photo(gallery, index) {
     const buttons = [...gallery.querySelectorAll('.gallery-thumb')]; if (!buttons.length) return;
@@ -201,7 +215,7 @@
 // Approximate-location combobox: local suggestions, no geolocation or external calls.
 (() => {
   function setupLocations() {
-    document.querySelectorAll('input[list="east-bay-locations"]').forEach(input => {
+    document.querySelectorAll('input[list="bay-area-locations"]').forEach(input => {
       const source = document.getElementById(input.getAttribute('list'));
       if (!source) return;
       const options = Array.from(source.options, option => ({value: option.value, county: option.label}));
