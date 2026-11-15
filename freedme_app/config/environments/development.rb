@@ -1,6 +1,9 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
+  # SQL debug logs can duplicate encrypted document bytes and personal values.
+  # Keep structured security/audit events in the database, not SQL debug dumps.
+  config.log_level = :info
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Make code changes take effect immediately without server restart.

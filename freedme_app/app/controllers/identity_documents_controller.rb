@@ -19,6 +19,8 @@ class IdentityDocumentsController < AuthenticatedController
     upload = IdentityDocumentUpload.find(params[:id])
     moderator = AccountRole.exists?(account_id: current_account.id, role: 'moderator')
     raise ActiveRecord::RecordNotFound unless upload.account_id == current_account.id || moderator
+    Privacy::ExchangeRetention.apply!(Exchange.find(upload.exchange_id)) if upload.exchange_id
+    upload.reload
     raise ActiveRecord::RecordNotFound unless upload.purge_due_at > Time.current && upload.image_ciphertext
     Journeys::Support.audit(current_account, 'identity_document_viewed', upload)
     response.headers['X-Content-Type-Options'] = 'nosniff'

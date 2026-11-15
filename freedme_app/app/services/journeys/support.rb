@@ -1,7 +1,7 @@
 module Journeys
   module Support
     def self.enabled?
-      Rails.env.development? || Rails.env.test?
+      Rails.env.development? || Rails.env.test? || Rails.configuration.x.hosted_demo == true
     end
     def self.guard!
       raise Error, "Local simulated workflows are disabled in production." unless enabled?
@@ -26,6 +26,7 @@ module Journeys
     end
     def self.notify(account, template, parameters = {}, key: SecureRandom.uuid)
       guard!
+      return if account.status == "closed"
       contact = AccountContact.find_by!(account_id: account.id, kind: "mobile", revoked_at: nil)
       Integrations::SmsGateway.new.deliver(to: decrypt(contact.value_ciphertext), template: template,
         parameters: parameters, idempotency_key: key)

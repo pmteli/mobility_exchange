@@ -5,7 +5,8 @@ class SchemaMappingTest < ActiveSupport::TestCase
     Rails.application.eager_load!
     connection = ApplicationRecord.connection
     tables = connection.select_values("SELECT tablename FROM pg_tables WHERE schemaname = 'freedme'")
-    assert_equal 56, tables.size
+    assert_equal 59, tables.size
+    assert_includes tables, "sms_deliveries"
     tables.each do |table|
       model = table.classify.constantize
       assert_equal "freedme.#{table}", model.table_name
@@ -27,10 +28,10 @@ class SchemaMappingTest < ActiveSupport::TestCase
     assert_raises(ActiveRecord::ReadOnlyRecord) { AvailableListingCard.new.save! }
   end
 
-  test "unconfigured integrations cannot send or verify" do
+  test "invalid integration inputs cannot send or verify" do
     assert_raises(I18n::MissingTranslationData) { Integrations::SmsGateway.new.deliver(to: "sample", template: "unknown_template", parameters: {}) }
     assert_raises(Integrations::NotConfigured) { Integrations::IdentityVerifier.new.verify(evidence_id: "sample") }
-    assert_raises(Integrations::NotConfigured) { Integrations::OtpVerifier.new.verify(challenge_id: "sample", code: "123456") }
+    assert_raises(ActiveRecord::RecordNotFound) { Integrations::OtpVerifier.new.verify(challenge_id: "00000000-0000-0000-0000-000000000000", code: "123456") }
   end
   test "restored functions are not executable by PUBLIC" do
     count = ApplicationRecord.connection.select_value(<<~SQL)

@@ -242,11 +242,11 @@ module Journeys
           ModeratorTask.where(exchange_id: exchange.id, state: %w[open in_progress]).update_all(state: "cancelled", resolved_at: Time.current)
           Support.notify(donor ? exchange.requester : exchange.donor, "handoff_confirmed", { item_title: title(exchange) })
         when "return"
-          raise Error, "Only the donor can confirm return of a loaned item." unless donor && exchange.state == "loaned"
+          raise Error, "Only a participant can confirm return of a loaned item." unless (donor || recipient) && exchange.state == "loaned"
           exchange.update!(state: "completed", closed_at: Time.current)
           listing.update!(status: "unavailable")
           event(exchange, "return_confirmed")
-          Support.notify(exchange.requester, "return_confirmed", { item_title: title(exchange) })
+          Support.notify(donor ? exchange.requester : exchange.donor, "return_confirmed", { item_title: title(exchange) })
         when "cancel", "revoke"
           raise Error, "Cancellation/consent revocation is unavailable after handoff." unless %w[pending offered reserved].include?(exchange.state)
           raise Error, "Only the recipient can revoke consent." if action == "revoke" && !recipient
@@ -262,6 +262,7 @@ module Journeys
         else
           raise Error, "Unknown action."
         end
+        Privacy::ExchangeRetention.apply!(exchange) if %w[handoff return].include?(action)
         Support.audit(@actor, "exchange_#{action}", exchange)
       end
       exchange
@@ -295,6 +296,7 @@ module Journeys
       raise Error, "Enter an answer of 1–2000 characters." unless text.to_s.strip.length.between?(1,2000)
       question.with_lock do
         Support.active!(@actor, Listing.find(question.listing_id))
+        raise Error, "This conversation is archived." if question.archived_at
         raise Error, "This question has already been answered." unless question.state == "pending"
         question.update!(answer_ciphertext: Support.encrypt(text), state: "answered", answered_at: Time.current, answered_by: @actor.id)
         Support.notify(Account.find(question.requester_id), "question_answered")

@@ -1,7 +1,7 @@
 const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'/Users/prakashteli/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
 const fs=require('fs'),path=require('path');const {execFileSync}=require('child_process');
 function clock(url,mode){execFileSync('docker',['compose','-f','compose.recording.yml','exec','-T','web','bin/rails','runner','script/recordings/clock.rb',url.split('/').pop(),mode],{stdio:'pipe'});}
-const base='http://127.0.0.1:3002',out=path.resolve(process.env.RECORDING_OUTPUT||'../output/rails-demo');
+const base=process.env.RECORDING_BASE_URL||'http://127.0.0.1:3002',out=path.resolve(process.env.RECORDING_OUTPUT||'../output/rails-demo');
 fs.mkdirSync(out,{recursive:true});
 const manifest=fs.existsSync(path.join(out,'manifest.json'))?JSON.parse(fs.readFileSync(path.join(out,'manifest.json'))):[];let page,ctx,browser,title;let signIns=[];
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
@@ -42,6 +42,12 @@ async function login(n){
  await page.getByLabel('Six-digit code').fill(sms.match(/code: (\d+)/)[1]);
  await sleep(1200);await click('Verify and sign in');
  if(new URL(page.url()).pathname!='/activity')throw Error('Sign-in did not reach My Activity');
+ if(n!==5){
+ const tabs=await page.locator('[role="tablist"] [role="tab"]').allTextContents();
+ const expected=['My Equipment','Requests & Handoffs','Questions & Answers','Simulated SMS'];
+ if(JSON.stringify(tabs.map(t=>t.trim()))!==JSON.stringify(expected))throw Error('Outdated activity tabs: '+JSON.stringify(tabs));
+ await caption('My Activity: My Equipment, Requests & Handoffs, Questions & Answers, and Simulated SMS');await sleep(3200);
+ }
  signIns.push({account:n,mobileScreen:true,otpScreen:true,authenticated:true});
 }
 
@@ -51,8 +57,25 @@ async function publish(n){if((process.env.SKIP_PUBLISH||'').split(',').includes(
 async function request(n){await login(3);await go('/equipment/'+id(n));await caption('Recipient opens the equipment and requests it');await page.getByRole('link',{name:'Request this item',exact:true}).click();await page.waitForLoadState('networkidle');await choose('document_kind','Government-issued ID');await page.locator('input[type=file]').setInputFiles('script/recordings/fixtures/fictional-id.png');await page.locator('input[name=processing_consent]').check();await caption('Upload fictional evidence · AWS response is simulated in this sandbox');await click('Upload and scan');await page.getByRole('heading',{name:'Confirm your document details'}).waitFor();await caption('Review extracted name and location; consent before sending the request');await page.locator('input[name=confirmed]').check();await page.locator('input[name=consent]').check();await click('Confirm and submit request');return new URL(page.url()).pathname}
 async function choose(name,label){const native=page.locator(`select[name="${name}"]`);if(await native.isVisible())return native.selectOption({label});const m=page.locator(`md-outlined-select[name="${name}"]`);await m.click();await m.getByRole('option',{name:label,exact:true}).click()}
 async function approve(url){await login(1);await go(url);await caption('Donor approves and proposes a public daytime pickup');await page.getByLabel('Day and time (Pacific Time)').fill('2026-11-15T11:00');await page.locator('input[name=location]').fill('Fictional Sample Library courtyard, during opening hours');await click('Approve')}
-async function record(slug,name,fn){if(process.env.ONLY&&!process.env.ONLY.split(',').includes(slug))return;title=name;signIns=[];ctx=await browser.newContext({viewport:{width:1440,height:1000},recordVideo:{dir:path.join(out,'raw'),size:{width:1440,height:1000}}});await ctx.addInitScript({path:path.join(__dirname,'cursor.js')});await ctx.addInitScript(()=>{addEventListener('DOMContentLoaded',()=>{let el=document.createElement('div');el.id='recording-caption';el.textContent=sessionStorage.getItem('recording-caption')||'Actual Rails website · fictional recording sandbox';el.style='position:fixed;bottom:0;left:0;right:0;padding:16px 24px;background:#102c4fee;color:white;font:600 20px system-ui;z-index:99999;pointer-events:none';document.body.appendChild(el);document.body.style.paddingBottom='70px'})});ctx.setDefaultTimeout(30000);ctx.setDefaultNavigationTimeout(60000);page=await ctx.newPage();instrumentPointer(page);try{await go('/');await caption(name);await fn();await caption('Scenario complete · actual Rails actions, simulated external services');await sleep(1200);const video=page.video();await ctx.close();await video.saveAs(path.join(out,slug+'.webm'));manifest.push({slug,title:name,status:'passed',roleNoticesEmbedded:true,cursorTracking:true,fullSignIn:true,signIns});fs.writeFileSync(path.join(out,'manifest.json'),JSON.stringify(manifest,null,2));console.log('DONE '+slug)}catch(e){await page.screenshot({path:path.join(out,slug+'-failure.png'),fullPage:true});console.error(e);await ctx.close();throw e}}
+async function record(slug,name,fn){if(process.env.ONLY&&!process.env.ONLY.split(',').includes(slug))return;title=name;signIns=[];ctx=await browser.newContext({viewport:{width:1440,height:1000},recordVideo:{dir:path.join(out,'raw'),size:{width:1440,height:1000}}});await ctx.addInitScript({path:path.join(__dirname,'cursor.js')});await ctx.addInitScript(()=>{addEventListener('DOMContentLoaded',()=>{let el=document.createElement('div');el.id='recording-caption';el.textContent=sessionStorage.getItem('recording-caption')||'Actual Rails website · fictional recording sandbox';el.style='position:fixed;bottom:0;left:0;right:0;padding:16px 24px;background:#102c4fee;color:white;font:600 20px system-ui;z-index:99999;pointer-events:none';document.body.appendChild(el);document.body.style.paddingBottom='70px'})});ctx.setDefaultTimeout(30000);ctx.setDefaultNavigationTimeout(60000);page=await ctx.newPage();instrumentPointer(page);try{await go('/');await caption(name);await fn();await caption('Scenario complete · actual Rails actions, simulated external services');await sleep(1200);const video=page.video();await ctx.close();await video.saveAs(path.join(out,slug+'.webm'));const previous=manifest.findIndex(x=>x.slug===slug);if(previous>=0)manifest.splice(previous,1);manifest.push({slug,title:name,status:'passed',roleNoticesEmbedded:true,cursorTracking:true,fullSignIn:true,signIns});fs.writeFileSync(path.join(out,'manifest.json'),JSON.stringify(manifest,null,2));console.log('DONE '+slug)}catch(e){await page.screenshot({path:path.join(out,slug+'-failure.png'),fullPage:true});console.error(e);await ctx.close();throw e}}
 (async()=>{browser=await chromium.launch({executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',headless:true,slowMo:60});
+await record('00-review-guide','Start here · How to review and export feedback',async()=>{
+ await sleep(6500);
+ await go('/recordings/index.html#01-gift');
+ await caption('Choose a scenario from the list, then press Play to watch the journey');await sleep(7500);
+ await page.locator('#speed').selectOption('0.5');
+ await caption('Use playback speed to slow the video. Pause whenever you want to leave feedback');await sleep(7500);
+ await page.locator('#notes').scrollIntoViewIfNeeded();
+ await caption('Enter feedback below the video. Include the timestamp and what you would change');await sleep(7500);
+ await page.locator('#notes').fill('Example feedback — 00:30: The My Equipment tab is clear. Please explain the next step after approval.');
+ await caption('Your notes are saved in this browser for each scenario. They are not sent automatically');await sleep(8500);
+ const downloadPromise=page.waitForEvent('download');
+ await page.getByRole('button',{name:'Export feedback',exact:true}).click();
+ const download=await downloadPromise;const file=path.join(out,'review-guide-example-feedback.json');await download.saveAs(file);
+ const exported=JSON.parse(fs.readFileSync(file));if(!exported.feedback.some(x=>x.note.includes('Example feedback')))throw Error('Feedback export failed');
+ await caption('Click Export feedback to download your notes. Send that file to the FreeDME review team');await sleep(8500);
+ await caption('You are ready to explore. The following recordings use fictional users and simulated SMS');await sleep(7500);
+});
 await record('01-gift','Free gift · request, approval and handoff',async()=>{await publish(1000);const url=await request(1000);await sms();await approve(url);await sms();await login(3);await go(url);await caption('Recipient accepts the proposed pickup');await click('Accept suggested handoff');await caption('After meeting in person, recipient confirms actual handoff');await click('Confirm actual handoff');await sms();await login(1);await go(url);await caption('Donor sees the completed transaction');});
 await record('02-negotiation','Pickup negotiation · recipient proposes, donor accepts',async()=>{let url;if(process.env.RESUME_NEGOTIATION){await login(3);await go('/activity#panel-requests');await page.locator('#panel-requests article').filter({has:page.locator('a[href="/equipment/'+id(1001)+'"]')}).getByRole('link',{name:'View transaction'}).click();url=new URL(page.url()).pathname;}else{await publish(1001);url=await request(1001);await approve(url);await login(3);await go(url);}await page.getByText('Suggest a different day/time or location',{exact:true}).click();await caption('Recipient counterproposes using the prefilled form');await page.getByLabel('Day and time (Pacific Time)').fill('2026-11-16T12:00');await page.locator('input[name=location]').fill('Fictional Sample Community Center entrance');await click('Send suggestion');await login(1);await go(url);await caption('Donor reviews and accepts the recipient’s alternative');await click('Accept suggested handoff');await sms();});
 await record('03-declined','Donor declines a request',async()=>{await publish(1002);const url=await request(1002);await login(1);await go(url);await caption('Donor declines this request');await click('Decline');await login(3);await go(url);await caption('Recipient sees the declined status');await sms();});
@@ -101,5 +124,27 @@ await record('12-pickup-followup','Pickup follow-up · 24 hours after the agreed
  await caption('The short link opens Requests & Handoffs to review the transaction');await sleep(7000);
  await page.locator('#panel-requests article').filter({has:page.locator('a[href="/equipment/'+id(1001)+'"]')}).getByRole('link',{name:'View transaction'}).click();
  await caption('A reminder does not confirm pickup or change the equipment status');await sleep(6500);
+});
+await record('13-registration-area','Registration eligibility · Bay Area locations only',async()=>{
+ await roleNotice(3);await go('/register');
+ await caption('New member enters a display name and mobile number');
+ await page.getByLabel('Display name').fill('Jordan Demo');
+ await page.getByLabel('Mobile phone number').fill('5105550188');
+ await page.locator('#locality').fill('Los Angeles');
+ await caption('Try registering with a town outside the Bay Area');await sleep(4500);
+ await click('Verify mobile and register');
+ const warning='FreeDME is currently available only for Bay Area, California community members';
+ await page.getByText(warning,{exact:true}).waitFor();
+ if(new URL(page.url()).pathname!='/register')throw Error('Outside town was not blocked');
+ await caption('Registration is blocked with the Bay Area availability message');await sleep(6500);
+ await page.locator('#locality').fill('90001');
+ await caption('An outside-area ZIP code is also rejected');await sleep(4000);
+ await click('Verify mobile and register');await page.getByText(warning,{exact:true}).waitFor();await sleep(4500);
+ await page.locator('#locality').fill('Fremont · 94536');
+ await page.locator('#locality').press('Tab');
+ await caption('Correct the location to Fremont, a supported Bay Area town and ZIP');await sleep(5500);
+ await click('Verify mobile and register');
+ await page.getByLabel('Six-digit code').waitFor();
+ await caption('The eligible location can continue to simulated mobile verification');await sleep(6500);
 });
 await browser.close();})().catch(e=>{console.error(e);process.exit(1)});

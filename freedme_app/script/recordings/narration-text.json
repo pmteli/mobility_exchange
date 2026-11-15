@@ -68,5 +68,20 @@
   "Recipient receives one pickup follow-up with equipment, donor, date and time": "The recipient receives one simulated text with the equipment title, donor name, and scheduled pickup time.",
   "The message asks for YES or NO; incoming SMS replies are not connected yet": "The text asks for yes if the equipment was received, or no if it was not. Incoming text replies are not connected yet.",
   "The short link opens Requests & Handoffs to review the transaction": "The clickable short link opens Requests and Handoffs so the recipient can review the transaction.",
-  "A reminder does not confirm pickup or change the equipment status": "Sending a reminder does not confirm pickup or change the equipment status."
+  "A reminder does not confirm pickup or change the equipment status": "Sending a reminder does not confirm pickup or change the equipment status.",
+  "Registration eligibility \u00b7 Bay Area locations only": "FreeDME registration is currently available to Bay Area community members.",
+  "New member enters a display name and mobile number": "A new member enters their display name and mobile number.",
+  "Try registering with a town outside the Bay Area": "First, try Los Angeles, a town outside the supported Bay Area counties.",
+  "Registration is blocked with the Bay Area availability message": "Registration is blocked. FreeDME is currently available only for Bay Area, California community members.",
+  "An outside-area ZIP code is also rejected": "The same rule applies to an outside-area ZIP code.",
+  "Correct the location to Fremont, a supported Bay Area town and ZIP": "Next, correct the location to Fremont and ZIP code nine four five three six.",
+  "The eligible location can continue to simulated mobile verification": "The supported location proceeds to mobile verification. The account is not created until the code is confirmed.",
+  "Choose a scenario from the list, then press Play to watch the journey": "Choose a scenario from the list, then press Play to watch the journey.",
+  "Use playback speed to slow the video. Pause whenever you want to leave feedback": "Use playback speed to slow the video. Pause whenever you want to leave feedback.",
+  "Enter feedback below the video. Include the timestamp and what you would change": "Enter feedback below the video. Include the timestamp and what you would change.",
+  "Your notes are saved in this browser for each scenario. They are not sent automatically": "Your notes are saved in this browser for each scenario. They are not sent automatically.",
+  "Click Export feedback to download your notes. Send that file to the FreeDME review team": "Click Export feedback to download your notes. Send that file to the FreeDME review team.",
+  "You are ready to explore. The following recordings use fictional users and simulated SMS": "You are ready to explore. The following recordings use fictional users and simulated SMS.",
+  "My Activity: My Equipment, Requests & Handoffs, Questions & Answers, and Simulated SMS": "My Activity: My Equipment, Requests & Handoffs, Questions & Answers, and Simulated SMS.",
+  "Start here \u00b7 How to review and export feedback": "Welcome to the FreeDME review library. Here is how to watch the journeys and share your feedback."
 }

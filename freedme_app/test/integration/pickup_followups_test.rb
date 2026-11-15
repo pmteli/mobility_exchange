@@ -33,7 +33,9 @@ class PickupFollowupsTest < ActiveSupport::TestCase
     assert_includes message.body, @donor.display_name
     assert_includes message.body, ListingRevision.find(@exchange.revision_id).title
     assert_includes message.body, @proposal.meeting_at.in_time_zone.strftime("%-I:%M %p %Z")
-    assert_includes message.body, "Please reply YES"
+    assert_includes message.body, "Please open My Activity"
+    refute_includes message.body, "reply YES"
+    refute_includes message.body, "NO if"
     assert_includes message.body, "/s/requests"
   end
 

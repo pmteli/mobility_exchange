@@ -34,8 +34,9 @@ Rails.application.configure do
   config.log_tags = [ :request_id ]
   config.logger   = ActiveSupport::TaggedLogging.logger(STDOUT)
 
-  # Change to "debug" to log everything (including potentially personally-identifiable information!).
+  # Never log SQL debug dumps of custom-encrypted identity documents/contacts.
   config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
+  config.log_level = :info if config.log_level.to_s == "debug"
 
   # Prevent health checks from clogging up the logs.
   config.silence_healthcheck_path = "/up"

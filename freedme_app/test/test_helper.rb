@@ -1,4 +1,5 @@
 ENV["RAILS_ENV"] ||= "test"
+ENV["SMS_PROVIDER"] = "simulated"
 require_relative "../config/environment"
 require "rails/test_help"
 

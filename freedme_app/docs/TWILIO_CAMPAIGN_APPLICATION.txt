@@ -1,0 +1,153 @@
+FreeDME — Twilio A2P 10DLC campaign application
+Prepared November 14, 2026
+Status: prepared for Console entry; not submitted. No live SMS enabled.
+Requirements: FR003, FR018, FR027; later explicit user SMS-consent decisions. Messaging exception rules remain subject to DEC05.
+
+1. REGISTRATION DETAILS
+Legal brand: Mobility Exchange
+Organization: Non-profit Corporation (not LLC)
+Consumer-facing service: FreeDME
+Brand website: https://mobilityexchange.org
+Service website: https://www.freedme.org
+Support: inquiry@mobilityexchange.org
+Approved brand reported by owner: BNb92a8c2ad7add60a0e496f65743ecac9
+Confirm the approved brand in Console; do not create another brand.
+Campaign friendly name: FreeDME Account and Equipment Notifications
+Recommended use case: Account Notifications, if available for the approved brand and this scope. Confirm Console options before submission. Nonprofit status alone does not establish eligibility for a special charity campaign. No fundraising or marketing is included.
+Messaging Service: select the existing FreeDME Notifications service after verifying its identity and sender pool. Service/number status has not been checked for this application.
+
+2. CAMPAIGN DESCRIPTION — COPY INTO CONSOLE
+Mobility Exchange, a nonprofit corporation, operates FreeDME at www.freedme.org, a community service for giving, lending and receiving free mobility equipment in the San Francisco Bay Area, California. This campaign sends optional account and equipment-transaction notifications to registered users who explicitly opt in: welcome messages, listing-review and publication updates, equipment-request decisions, pickup proposals and confirmations, pickup reminders, and exchange or loan-return updates. Messages direct users to their authenticated FreeDME account to review details and take action. Message frequency depends on each user's activity. This campaign does not send marketing, fundraising, purchased-list or third-party promotional messages. Authentication codes are requested separately and handled through Twilio Verify, outside this notification campaign.
+
+3. HOW USERS CONSENT / MESSAGE FLOW — COPY INTO CONSOLE
+Users enter their own mobile number during FreeDME registration and request a verification code to verify possession of that number. Optional routine SMS consent is collected separately through an unchecked checkbox on the registration form; users may also opt in through their authenticated SMS preferences. Users can register and use the service without agreeing to routine SMS notifications. The checkbox identifies FreeDME and Mobility Exchange, describes the message types, states that message frequency varies and message/data rates may apply, and explains STOP and HELP. Privacy Policy and SMS Terms links appear beside the consent disclosure. Routine messages are sent only to active accounts with a recorded consent grant and no recorded STOP. Users may turn off routine SMS in their account preferences or reply STOP. Historical registration, seeded test accounts and requesting an authentication code do not constitute routine notification consent.
+
+The public page https://www.freedme.org/sms-consent.html documents the wording but is a disabled illustration, not an enrollment form. The current hosted registration is at https://demo.freedme.org/register behind the demo reviewer gate. Supply screenshots of the actual registration form and authenticated preferences, showing the unchecked checkbox and adjacent policy links, through Twilio's supported evidence mechanism. Do not describe the illustration as a working signup page or include demo passwords in public application text.
+
+4. EXACT CURRENT CHECKBOX WORDING
+I agree to receive FreeDME account and equipment-transaction text messages from Mobility Exchange, including listing updates, requests, pickup arrangements and reminders. Message frequency varies. Message and data rates may apply. Reply STOP to opt out or HELP for help. Consent is optional and is not a condition of donating, lending or requesting equipment.
+
+Separate verification disclosure:
+By continuing, you request a text message with a mobile-verification code for this sign-in or registration attempt. Message and data rates may apply. This does not enroll you in optional transaction notifications.
+
+5. PUBLIC POLICY URLS
+Privacy: https://www.freedme.org/privacy.html
+SMS terms: https://www.freedme.org/sms-terms.html
+Consent wording: https://www.freedme.org/sms-consent.html
+Use www URLs; apex policy-path forwarding has not been reliable.
+
+6. SAMPLE MESSAGES — PROPOSED FINAL PRODUCTION COPY
+These use fictional examples and the intended public account URL. Before submission, confirm the real messaging destination and align the production catalog with these samples. Most current templates do not include the FreeDME prefix; do not represent these as already deployed. The real service may use its branded short links, whose actual hostname/redirect destination must be documented and tested.
+
+Sample 1 — welcome:
+FreeDME: Welcome, Maya! Find, give or lend free mobility equipment for yourself or your loved ones. Visit https://www.freedme.org. Reply STOP to unsubscribe.
+
+Sample 2 — listing submitted:
+FreeDME: Thank you for offering your folding walker to a neighbor. Your listing is under review. We will notify you when it is published. Review your account: https://www.freedme.org/activity. Reply STOP to unsubscribe.
+
+Sample 3 — listing published:
+FreeDME: Your listing Folding walker was published. We will notify you when a neighbor is interested in your equipment. https://www.freedme.org/activity. Reply STOP to unsubscribe.
+
+Sample 4 — request approved:
+FreeDME: Your request for the folding walker has been approved by the donor. Please review the proposed pickup location and time and respond: https://www.freedme.org/activity. Reply STOP to unsubscribe.
+
+Sample 5 — pickup arrangement:
+FreeDME: Your proposed pickup arrangement has been accepted. Open My Activity for details: https://www.freedme.org/activity. Reply STOP to unsubscribe.
+
+Do not submit www.freedme.org/activity as a working route until the public app is available there. If the hosted demo is used for the pilot, replace it with the verified demo.freedme.org destination and resolve reviewer/end-user access. Never put identity-document details, exact addresses, or private conversation text in message samples.
+
+7. CAMPAIGN CONTENT DECLARATIONS
+Embedded links: Yes — FreeDME-owned website/account links.
+Embedded phone numbers: No in the prepared samples (audit the final catalog).
+Number pooling: No proposed; verify sender count before answering.
+Direct lending or loan arrangement: No financial lending. FreeDME lends physical mobility equipment for free; it does not arrange credit, cash loans or financing.
+Age-gated content: No proposed.
+Affiliate marketing / purchased contacts: No.
+Message frequency: varies with account and transaction activity; no fabricated monthly volume estimate.
+Only answer Console declarations against the final scope and actual implementation.
+
+8. STOP / HELP SETUP — CONFIGURE AND TEST, NOT YET VERIFIED
+Use Twilio Messaging Service Advanced Opt-Out; the app expects the OptOutType webhook field and suppresses routine SMS on STOP. Avoid sending duplicate carrier responses.
+Suggested STOP response:
+FreeDME: You have opted out of text notifications. No more routine messages will be sent. For help, email inquiry@mobilityexchange.org.
+Suggested HELP response:
+FreeDME by Mobility Exchange: For help, email inquiry@mobilityexchange.org. Message frequency varies. Msg & data rates may apply. Reply STOP to unsubscribe.
+Do not promise START automatically restores app consent: the app currently does not implement START recovery. Confirm recovery behavior and the configured keyword responses before activation.
+Proposed webhook paths on the actual Rails HTTPS origin:
+POST /webhooks/twilio/incoming
+POST /webhooks/twilio/status
+Provider signatures are checked by Rails. Ensure proxy authentication does not block Twilio callbacks; do not remove authentication globally to accomplish this.
+
+9. SUBMISSION / ACTIVATION CHECKLIST
+Before submission:
+[ ] Verify approved brand, selected Messaging Service and number in Console.
+[ ] Confirm final sending hostname, working account links and screenshot evidence of real opt-in.
+[ ] Align final catalog and application samples, including sender identification.
+[ ] Ensure mobilityexchange.org clearly identifies FreeDME and links to the same policies/service.
+[ ] Attach real registration/preferences evidence. The public disabled illustration alone is not proof of enrollment.
+
+Before live activation:
+[ ] Remove simulation annotations from live notification copy without changing recording-mode behavior.
+[ ] Q&A alerts remain in code although SMS Terms exclude them. Keep those alerts out of live scope unless the user approves revised terms/consent.
+[ ] Resolve pickup follow-up asking for YES/NO: current live inbound webhook does not update transactions. Implement/test replies or obtain approval to direct responses through authenticated website actions.
+[ ] Record consent disclosure version, time and source; existing consent events do not explicitly identify the new policy-text version.
+[ ] Test STOP, HELP, local preferences, suppression, approved re-consent, signature failures and delivery callbacks with opted-in test numbers.
+[ ] Verify campaign approval and sending-number association; brand approval is not campaign approval.
+[ ] Configure secrets securely, verify routing and run a small controlled test before enabling general delivery. Do not enroll sample users or send to unconsenting numbers.
+
+10. OFFICIAL REFERENCES
+Twilio campaign creation / brand and Messaging Service selection:
+https://www.twilio.com/docs/trust-hub/registrations/a2p-10dlc-campaign
+Twilio registration quickstart:
+https://www.twilio.com/docs/messaging/compliance/a2p-10dlc/quickstart
+Campaign onboarding and evidence guidance:
+https://help.twilio.com/articles/11847054539547
+
+This package prepares the application only. It does not submit a campaign, accept new charges, change the message catalog, publish a new enrollment flow or enable live messaging.
+
+VERIFICATION UPDATE — November 14, 2026
+Confirmed in signed-in Twilio Console:
+FreeDME Notifications — MG5c471570e23817929c24955447d40b9c (US1).
+Service detail shows "No channel capabilities No senders added". No sender telephone number can be confirmed for this service. Compliance tab states "No 10DLC numbers added to this service" and asks for senders before creating a campaign. The service exists despite the Console name search returning no results; direct SID detail confirmed it. No settings changed, no number purchased, no campaign submitted.
+
+HTTP verification without authentication (TLS verified using system curl):
+https://demo.freedme.org/s/items — 401, demo reviewer authentication required.
+https://demo.freedme.org/s/requests — 401.
+https://demo.freedme.org/register — 401.
+https://www.freedme.org/s/items and /s/requests — 404.
+https://www.freedme.org/register — 404.
+https://freedme.org/s/items, /s/requests and /register — 404.
+Local /s/items and /s/requests redirect to /sign-in (200); local /register returns 200.
+Conclusion: no publicly accessible transaction SMS destination confirmed. Do not submit the proposed www account URLs as working links. The demo reviewer gate is separate from normal participant sign-in. Resolving that gate or deploying public account routes requires a separate deployment/security decision; it was not changed during this read-only verification.
+
+Actual local registration evidence (not a mockup):
+docs/twilio-evidence/registration-opt-in.png — consent detail viewport.
+docs/twilio-evidence/registration-full-page.png — complete registration page.
+Source: http://localhost:3001/register. Empty fields; optional SMS checkbox unchecked; Privacy Policy and SMS Terms links visible; mobile verification disclosure separate. The page identifies itself as a local simulation. These screenshots are local implementation evidence, not proof of publicly accessible hosted enrollment. Capture the hosted registration after resolving access before presenting it as production evidence. No registration submitted or SMS sent.
+
+SENDER CONFIRMED — November 14, 2026 (supersedes no-sender finding above)
+User added +1 510-674-1861. Verified on FreeDME Notifications sender list: Local - 10DLC, SMS and MMS capabilities. Compliance now shows Required and offers "Start 10DLC A2P campaign registration". Campaign registration remains outstanding. No sending or registration action was performed. Public message-link and hosted opt-in access findings remain unresolved.
+
+PUBLIC DEMO ACCESS UPDATE — November 14, 2026
+On user approval the demo-wide reviewer gate was removed, retaining it on test-data/SMS inbox routes. https://demo.freedme.org/register now returns 200; https://demo.freedme.org/s/items and /s/requests redirect to Rails sign-in. These are the verified hosted pilot destinations. www.freedme.org remains the coming-soon host, not the transaction app. This routing change does not itself change SMS_LINK_BASE_URL or enable live SMS.
+
+PERMANENT URL PLAN — November 14, 2026
+User approved stable www.freedme.org enrollment and message destinations while retaining the Coming Soon homepage. Use https://www.freedme.org/register for enrollment and https://www.freedme.org/s/items or /s/requests for relevant authenticated views. The hosted SMS_LINK_BASE_URL is being set to https://www.freedme.org; this supersedes the proposed demo-domain sample links above. The demo and www routes share the isolated pilot database, simulated SMS and Rails role authorization. Do not describe this deployment as a fully launched service.
+
+VERIFIED: permanent www routes deployed and hosted link generator returns https://www.freedme.org/s/items; live_sms=false. Registration/sign-in 200; items/requests short links redirect to same-host sign-in. Hosted opt-in screenshot: docs/twilio-evidence/www-registration-full-page.png. Use www registration as current enrollment evidence; earlier local-only and 404 findings are superseded for www. Apex freedme.org path routing was not changed.
+
+PICKUP REPLY CHANGE — November 14, 2026
+User requested removal of YES/NO SMS replies for now. The pickup_followup catalog entry now directs recipients to My Activity to review the pickup and confirm handoff if received. This supersedes the prior YES/NO mismatch item for newly generated messages. Inbound YES/NO processing remains unimplemented and is not advertised by this message. Existing message history and prerecorded videos are not rewritten.
+
+Q&A NOTIFICATIONS RESTORED TO TERMS — November 14, 2026
+User explicitly requested adding Q&A alerts back to SMS Terms. Messages you can receive now includes notifications when someone asks a question about equipment or a donor answers a question. Actual Q&A text remains inside the authenticated website. This supersedes the earlier recommendation to exclude Q&A alerts from campaign scope. Local terms updated; public publication remains pending. Include these generic equipment Q&A notifications in the final campaign description.
+
+SENDER IDENTIFICATION — November 14, 2026
+Added FreeDME: to the 16 SMS catalog messages lacking the service name. Welcome, simulated OTP and pickup follow-up already identify FreeDME and retain their existing wording. Applies to newly generated simulated and catalog-based live notifications; Twilio Verify uses its own service configuration. Local change, not yet published to Lightsail.
+
+14 November 2026: Deployed SMS catalog and SMS Terms to Lightsail. All 19 hosted templates identify FreeDME; pickup follow-up directs recipients to My Activity instead of YES/NO replies. Public www and demo SMS Terms match local bytes and include generic Q&A notifications. Rails image rebuilt; web/worker restarted. Hosted runner confirmed live_sms=false and https://www.freedme.org/s/requests. Health/register 200; inbox remains 401. Backup /home/ubuntu/sms-before-update-20261115T062830. Existing SMS history and recordings unchanged.
+
+CAMPAIGN SUBMITTED — November 14, 2026 (Pacific)
+User explicitly accepted $15 per vetting request and $10/month Account Notification fees. Used existing approved FreeDME — Mobility Exchange brand and sender +1 510-674-1861 in FreeDME Notifications. Twilio confirmed: "Thank you for your Campaign submission!" and "Set up A2P Campaign registration In Review".
+Use case: ACCOUNT_NOTIFICATION. Included listing, request, pickup, exchange/return and Q&A alerts; no marketing or financial lending. Disclosed pilot simulated verification/delivery and separate Twilio Verify authentication. Public enrollment evidence: https://www.freedme.org/register; policies at /privacy.html and /sms-terms.html. Five samples use FreeDME identifier and www branded links. Embedded links yes; phone numbers, financial lending and age-gated content no. Text opt-in fields left blank because web enrollment is used; Twilio summary defaults keywords to START, YES, UNSTOP. Before live activation verify actual keyword behavior and app reconsent handling.
+Automated preflight repeatedly flagged consent to affiliates/other companies. Clarified that Mobility Exchange is the registered business and FreeDME its consumer-facing service, quoted the exact unchecked optional checkbox, and cited https://mobilityexchange.org operator statement. Warning persisted; submitted through Twilio's available Submit registration control for review. This warning is not resolved by submission and may require follow-up. Campaign approval is pending; live SMS remains disabled. No messages sent.

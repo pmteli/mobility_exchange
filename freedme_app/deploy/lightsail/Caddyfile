@@ -1,0 +1,45 @@
+demo.freedme.org {
+    encode zstd gzip
+    header {
+        X-Robots-Tag "noindex, nofollow"
+        X-Content-Type-Options "nosniff"
+        Referrer-Policy "strict-origin-when-cross-origin"
+    }
+    redir /journeys /journeys/ 308
+    handle /journeys/* {
+        root * /srv
+        file_server
+    }
+    @reviewer_tools path /test-data /test-data/* /test-data.*
+    handle @reviewer_tools {
+        basic_auth {
+            reviewer {$FREEDME_REVIEWER_HASH}
+        }
+        reverse_proxy freedme-rails-preview:3000
+    }
+    handle {
+        reverse_proxy freedme-rails-preview:3000
+    }
+}
+www.freedme.org {
+    encode zstd gzip
+    header {
+        X-Content-Type-Options "nosniff"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        Cache-Control "no-cache"
+    }
+    redir /journeys https://demo.freedme.org/journeys/ 302
+    redir /journeys/* https://demo.freedme.org{uri} 302
+    @test_tools path /test-data /test-data/* /test-data.*
+    handle @test_tools {
+        redir https://demo.freedme.org{uri} 302
+    }
+    @public_static path / /index.html /share.html /privacy.html /sms-terms.html /sms-consent.html /community-care-logo.png /policy-assets/*
+    handle @public_static {
+        root * /srv/coming-soon
+        file_server
+    }
+    handle {
+        reverse_proxy freedme-rails-preview:3000
+    }
+}

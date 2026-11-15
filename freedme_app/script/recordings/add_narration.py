@@ -2,12 +2,14 @@
 import json, subprocess, hashlib, wave, array, os
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[3]
-source=ROOT/'output/rails-demo'
-output=ROOT/'output/rails-demo-narrated'
+source=Path(os.environ.get('RECORDING_OUTPUT', str(ROOT/'output/rails-demo')))
+output=Path(os.environ.get('NARRATION_OUTPUT', str(ROOT/'output/rails-demo-narrated')))
 texts=json.loads(Path(__file__).with_name('narration-text.json').read_text())
 timelines=json.loads((output/'caption-timings.json').read_text())
 only=set(filter(None,os.environ.get('ONLY_NARRATION','').split(',')))
 items=json.loads((source/'manifest.json').read_text())
+previous={i['slug']:i for i in json.loads((output/'manifest.json').read_text())} if (output/'manifest.json').exists() else {}
+items=[previous.get(i['slug'],i) if only and i['slug'] not in only else i for i in items]
 (output/'audio').mkdir(parents=True,exist_ok=True)
 def seconds(path):
  return float(subprocess.check_output(['ffprobe','-v','error','-show_entries','format=duration','-of','default=nw=1:nk=1',str(path)]))

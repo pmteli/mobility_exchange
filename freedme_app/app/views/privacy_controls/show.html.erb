@@ -1,0 +1,12 @@
+<h1>Privacy &amp; deletion</h1>
+<p>You can request permanent deletion of your account and personal records. The other participant’s records will be preserved, with your personal information removed.</p>
+<% if @deletion_request %>
+  <p role="status">Deletion requested on <%= @deletion_request.requested_at.to_date %>. Status: awaiting administrator review. Your data has not yet been deleted.</p>
+<% else %>
+  <%= form_with url: privacy_deletion_path do |f| %>
+    <label class="check"><%= check_box_tag :confirmed, '1', false, required: true %> I request permanent deletion of my account and personal records.</label>
+    <%= f.button 'Request permanent deletion', class: 'primary' %>
+  <% end %>
+<% end %>
+<p>Contact <a href="mailto:inquiry@mobilityexchange.org">inquiry@mobilityexchange.org</a> for help.</p>
+<%= link_to 'Back to My Activity', activity_path, class: 'button-link' %>

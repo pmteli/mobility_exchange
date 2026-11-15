@@ -10,12 +10,14 @@ services:
       RAILS_ENV: development
       PGHOST: mobility-exchange-rails-db-1
       PGPORT: "5432"
+      PRIVACY_BACKUP_DIRECTORY: /var/lib/freedme/backups
     ports:
       - "127.0.0.1:3001:3000"
     networks:
       - existing_postgres
     volumes:
       - equipment_photos:/app/storage/equipment_photos
+      - privacy_backups:/var/lib/freedme/backups
     init: true
     restart: unless-stopped
   journey_worker:
@@ -26,10 +28,12 @@ services:
       RAILS_ENV: development
       PGHOST: mobility-exchange-rails-db-1
       PGPORT: "5432"
+      PRIVACY_BACKUP_DIRECTORY: /var/lib/freedme/backups
     networks:
       - existing_postgres
     volumes:
       - equipment_photos:/app/storage/equipment_photos
+      - privacy_backups:/var/lib/freedme/backups
     init: true
     restart: unless-stopped
 networks:
@@ -38,4 +42,5 @@ networks:
     name: mobility-exchange-rails_default
 
 volumes:
+  privacy_backups:
   equipment_photos:

@@ -1,0 +1,46 @@
+FreeDME privacy operations — 14 November 2026
+Requirements: PRS v0.10 FR021/FR022, NFR004 and DEC03, superseded by the explicit November retention decisions.
+
+Implemented lifecycle
+- Gift retention ends on participant handoff confirmation or seven elapsed days after the latest mutually accepted pickup time. The latter does NOT assert that a physical handoff occurred.
+- Loan retention ends when either participant confirms return.
+- Original identity document ciphertext is removed at retention end or seven days after upload, whichever is earlier. The worker checks every 30 seconds; the private-image endpoint checks exchange end before serving a document. Expired documents are inaccessible even while the worker is down.
+- Extracted identity fields remain in the private operational database until a deletion request is executed. Q&A is marked archived at exchange end; another live exchange for the same listing and participants prevents premature thread archival.
+- ReportingArchive contains only category, gift/loan, outcome, and private source references. Privacy::Reporting.summary returns grouped counts without source references. Photos, precise locations, text, messages, names and contact details are omitted. These archives are not a public anonymous dataset; small groups can be identifying and should not be published without further review.
+- Original operational transactions, SMS/consent records, investigations and structured audits remain private indefinitely unless erased. No unreviewed text or photos are copied into the reporting export.
+- Authenticated requests and successful sign-in update last_activity_at. The administrator page lists accounts with three months of inactivity, due for review every three months. Marking reviewed retains the account. Existing accounts without activity timestamps use account creation time.
+
+Backups
+- Local compose mounts the persistent privacy_backups volume at /var/lib/freedme/backups for web and worker. Backup files are outside the source tree and image builds.
+- PRIVACY_BACKUP_KEY must be an independent random 32-byte key (64 hex characters), kept in the private environment file outside backup storage. Losing it loses access to these backups. Never print or commit it.
+- The worker creates an encrypted PostgreSQL logical backup when no backup newer than 24 hours exists. No time-based expiry is applied.
+- Administrators can view backup count/latest creation time and use Create Backup Now in My Activity → Backup & Recovery. Moderator-only accounts cannot access these controls. The recovery link opens these instructions; live restore is not exposed as a web action.
+- Manual: bin/rails privacy:backup. Maintenance: bin/rails privacy:maintain.
+- Backups use a consistent PostgreSQL snapshot and exclude all identity source image bytes, even before their seven-day deadline. Extracted identity fields are retained in encrypted database backups. Restoring a backup cannot restore source identity images.
+- This backs up the DATABASE only, not equipment photo files, application encryption keys, environment secrets, infrastructure or executable code. It is not a full disaster-recovery image. Do not add raw identity uploads to a filesystem backup.
+- Existing external backups/snapshots/copied uploads: user confirmed NONE on 14 November 2026. If this changes, update the erasure inventory before creating those copies.
+- Old backups and privacy review files are invalidated before a permanent erasure. The next backup contains the post-erasure database. Failure during erasure may remove backups even if SQL rolls back; a fresh backup can be created after resolving the failure. No obsolete backup should be restored after an erasure.
+
+Deletion controls
+- Users submit their own request at /privacy-controls (linked from My Activity). Submission does not delete data or claim completion.
+- /admin/privacy requires the explicit administrator role. Moderator alone is insufficient. No new administrator is automatically granted.
+- Permanent erasure is a separate maintenance command, disabled by default. It needs the database owner, a different active administrator, an existing user request, reviewed shared content/media/logs, and an unchanged snapshot. It is not an HTTP endpoint.
+- Plan: bin/rails runner script/privacy_erasure.rb plan ACCOUNT_UUID ADMIN_UUID
+- The generated UUID.review.json file is private (0600), in the backup directory. It deliberately includes ALL supported shared text and media references, because the requesting user's details may appear in another participant's message.
+- Review every value and photo. Edit only value fields to remove the requesting user's personal information while preserving the other participant's content. Do not edit IDs, digests, media entries or fingerprint. Preserve required nonempty equipment titles, for example 'Equipment (personal details removed)'. Keep schema-constrained values valid.
+- Review/replace any images containing the requesting user's personal information through existing equipment controls, then generate a fresh plan. Files shared across different accounts or unknown legacy storage locations block erasure until separately resolved.
+- SQL debug logging is disabled in development/production to prevent document ciphertext and contact details being duplicated in diagnostic logs. Existing diagnostic logs from before this change still require one-time review.
+- Review and redact application logs, private exports and any copied review material. The application does not claim it can automatically redact arbitrary plain-text log files. Confirm application_logs_reviewed only after this is done. Also set shared_content_reviewed and media_reviewed to true when finished.
+- Execute with PRIVACY_ERASURE_MAINTENANCE=1 bin/rails runner script/privacy_erasure.rb execute ACCOUNT_UUID ADMIN_UUID PLAN_BASENAME
+- If content changed, regenerate and re-review. Do not bypass this guard.
+- Erasure removes contacts, credentials, OTP/session registration data, extracted and source identity, evidence disclosures, user-addressed SMS/delivery and consent records, user audit/document-access records and photos. It removes the requesting user's authored conversation text and moderator notes; counterpart-authored content survives after review.
+- Shared exchanges remain. Unfinished exchanges close as unavailable, never as a confirmed handoff/return. A closed non-contactable account anchor named 'Deleted account' remains solely to preserve relational integrity and the other participant's history. This is not deletion of shared transactions in full.
+- No completion record containing the deleted user's identity is kept. The request row is removed after successful erasure. Existing sessions stop resolving the closed account.
+- Maintenance temporarily suspends only named history/frozen-text triggers within a locked transaction. Foreign keys and business-state guards stay enabled. PostgreSQL rolls back trigger changes on failure. Production must use a separate database-owner maintenance credential; the normal web/worker role must not own tables or have ALTER privileges. The current local prototype uses its existing owner credential.
+- Never execute the maintenance command on real accounts merely to test it. Automated tests use the isolated test database.
+
+Publication limits
+This implementation does not constitute legal approval or production launch approval. Before publishing guarantees, verify deployed worker health, backup volume/key provisioning, the production database role separation, restore procedures, and the administrator's shared-content/log review process. Do not represent OCR or human-confirmed extracted fields as independent document authenticity verification.
+
+Restore rehearsal
+Create an EMPTY scratch PostgreSQL database named freedme_restore_<suffix> using the database owner's normal tools. From a Rails console with the backup directory/key configured, call Privacy::ManagedBackup.restore_into!(basename: '<generated>.backup', database: 'freedme_restore_<suffix>'). The method refuses existing tables, verifies the encrypted envelope, and restores in a single transaction. Original identity images remain absent. Verify records and access controls before any separately approved cutover. Never point a restore at the live application database. The backup test rehearses restore when PRIVACY_RESTORE_TEST_DATABASE names a separately provisioned empty scratch database. Provision and drop that scratch database with the database-owner credential; do not grant CREATEDB to the runtime role.

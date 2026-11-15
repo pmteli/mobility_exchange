@@ -1,0 +1,8 @@
+<h1>Privacy administration</h1>
+<p><%= link_to "Privacy operations guide", privacy_operations_path, class: "button" %> — Backup, retention, deletion and restore procedures.</p>
+<h2>Deletion requests</h2>
+<p>Requests cannot be marked complete until live records, shared content, managed backups and external copies have been checked. Preserve the other participant’s records. Never treat submitting a request as completed deletion.</p>
+<% @requests.each do |request| %><article class="panel"><h3><%= request.account.display_name %></h3><p>Requested <%= request.requested_at %> · <%= request.state.humanize %></p></article><% end %>
+<h2>Quarterly inactive-account review</h2>
+<p>Accounts below have no recorded authenticated activity for three months and are due for review. Reviewing an account does not delete it.</p>
+<% @inactive.each do |account| %><article class="panel"><h3><%= account.display_name %></h3><p>Last activity: <%= account.last_activity_at || account.created_at %></p><%= button_to 'Mark reviewed — retain account', privacy_review_account_path(account), method: :patch %></article><% end %>

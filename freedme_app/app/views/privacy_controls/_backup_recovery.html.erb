@@ -1,0 +1,14 @@
+<section class="panel" id="backup-recovery" aria-labelledby="backup-recovery-title">
+  <h2 id="backup-recovery-title">Backup &amp; Recovery</h2>
+  <% if status[:available] %>
+    <p><strong>Stored backups:</strong> <%= status[:count] %></p>
+    <p><strong>Latest backup:</strong> <%= status[:latest_at] ? status[:latest_at].in_time_zone.strftime('%b %-d, %Y at %-I:%M %p %Z') : 'No backup created yet' %></p>
+    <% if status[:latest_at] && status[:latest_at] < 24.hours.ago %><p role="status">The latest backup is more than 24 hours old. Check the maintenance worker.</p><% end %>
+    <%= button_to 'Create Backup Now', privacy_backup_path, class: 'primary', form: { data: { turbo_submits_with: 'Creating backup…' } }, data: { turbo_submits_with: 'Creating backup…', disable_with: 'Creating backup…' } %>
+  <% else %>
+    <p role="alert">Backup storage or encryption configuration is unavailable. Contact the system operator.</p>
+  <% end %>
+  <p>Automatic backups run daily. Encrypted database backups are stored on this server. Original identity documents and equipment photo files are excluded. Backup timestamps do not confirm a successful recovery test.</p>
+  <p>Recovery requires an operator to restore into an empty scratch database and verify it before any live cutover.</p>
+  <%= link_to 'Recovery instructions & privacy operations', privacy_operations_path, class: 'button-link' %>
+</section>

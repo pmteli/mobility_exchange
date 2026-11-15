@@ -19,4 +19,6 @@ check(Exchange.where(listing_id:sample_id(2002),state:'expired').exists?,'expire
 check(Exchange.where(listing_id:sample_id(2002),state:'pending').exists?,'retry created fresh pending request')
 check(ModeratorTask.where(outcome:'not_handed_off',state:'resolved').exists?,'moderator follow-up resolved')
 check(SimulatedSmsMessage.count>20,'simulated notification records exist')
+check(!Account.where(display_name: 'Jordan Demo').exists?, 'eligibility demo stops before account creation')
+check(SimulatedSmsMessage.where(template_code: 'pickup_followup').count == 1, 'one pickup follow-up sent')
 puts 'All recording outcomes verified in isolated database.'

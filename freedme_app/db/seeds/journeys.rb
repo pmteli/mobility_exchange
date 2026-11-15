@@ -18,7 +18,7 @@ module JourneySeeds
     "019a0000-0000-7000-8000-#{format('%012d', n)}"
   end
   def self.load!
-    raise "Journey fixtures are development/test only" unless Rails.env.development? || Rails.env.test?
+    raise "Journey fixtures are development/test only" unless Journeys::Support.enabled?
     ApplicationRecord.transaction do
       key = Rails.application.key_generator.generate_key("freedme fictional seed contacts v1", 32)
       encryptor = ActiveSupport::MessageEncryptor.new(key)

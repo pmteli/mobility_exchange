@@ -28,6 +28,25 @@ class LiveJourneysTest < ActionDispatch::IntegrationTest
   def approve(exchange)
     Journeys::Workflow.new(@donor).change!(exchange.id, "approve", meeting_at: 2.days.from_now.strftime("%Y-%m-%dT12:00"), location: "Sample public library")
   end
+  test "donors and recipients can disable SMS while simulation is active" do
+    [1, 3].each do |number|
+      login(number)
+      get activity_path
+      assert_select "a[href=?]", activity_path(anchor: "panel-messages"), text: "SMS preferences"
+      assert_select "#panel-messages form[action=?]", sms_preferences_path
+      patch sms_preferences_path, params: {sms_consent: "1"}
+      assert_redirected_to activity_path(anchor: "panel-messages")
+      get activity_path
+      assert_select "#panel-messages input[name=sms_consent][checked]", count: 1
+      patch sms_preferences_path, params: {sms_consent: "0"}
+      assert_redirected_to activity_path(anchor: "panel-messages")
+      get activity_path
+      assert_select "#panel-messages input[name=sms_consent][checked]", count: 0
+      contact = AccountContact.find_by!(account_id: JourneySeeds.id(number), kind: "mobile", revoked_at: nil)
+      refute Integrations::SmsConsent.allowed?(contact.lookup_hmac)
+    end
+  end
+
   test "equipment back link returns owners to activity and moderators to reviews" do
     login(5)
     get equipment_path(@listing)
@@ -103,7 +122,7 @@ class LiveJourneysTest < ActionDispatch::IntegrationTest
     assert_raises(Journeys::Error) { other.change!(exchange.id, "decline") }
     assert_equal 1, Exchange.where(listing_id: @listing.id).count
   end
-  test "loan handoff blocks revoke recipient return and requires donor reopening" do
+  test "loan handoff blocks revoke and allows recipient return before donor reopening" do
     loan = Listing.find(JourneySeeds.id(1004))
     publish(loan)
     exchange = request_item(loan)
@@ -114,9 +133,10 @@ class LiveJourneysTest < ActionDispatch::IntegrationTest
     Journeys::Workflow.new(@donor).change!(exchange.id, "handoff")
     assert_equal "loaned", exchange.reload.state
     assert_raises(Journeys::Error) { recipient_flow.change!(exchange.id, "revoke") }
-    assert_raises(Journeys::Error) { recipient_flow.change!(exchange.id, "return") }
+    recipient_flow.change!(exchange.id, "return")
+    assert_equal "loan_return_confirmed", exchange.reload.retention_end_reason
     donor_flow = Journeys::Workflow.new(@donor)
-    donor_flow.change!(exchange.id, "return")
+    assert_raises(Journeys::Error) { donor_flow.change!(exchange.id, "return") }
     assert_equal "unavailable", loan.reload.status
     donor_flow.reopen!(loan.id, "1")
     assert_equal "available", loan.reload.status
@@ -140,6 +160,26 @@ class LiveJourneysTest < ActionDispatch::IntegrationTest
       assert_equal "reserved", replacement.reload.state
     end
   end
+  test "registration rejects unsupported locations before issuing a code" do
+    ["Los Angeles", "90001", "Sacramento", "95814", "Los Angeles · 94536", "Fremont · 90001"].each do |locality|
+      assert_no_difference ["Account.count", "AuthChallenge.count", "SimulatedSmsMessage.count"] do
+        post register_path, params: {mobile: "5105550199", display_name: "Tester", locality: locality}
+      end
+      assert_response :unprocessable_entity
+      assert_includes response.body, "FreeDME is currently available only for Bay Area, California community members"
+    end
+  end
+
+  test "registration rechecks location before account creation" do
+    pending = Journeys::Authentication.start!(mobile: "5105550199", name: "Tester", locality: "94536", registration: true)
+    code = SimulatedSmsMessage.where(recipient: "+15105550199", template_code: "sign_in_otp").order(created_at: :desc).first!.body[/code: (\d+)/, 1]
+    pending["locality"] = "90001"
+    assert_no_difference "Account.count" do
+      assert_raises(Journeys::Error) { Journeys::Authentication.verify!(pending, code) }
+    end
+    assert_nil AuthChallenge.find(pending["challenge_id"]).consumed_at
+  end
+
   test "new registration and question answer persist" do
     post register_path, params: {mobile: "5105550111", display_name: "New Tester", locality: "Newark"}
     refute Account.exists?(display_name: "New Tester")

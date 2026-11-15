@@ -240,8 +240,8 @@ BEGIN
   IF NEW.actor_id IS NULL OR NEW.actor_id NOT IN(ex.donor_id,ex.requester_id) OR ex.state NOT IN('reserved','loaned','completed')
   THEN RAISE EXCEPTION 'Only a participant may confirm a reserved handoff'; END IF;
  ELSIF NEW.event_type='return_confirmed' THEN
-  IF NEW.actor_id IS DISTINCT FROM ex.donor_id OR ex.state NOT IN('loaned','completed')
-  THEN RAISE EXCEPTION 'Only donor may confirm loan return'; END IF;
+  IF (NEW.actor_id IS NULL OR NEW.actor_id NOT IN(ex.donor_id,ex.requester_id)) OR ex.state NOT IN('loaned','completed')
+  THEN RAISE EXCEPTION 'Only an authorized participant may confirm loan return'; END IF;
  END IF;
  RETURN NEW;
 END $$;
@@ -378,6 +378,8 @@ CREATE TABLE freedme.accounts (
     public_locality text NOT NULL,
     created_at timestamp with time zone DEFAULT now() NOT NULL,
     closed_at timestamp with time zone,
+    last_activity_at timestamp(6) without time zone,
+    last_inactivity_reviewed_at timestamp(6) without time zone,
     CONSTRAINT accounts_display_name_check CHECK (((length(TRIM(BOTH FROM display_name)) >= 1) AND (length(TRIM(BOTH FROM display_name)) <= 80))),
     CONSTRAINT accounts_status_check CHECK ((status = ANY (ARRAY['active'::text, 'restricted'::text, 'closed'::text])))
 );
@@ -464,6 +466,8 @@ CREATE TABLE freedme.auth_challenges (
     consumed_at timestamp with time zone,
     invalidated_at timestamp with time zone,
     created_at timestamp with time zone DEFAULT now() NOT NULL,
+    provider character varying DEFAULT 'simulated'::character varying NOT NULL,
+    provider_sid character varying,
     CONSTRAINT auth_challenges_check CHECK ((expires_at > created_at)),
     CONSTRAINT auth_challenges_check1 CHECK (((failed_attempts < 3) OR (invalidated_at IS NOT NULL))),
     CONSTRAINT auth_challenges_failed_attempts_check CHECK (((failed_attempts >= 0) AND (failed_attempts <= 3)))
@@ -509,6 +513,8 @@ CREATE TABLE freedme.exchanges (
     closed_at timestamp with time zone,
     closure_reason text,
     idempotency_key uuid NOT NULL,
+    retention_ended_at timestamp(6) without time zone,
+    retention_end_reason character varying,
     CONSTRAINT exchanges_check CHECK ((donor_id <> requester_id)),
     CONSTRAINT exchanges_check1 CHECK ((pending_reminder_at = (requested_at + '24:00:00'::interval))),
     CONSTRAINT exchanges_check10 CHECK (((proposed_end_date IS NULL) OR ((proposed_start_date IS NOT NULL) AND (proposed_end_date >= proposed_start_date)))),
@@ -522,7 +528,9 @@ CREATE TABLE freedme.exchanges (
     CONSTRAINT exchanges_check9 CHECK (((state = ANY (ARRAY['completed'::text, 'declined'::text, 'expired'::text, 'cancelled'::text, 'closed_unavailable'::text])) = (closed_at IS NOT NULL))),
     CONSTRAINT exchanges_paused_reason_check CHECK ((paused_reason = ANY (ARRAY['delivery_failure'::text, 'opt_out'::text, 'nonresponse'::text, 'security'::text, 'safety'::text]))),
     CONSTRAINT exchanges_requested_loan_days_check CHECK ((requested_loan_days > 0)),
-    CONSTRAINT exchanges_state_check CHECK ((state = ANY (ARRAY['pending'::text, 'offered'::text, 'reserved'::text, 'loaned'::text, 'completed'::text, 'declined'::text, 'expired'::text, 'cancelled'::text, 'closed_unavailable'::text])))
+    CONSTRAINT exchanges_state_check CHECK ((state = ANY (ARRAY['pending'::text, 'offered'::text, 'reserved'::text, 'loaned'::text, 'completed'::text, 'declined'::text, 'expired'::text, 'cancelled'::text, 'closed_unavailable'::text]))),
+    CONSTRAINT retention_end_complete CHECK (((retention_ended_at IS NULL) = (retention_end_reason IS NULL))),
+    CONSTRAINT retention_end_reason_valid CHECK (((retention_end_reason)::text = ANY ((ARRAY['gift_confirmed'::character varying, 'gift_pickup_elapsed'::character varying, 'loan_return_confirmed'::character varying])::text[])))
 );
 
 
@@ -830,6 +838,7 @@ CREATE TABLE freedme.equipment_questions (
     answered_at timestamp with time zone,
     answered_by uuid,
     idempotency_key uuid NOT NULL,
+    archived_at timestamp(6) without time zone,
     CONSTRAINT equipment_questions_check CHECK ((requester_id <> donor_id)),
     CONSTRAINT equipment_questions_check1 CHECK (((state = 'answered'::text) = (answer_ciphertext IS NOT NULL))),
     CONSTRAINT equipment_questions_check2 CHECK (((answer_ciphertext IS NULL) = (answered_at IS NULL))),
@@ -897,6 +906,30 @@ CREATE TABLE freedme.gateway_events (
     event_type text NOT NULL,
     received_at timestamp with time zone DEFAULT now() NOT NULL,
     processed_at timestamp with time zone
+);
+
+
+--
+-- Name: identity_document_uploads; Type: TABLE; Schema: freedme; Owner: -
+--
+
+CREATE TABLE freedme.identity_document_uploads (
+    id uuid DEFAULT uuidv7() NOT NULL,
+    account_id uuid NOT NULL,
+    listing_id uuid NOT NULL,
+    revision_id uuid NOT NULL,
+    exchange_id uuid,
+    document_kind character varying NOT NULL,
+    state character varying DEFAULT 'processing'::character varying NOT NULL,
+    image_ciphertext bytea,
+    fields_ciphertext bytea,
+    purge_due_at timestamp(6) without time zone NOT NULL,
+    image_deleted_at timestamp(6) without time zone,
+    confirmed_at timestamp(6) without time zone,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    CONSTRAINT identity_upload_kind CHECK (((document_kind)::text = ANY ((ARRAY['utility_bill'::character varying, 'government_id'::character varying])::text[]))),
+    CONSTRAINT identity_upload_state CHECK (((state)::text = ANY ((ARRAY['processing'::character varying, 'extracted'::character varying, 'failed'::character varying, 'confirmed'::character varying])::text[])))
 );
 
 
@@ -1154,6 +1187,19 @@ CREATE TABLE freedme.policy_versions (
 
 
 --
+-- Name: privacy_deletion_requests; Type: TABLE; Schema: freedme; Owner: -
+--
+
+CREATE TABLE freedme.privacy_deletion_requests (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    account_id uuid NOT NULL,
+    state character varying DEFAULT 'pending_review'::character varying NOT NULL,
+    requested_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    CONSTRAINT privacy_request_state CHECK (((state)::text = ANY ((ARRAY['pending_review'::character varying, 'reviewing'::character varying])::text[])))
+);
+
+
+--
 -- Name: private_messages; Type: TABLE; Schema: freedme; Owner: -
 --
 
@@ -1210,6 +1256,21 @@ CREATE TABLE freedme.registration_sessions (
     CONSTRAINT registration_sessions_check1 CHECK (((intended_action <> 'request'::text) OR (listing_id IS NOT NULL))),
     CONSTRAINT registration_sessions_display_name_check CHECK (((length(TRIM(BOTH FROM display_name)) >= 1) AND (length(TRIM(BOTH FROM display_name)) <= 80))),
     CONSTRAINT registration_sessions_intended_action_check CHECK ((intended_action = ANY (ARRAY['donate'::text, 'request'::text])))
+);
+
+
+--
+-- Name: reporting_archives; Type: TABLE; Schema: freedme; Owner: -
+--
+
+CREATE TABLE freedme.reporting_archives (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    exchange_id uuid,
+    listing_id uuid NOT NULL,
+    category_code character varying NOT NULL,
+    offer_kind character varying NOT NULL,
+    outcome character varying NOT NULL,
+    archived_at timestamp(6) without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 
@@ -1373,6 +1434,27 @@ CREATE TABLE freedme.simulated_sms_messages (
     idempotency_key character varying,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: sms_deliveries; Type: TABLE; Schema: freedme; Owner: -
+--
+
+CREATE TABLE freedme.sms_deliveries (
+    id uuid DEFAULT uuidv7() NOT NULL,
+    recipient_ciphertext text NOT NULL,
+    recipient_hmac bytea NOT NULL,
+    body_ciphertext text NOT NULL,
+    template_code character varying NOT NULL,
+    idempotency_key character varying NOT NULL,
+    state character varying DEFAULT 'queued'::character varying NOT NULL,
+    provider_sid character varying,
+    delivery_status character varying,
+    error_code character varying,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    CONSTRAINT sms_delivery_state CHECK (((state)::text = ANY ((ARRAY['queued'::character varying, 'sending'::character varying, 'accepted'::character varying, 'failed'::character varying, 'suppressed'::character varying])::text[])))
 );
 
 
@@ -1784,6 +1866,14 @@ ALTER TABLE ONLY freedme.handoff_proposals
 
 
 --
+-- Name: identity_document_uploads identity_document_uploads_pkey; Type: CONSTRAINT; Schema: freedme; Owner: -
+--
+
+ALTER TABLE ONLY freedme.identity_document_uploads
+    ADD CONSTRAINT identity_document_uploads_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: identity_evidence identity_evidence_pkey; Type: CONSTRAINT; Schema: freedme; Owner: -
 --
 
@@ -1984,6 +2074,14 @@ ALTER TABLE ONLY freedme.policy_versions
 
 
 --
+-- Name: privacy_deletion_requests privacy_deletion_requests_pkey; Type: CONSTRAINT; Schema: freedme; Owner: -
+--
+
+ALTER TABLE ONLY freedme.privacy_deletion_requests
+    ADD CONSTRAINT privacy_deletion_requests_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: private_messages private_messages_pkey; Type: CONSTRAINT; Schema: freedme; Owner: -
 --
 
@@ -2005,6 +2103,14 @@ ALTER TABLE ONLY freedme.recall_reviews
 
 ALTER TABLE ONLY freedme.registration_sessions
     ADD CONSTRAINT registration_sessions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: reporting_archives reporting_archives_pkey; Type: CONSTRAINT; Schema: freedme; Owner: -
+--
+
+ALTER TABLE ONLY freedme.reporting_archives
+    ADD CONSTRAINT reporting_archives_pkey PRIMARY KEY (id);
 
 
 --
@@ -2120,6 +2226,14 @@ ALTER TABLE ONLY freedme.simulated_sms_messages
 
 
 --
+-- Name: sms_deliveries sms_deliveries_pkey; Type: CONSTRAINT; Schema: freedme; Owner: -
+--
+
+ALTER TABLE ONLY freedme.sms_deliveries
+    ADD CONSTRAINT sms_deliveries_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: staff_credentials staff_credentials_pkey; Type: CONSTRAINT; Schema: freedme; Owner: -
 --
 
@@ -2181,6 +2295,13 @@ CREATE INDEX activity_window ON freedme.activity_events USING btree (account_id,
 
 
 --
+-- Name: archive_withdrawn_listing; Type: INDEX; Schema: freedme; Owner: -
+--
+
+CREATE UNIQUE INDEX archive_withdrawn_listing ON freedme.reporting_archives USING btree (listing_id) WHERE (exchange_id IS NULL);
+
+
+--
 -- Name: contact_consent_history; Type: INDEX; Schema: freedme; Owner: -
 --
 
@@ -2216,10 +2337,66 @@ CREATE INDEX exchange_requester_history ON freedme.exchanges USING btree (reques
 
 
 --
+-- Name: index_accounts_on_last_activity_at; Type: INDEX; Schema: freedme; Owner: -
+--
+
+CREATE INDEX index_accounts_on_last_activity_at ON freedme.accounts USING btree (last_activity_at);
+
+
+--
+-- Name: index_exchanges_on_retention_ended_at; Type: INDEX; Schema: freedme; Owner: -
+--
+
+CREATE INDEX index_exchanges_on_retention_ended_at ON freedme.exchanges USING btree (retention_ended_at);
+
+
+--
+-- Name: index_identity_document_uploads_on_account_id_and_created_at; Type: INDEX; Schema: freedme; Owner: -
+--
+
+CREATE INDEX index_identity_document_uploads_on_account_id_and_created_at ON freedme.identity_document_uploads USING btree (account_id, created_at);
+
+
+--
+-- Name: index_identity_document_uploads_on_purge_due_at; Type: INDEX; Schema: freedme; Owner: -
+--
+
+CREATE INDEX index_identity_document_uploads_on_purge_due_at ON freedme.identity_document_uploads USING btree (purge_due_at);
+
+
+--
+-- Name: index_privacy_deletion_requests_on_account_id; Type: INDEX; Schema: freedme; Owner: -
+--
+
+CREATE UNIQUE INDEX index_privacy_deletion_requests_on_account_id ON freedme.privacy_deletion_requests USING btree (account_id);
+
+
+--
+-- Name: index_reporting_archives_on_exchange_id; Type: INDEX; Schema: freedme; Owner: -
+--
+
+CREATE UNIQUE INDEX index_reporting_archives_on_exchange_id ON freedme.reporting_archives USING btree (exchange_id);
+
+
+--
 -- Name: index_simulated_sms_messages_on_idempotency_key; Type: INDEX; Schema: freedme; Owner: -
 --
 
 CREATE UNIQUE INDEX index_simulated_sms_messages_on_idempotency_key ON freedme.simulated_sms_messages USING btree (idempotency_key);
+
+
+--
+-- Name: index_sms_deliveries_on_idempotency_key; Type: INDEX; Schema: freedme; Owner: -
+--
+
+CREATE UNIQUE INDEX index_sms_deliveries_on_idempotency_key ON freedme.sms_deliveries USING btree (idempotency_key);
+
+
+--
+-- Name: index_sms_deliveries_on_state_and_created_at; Type: INDEX; Schema: freedme; Owner: -
+--
+
+CREATE INDEX index_sms_deliveries_on_state_and_created_at ON freedme.sms_deliveries USING btree (state, created_at);
 
 
 --
@@ -2781,11 +2958,67 @@ ALTER TABLE ONLY freedme.exchanges
 
 
 --
+-- Name: identity_document_uploads fk_rails_14513dcd4b; Type: FK CONSTRAINT; Schema: freedme; Owner: -
+--
+
+ALTER TABLE ONLY freedme.identity_document_uploads
+    ADD CONSTRAINT fk_rails_14513dcd4b FOREIGN KEY (account_id) REFERENCES freedme.accounts(id);
+
+
+--
+-- Name: reporting_archives fk_rails_1563ba718c; Type: FK CONSTRAINT; Schema: freedme; Owner: -
+--
+
+ALTER TABLE ONLY freedme.reporting_archives
+    ADD CONSTRAINT fk_rails_1563ba718c FOREIGN KEY (exchange_id) REFERENCES freedme.exchanges(id);
+
+
+--
+-- Name: privacy_deletion_requests fk_rails_2ba5d5c079; Type: FK CONSTRAINT; Schema: freedme; Owner: -
+--
+
+ALTER TABLE ONLY freedme.privacy_deletion_requests
+    ADD CONSTRAINT fk_rails_2ba5d5c079 FOREIGN KEY (account_id) REFERENCES freedme.accounts(id);
+
+
+--
 -- Name: photo_screenings fk_rails_68393ec1ec; Type: FK CONSTRAINT; Schema: freedme; Owner: -
 --
 
 ALTER TABLE ONLY freedme.photo_screenings
     ADD CONSTRAINT fk_rails_68393ec1ec FOREIGN KEY (account_id) REFERENCES freedme.accounts(id);
+
+
+--
+-- Name: identity_document_uploads fk_rails_8f764adc89; Type: FK CONSTRAINT; Schema: freedme; Owner: -
+--
+
+ALTER TABLE ONLY freedme.identity_document_uploads
+    ADD CONSTRAINT fk_rails_8f764adc89 FOREIGN KEY (revision_id) REFERENCES freedme.listing_revisions(id);
+
+
+--
+-- Name: identity_document_uploads fk_rails_9007e59e49; Type: FK CONSTRAINT; Schema: freedme; Owner: -
+--
+
+ALTER TABLE ONLY freedme.identity_document_uploads
+    ADD CONSTRAINT fk_rails_9007e59e49 FOREIGN KEY (listing_id) REFERENCES freedme.listings(id);
+
+
+--
+-- Name: reporting_archives fk_rails_d711ea3a35; Type: FK CONSTRAINT; Schema: freedme; Owner: -
+--
+
+ALTER TABLE ONLY freedme.reporting_archives
+    ADD CONSTRAINT fk_rails_d711ea3a35 FOREIGN KEY (listing_id) REFERENCES freedme.listings(id);
+
+
+--
+-- Name: identity_document_uploads fk_rails_e001357a2e; Type: FK CONSTRAINT; Schema: freedme; Owner: -
+--
+
+ALTER TABLE ONLY freedme.identity_document_uploads
+    ADD CONSTRAINT fk_rails_e001357a2e FOREIGN KEY (exchange_id) REFERENCES freedme.exchanges(id);
 
 
 --
@@ -3407,6 +3640,11 @@ REVOKE ALL ON ALL FUNCTIONS IN SCHEMA freedme FROM PUBLIC;
 ALTER DEFAULT PRIVILEGES IN SCHEMA freedme REVOKE ALL ON TABLES FROM PUBLIC;
 ALTER DEFAULT PRIVILEGES IN SCHEMA freedme REVOKE EXECUTE ON FUNCTIONS FROM PUBLIC;
 INSERT INTO "schema_migrations" (version) VALUES
+('20261114000000'),
+('20261106000000'),
+('20261030000000'),
+('20261029000100'),
+('20261029000000'),
 ('20261028000000'),
 ('20261027000000'),
 ('20261026000000');

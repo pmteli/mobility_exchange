@@ -1,0 +1,15 @@
+FROM ruby:3.4.10-slim-bookworm
+RUN apt-get update && apt-get install -y --no-install-recommends build-essential libyaml-dev pkg-config curl ca-certificates \
+ && curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc -o /usr/share/keyrings/postgresql.asc \
+ && echo 'deb [signed-by=/usr/share/keyrings/postgresql.asc] https://apt.postgresql.org/pub/repos/apt bookworm-pgdg main' > /etc/apt/sources.list.d/pgdg.list \
+ && apt-get update && apt-get install -y --no-install-recommends libpq-dev postgresql-client-18 python3-pil python3-fitz \
+ && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
+COPY Gemfile Gemfile.lock ./
+RUN bundle config set without "development test" && bundle install
+COPY . .
+RUN SECRET_KEY_BASE_DUMMY=1 RAILS_ENV=production bin/rails assets:precompile
+RUN mkdir -p /app/storage/equipment_photos /var/lib/freedme/backups && useradd --create-home rails && chown -R rails:rails /app /var/lib/freedme && chmod 700 /var/lib/freedme/backups
+USER rails
+EXPOSE 3000
+CMD ["bin/rails", "server", "-b", "0.0.0.0", "-p", "3000"]

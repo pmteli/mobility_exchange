@@ -1,6 +1,18 @@
 Rails.application.routes.draw do
+  get 'privacy-controls', to: 'privacy_controls#show', as: :privacy_controls
+  post 'privacy-controls/deletion', to: 'privacy_controls#request_deletion', as: :privacy_deletion
+  post 'admin/privacy/backups', to: 'privacy_controls#create_backup', as: :privacy_backup
+  get 'admin/privacy/operations', to: 'privacy_controls#operations', as: :privacy_operations
+  get 'admin/privacy', to: 'privacy_controls#review', as: :privacy_review
+  patch 'admin/privacy/accounts/:id', to: 'privacy_controls#review_account', as: :privacy_review_account
+  get "privacy.html", to: "pages#privacy", as: :privacy_policy
+  get "sms-terms.html", to: "pages#sms_terms", as: :sms_terms
+  get "sms-consent.html", to: "pages#sms_consent", as: :sms_consent
+  patch "sms-preferences", to: "sms_preferences#update", as: :sms_preferences
+  post "webhooks/twilio/status", to: "twilio_webhooks#status"
+  post "webhooks/twilio/incoming", to: "twilio_webhooks#incoming"
   get "s/:code", to: "sms_links#show", as: :sms_short_link
-  get "test-data", to: "test_data#index" if Rails.env.development? || Rails.env.test?
+  get "test-data", to: "test_data#index" if Journeys::Support.enabled?
   get "up" => "rails/health#show", as: :rails_health_check
   root "pages#home"
   get "design-decisions", to: "pages#decisions"

@@ -1,7 +1,10 @@
 <p class="eyebrow">My Activity</p><h1>Hello, <%= current_account.display_name %></h1>
-<div class="actions"><%= link_to "Find Equipment", equipment_index_path, class: "button-link" %><% unless @roles == ["moderator"] %><%= link_to "Donate Equipment", new_listing_path, class: "button-link primary" %><% end %></div>
+<div class="actions"><% unless @roles.include?("moderator") %><%= link_to "Find Equipment", equipment_index_path, class: "button-link" %><% end %><% unless @roles == ["moderator"] %><%= link_to "Donate Equipment", new_listing_path, class: "button-link primary" %><% end %></div>
+<% if AccountRole.exists?(account_id: current_account.id, role: "administrator") %><p><%= link_to "Privacy administration", privacy_review_path %> · <%= link_to "Privacy operations guide", privacy_operations_path %></p><% end %>
+<%= render "privacy_controls/backup_recovery", status: @backup_status if @roles.include?("administrator") %>
+<p><%= link_to "Privacy & deletion", privacy_controls_path %> · <%= link_to "SMS preferences", activity_path(anchor: "panel-messages") %></p>
 <div class="donor-tabs journey-tabs" data-tab-memory="activity-<%= current_account.id %>" role="tablist" aria-label="My Activity sections">
-<% sections = @roles.include?("moderator") ? [["review","Listing Reviews"],["documents","Identity Documents"],["followups","Follow-up Tasks"],["messages","Simulated SMS"]] : [["inventory","My Equipment"],["requests","Requests & Handoffs"],["questions","Questions & Answers"],["messages","Simulated SMS"]] %>
+<% sections = @roles.include?("moderator") ? [["review","Listing Reviews"],["documents","Identity Documents"],["followups","Follow-up Tasks"],["messages",(Integrations::TwilioClient.live? ? "SMS Messages" : "Simulated SMS")]] : [["inventory","My Equipment"],["requests","Requests & Handoffs"],["questions","Questions & Answers"],["messages",(Integrations::TwilioClient.live? ? "SMS Messages" : "Simulated SMS")]] %>
 <% sections.each_with_index do |(key,label),i| %><button type="button" role="tab" id="tab-<%= key %>" aria-controls="panel-<%= key %>" aria-selected="<%= i == 0 %>" tabindex="<%= i == 0 ? 0 : -1 %>" data-action="journey-tab"><%= label %></button><% end %></div>
 <% sections.each_with_index do |(key,label),i| %><section class="panel" role="tabpanel" id="panel-<%= key %>" aria-labelledby="tab-<%= key %>" <%= 'hidden' unless i == 0 %>><h2><%= label %></h2>
 <% case key; when "documents" %>
@@ -19,8 +22,8 @@
 <% when "questions" %>
 <% if @questions.empty? %><p>No questions yet.</p><% end %>
 <% @questions.each do |listing_id, questions| %><article class="panel journey-card"><h3><%= link_to revision_for(Listing.find(listing_id)).title, equipment_path(listing_id) %></h3>
-<% questions.each do |question| %><div class="note"><span class="badge"><%= question.state.upcase %></span><p><strong>Question:</strong> <%= local_text(question.question_ciphertext) %></p>
-<% if question.answer_ciphertext %><p><strong>Answer:</strong> <%= local_text(question.answer_ciphertext) %></p><% elsif question.donor_id == current_account.id %><details><summary class="button-link answer-button">Answer</summary><%= form_with url: answer_question_path(question), namespace: "answer_#{question.id}", class: "journey-form" do |f| %><%= f.label :answer, "Your answer" %><%= f.text_area :answer, required: true, maxlength: 2000 %><%= f.button "Submit answer", class: "primary" %><% end %></details><% end %></div><% end %>
+<% questions.each do |question| %><div class="note"><span class="badge"><%= question.archived_at ? "ARCHIVED" : question.state.upcase %></span><p><strong>Question:</strong> <%= local_text(question.question_ciphertext) %></p>
+<% if question.answer_ciphertext %><p><strong>Answer:</strong> <%= local_text(question.answer_ciphertext) %></p><% elsif question.donor_id == current_account.id && !question.archived_at %><details><summary class="button-link answer-button">Answer</summary><%= form_with url: answer_question_path(question), namespace: "answer_#{question.id}", class: "journey-form" do |f| %><%= f.label :answer, "Your answer" %><%= f.text_area :answer, required: true, maxlength: 2000 %><%= f.button "Submit answer", class: "primary" %><% end %></details><% end %></div><% end %>
 <% if questions.first.requester_id == current_account.id %><%= link_to "Ask Another Question", equipment_path(listing_id, anchor: "ask-question"), class: "button-link" %><% end %></article><% end %>
 <% when "review" %>
 <% if @reviews.empty? %><p>No listings awaiting review.</p><% end %>
@@ -34,5 +37,10 @@
 <% @tasks.each do |task| %><article class="panel journey-card"><h3>Unconfirmed handoff</h3><span class="badge"><%= task.state.upcase %></span><% exchange = Exchange.find(task.exchange_id) %><p><%= ListingRevision.find(exchange.revision_id).title %> · Donor: <%= exchange.donor.display_name %> · Recipient: <%= exchange.requester.display_name %></p>
 <% if %w[open in_progress].include?(task.state) %><%= form_with url: resolve_task_path(task), namespace: "task_#{task.id}", class: "journey-form" do |f| %><label class="check"><%= check_box_tag :donor_contacted, "1", false, id: "donor_contacted_#{task.id}" %> Donor contacted</label><label class="check"><%= check_box_tag :recipient_contacted, "1", false, id: "recipient_contacted_#{task.id}" %> Recipient contacted</label><%= f.label :outcome %><%= f.select :outcome, [['Reported handoff occurred','handoff_confirmed'],['Not handed off','not_handed_off'],['Unable to reach','unable_to_reach'],['Cancelled','cancelled']] %><%= f.label :notes %><%= f.text_area :notes, required: true %><%= f.button "Resolve follow-up" %><% end %><% else %><p>Outcome: <%= task.outcome&.humanize %></p><% end %></article><% end %>
 <% when "messages" %>
-<p>These messages are persisted locally. No messages are sent to a phone.</p><% @messages.each do |message| %><article class="panel journey-card"><span class="badge">SIMULATED</span><p><%= sms_message_body(message.body) %></p><small><%= message.created_at %></small></article><% end %>
+<h3>SMS preferences</h3>
+<p>Routine SMS notifications are <strong><%= @sms_enabled ? "ON" : "OFF" %></strong>. To turn them off, clear the checkbox and select Save SMS preference.</p>
+<%= form_with url: sms_preferences_path, method: :patch do %><%= render "shared/sms_consent", selected: @sms_enabled %><%= submit_tag "Save SMS preference", class: "primary" %><% end %>
+<% if Integrations::TwilioClient.live? %><p>Delivery status reflects the latest provider update.</p>
+<% else %><p>No text messages are sent in this simulation. Your saved preference controls consent for real notifications; simulated message previews may still appear below.</p><% end %>
+<% @messages.each do |message| %><article class="panel journey-card"><span class="badge"><%= Integrations::TwilioClient.live? ? (message.delivery_status.presence || message.state).upcase : "SIMULATED" %></span><p><%= sms_message_body(message.body) %></p><small><%= message.created_at %></small></article><% end %>
 <% end %></section><% end %>

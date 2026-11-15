@@ -2,6 +2,8 @@ module Journeys
   class Deadlines
     def self.run!
       Support.guard!
+      Privacy::ExchangeRetention.run!
+      Privacy::Reporting.run!
       IdentityDocuments::Vault.purge!
       Exchange.where("(state='pending' AND pending_expires_at<=?) OR (state='offered' AND offer_expires_at<=?)", Time.current, Time.current).find_each do |exchange|
         Listing.find(exchange.listing_id).with_lock do |listing|

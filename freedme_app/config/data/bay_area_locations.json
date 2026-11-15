@@ -6,7 +6,7 @@
     "https://alamedacountyca.gov/uninc/",
     "https://www.contracosta.ca.gov/1243/View-Cities-Communities-of-Contra-Costa"
   ],
-  "notes": "Postal names and ZIP codes follow the state directory, including PO box/unique ZIPs. County community names supplement postal names without inventing ZIP mappings. ZIPs may cross county boundaries; this is a suggestion directory, not address verification or eligibility enforcement. Refresh against sources when postal data changes.",
+  "notes": "Postal names and ZIP codes follow the state directory, including PO box/unique ZIPs. County community names supplement postal names without inventing ZIP mappings. ZIPs may cross county boundaries; this directory supports registration eligibility checks and location suggestions, not address or residence verification. Refresh against sources when postal data changes.",
   "locations": [
     {
       "zip_code": null,

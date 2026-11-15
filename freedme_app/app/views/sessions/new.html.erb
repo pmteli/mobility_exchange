@@ -1,7 +1,8 @@
 <div class="reading"><p class="eyebrow">Your FreeDME account</p><h1>Sign in</h1>
-<p class="note">LOCAL SIMULATION — no SMS is sent. This sign-in also simulates staff authentication; it is not production MFA.</p>
+<% unless Integrations::TwilioClient.live? %><p class="note">LOCAL SIMULATION — no SMS is sent. This sign-in also simulates staff authentication; it is not production MFA.</p><% end %>
 <%= form_with url: sign_in_path, class: "journey-form" do |f| %>
 <%= f.label :mobile, "Mobile phone number" %><%= f.telephone_field :mobile, required: true, autocomplete: "tel", value: params[:mobile] %>
-<%= f.button "Send simulated code", class: "primary" %><% end %>
+<p><%= t("messaging_consent.verification") %> <%= link_to "Privacy Policy", privacy_policy_path %> · <%= link_to "SMS Terms", sms_terms_path %></p>
+<%= f.button(Integrations::TwilioClient.live? ? "Send verification code" : "Send simulated code", class: "primary") %><% end %>
 <p>New to FreeDME? <%= link_to "Create an account", register_path %></p>
-<details><summary>Test account mobile numbers</summary><p>Nina (donor): 510-555-0101<br>David (donor): 510-555-0102<br>Maya (recipient): 510-555-0103<br>Alex (recipient): 510-555-0104<br>Sam (moderator): 510-555-0105</p></details></div>
+<% unless Integrations::TwilioClient.live? %><details><summary>Test account mobile numbers</summary><p>Nina (donor): 510-555-0101<br>David (donor): 510-555-0102<br>Maya (recipient): 510-555-0103<br>Alex (recipient): 510-555-0104<br>Sam (moderator): 510-555-0105</p></details><% end %></div>

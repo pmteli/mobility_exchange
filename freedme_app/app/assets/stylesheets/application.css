@@ -340,8 +340,8 @@ md-select-option { --md-menu-item-label-text-font: system-ui; --md-menu-item-lab
   color: #17385b;
   background: transparent;
   border-radius: 0;
-  box-shadow: inset 0 -3px 0 #006b60;
-  font-weight: 700;
+  box-shadow: inset 0 -1px 0 #286573;
+  font-weight: 600;
   text-decoration: none;
 }
 #main-navigation a[aria-current="page"].auth-button {

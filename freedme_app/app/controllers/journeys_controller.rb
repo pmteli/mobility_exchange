@@ -3,6 +3,7 @@ class JourneysController < AuthenticatedController
   rescue_from Journeys::Error, ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique, ActiveRecord::StatementInvalid, with: :workflow_error
   def index
     @roles = AccountRole.where(account_id: current_account.id).pluck(:role)
+    @backup_status = Privacy::ManagedBackup.status if @roles.include?("administrator")
     @listings = Listing.where(donor_id: current_account.id).newest_first
     @exchanges = Exchange.where("donor_id=? OR requester_id=?", current_account.id, current_account.id).order(requested_at: :desc)
     @exchanges = @exchanges.where.not(id: ExchangeDisplayPreference.where(account_id: current_account.id).where.not(hidden_at: nil).select(:exchange_id))
@@ -11,7 +12,12 @@ class JourneysController < AuthenticatedController
     @identity_uploads = IdentityDocumentUpload.order(created_at: :desc).limit(50) if @roles.include?("moderator")
     @tasks = ModeratorTask.order(due_at: :asc) if @roles.include?("moderator")
     contact = AccountContact.find_by!(account_id: current_account.id, kind: "mobile", revoked_at: nil)
-    @messages = SimulatedSmsMessage.where(recipient: Journeys::Support.decrypt(contact.value_ciphertext)).where.not(template_code: "sign_in_otp").order(created_at: :desc).limit(30)
+    @sms_enabled = Integrations::SmsConsent.allowed?(contact.lookup_hmac)
+    @messages = if Integrations::TwilioClient.live?
+      SmsDelivery.where(recipient_hmac: contact.lookup_hmac).order(created_at: :desc).limit(30)
+    else
+      SimulatedSmsMessage.where(recipient: Journeys::Support.decrypt(contact.value_ciphertext)).where.not(template_code: "sign_in_otp").order(created_at: :desc).limit(30)
+    end
   end
   def new_listing
     @categories = Category.order(:name)

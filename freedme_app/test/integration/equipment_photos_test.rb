@@ -30,7 +30,7 @@ class EquipmentPhotosTest < ActionDispatch::IntegrationTest
   test "pending photos private to donor and moderator then public only after review" do
     listing = create_listing(2)
     message = SimulatedSmsMessage.where(template_code: "listing_submitted", recipient: "+15105550101").order(created_at: :desc).first!
-    assert_equal "Thank you for offering Photo test walker to a neighbor. Your listing is under review. You will be notified when it is published. #{Integrations::SmsLinks.url("listing_submitted")}", message.body
+    assert_equal "FreeDME: Thank you for offering Photo test walker to a neighbor. Your listing is under review. You will be notified when it is published. #{Integrations::SmsLinks.url("listing_submitted")}", message.body
     assert_equal "To be arranged after approval.", ListingRevision.find(listing.current_revision_id).pickup_availability
     pending = ListingPhoto.where(revision_id: listing.current_revision_id).first!
     assert_equal "processing", pending.state

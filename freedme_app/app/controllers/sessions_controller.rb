@@ -17,7 +17,7 @@ class SessionsController < ApplicationController
     @mobile = session[:registration_mobile]
   end
   def register
-    session[:pending_login] = Journeys::Authentication.start!(mobile: params[:mobile], name: params[:display_name], locality: params[:locality], registration: true)
+    session[:pending_login] = Journeys::Authentication.start!(mobile: params[:mobile], name: params[:display_name], locality: params[:locality], registration: true, sms_consent: params[:sms_consent] == "1")
     session.delete(:registration_mobile)
     redirect_to verify_sign_in_path
   rescue Journeys::Error => error

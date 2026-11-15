@@ -1,11 +1,13 @@
 <div class="reading"><p class="eyebrow">Join FreeDME</p><h1>Create an account</h1>
 <p>Enter your display name, approximate location and mobile number. Your account will be created after mobile verification.</p>
-<p class="note">LOCAL SIMULATION — your verification code appears in the simulated SMS inbox. No text message is sent.</p>
+<% unless Integrations::TwilioClient.live? %><p class="note">LOCAL SIMULATION — your verification code appears in the simulated SMS inbox. No text message is sent.</p><% end %>
 <%= form_with url: register_path, class: "journey-form" do |f| %>
 <%= f.label :display_name %><%= f.text_field :display_name, required: true, maxlength: 80, autocomplete: "nickname", value: params[:display_name] %>
 <%= f.label :locality, "Location (ZIP code or town)" %><%= f.text_field :locality, list: "bay-area-locations", autocomplete: "off", placeholder: "Start typing a town or ZIP code", aria: { describedby: "location-help" }, required: true, maxlength: 160, value: params[:locality] %>
 <small id="location-help">Type a town name or ZIP code to see suggestions across the nine-county San Francisco Bay Area. Do not enter a street address.</small>
 <%= f.label :mobile, "Mobile phone number" %><%= f.telephone_field :mobile, required: true, autocomplete: "tel", value: @mobile %>
+<%= render "shared/sms_consent", selected: params[:sms_consent] == "1" %>
+<p><%= t("messaging_consent.verification") %></p>
 <%= f.button "Verify mobile and register", class: "primary" %><% end %>
 <p>Already registered? <%= link_to "Sign in", sign_in_path %></p></div>
 

@@ -8,7 +8,7 @@ WORKDIR /app
 COPY Gemfile Gemfile.lock ./
 RUN bundle install
 COPY . .
-RUN mkdir -p /app/storage/equipment_photos && useradd --create-home rails && chown -R rails:rails /app
+RUN mkdir -p /app/storage/equipment_photos /var/lib/freedme/backups && useradd --create-home rails && chown -R rails:rails /app /var/lib/freedme && chmod 700 /var/lib/freedme/backups
 USER rails
 EXPOSE 3000
 CMD ["bin/rails", "server", "-b", "0.0.0.0", "-p", "3000"]
