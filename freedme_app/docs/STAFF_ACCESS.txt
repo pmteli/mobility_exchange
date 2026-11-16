@@ -1,0 +1,39 @@
+Staff access — FR003 and NFR003; explicit owner decision 15 November 2026
+
+Moderators and administrators sign in at /staff/sign-in with email or username,
+a password, and a time-based authenticator code. Member mobile login is unchanged.
+There is no public staff registration or default staff password.
+All staff roles require this flow, including existing sample moderators. Existing
+mobile-authenticated staff sessions are rejected. Do not deploy until the operator
+is ready to provision a real staff account; fictional moderator recordings need
+regeneration to demonstrate the new login workflow.
+
+Provisioning (server OS root, interactive terminal only):
+  cd /home/ubuntu/freedme-rails-demo
+  sudo docker compose --project-directory . --env-file .env.db -f deploy/lightsail/compose.yaml exec --user root web bin/rails runner script/staff_account.rb
+Choose create, provide email, unique username, first/last name and role.
+Administrators also receive the moderator role. Passwords require at least 8 characters
+and at most 72 bytes (owner decision, 15 November 2026). Passwords are entered without
+terminal echo, not through command arguments, environment variables or source code.
+Deliver the initial password privately to the named staff member. On first sign-in,
+they scan the locally generated QR code (or enter the fallback setup key) in their
+authenticator and verify a code before any staff
+access is granted. Provisioning does not send email and does not verify ownership
+of the supplied email; the operator must confirm the staff member and address.
+
+Recovery: use the same command and choose reset after verifying the staff member
+out of band. This replaces password and authenticator secret and immediately
+invalidates staff sessions. The staff member must enroll again. There are no public
+password-reset or SMS bypass routes. No default superuser web account is created.
+
+Passwords use bcrypt; authenticator secrets use application encryption. Back up
+and protect the existing Rails secret key. Five failed password/code attempts lock
+the account for 15 minutes. Codes cannot be reused. Password-to-2FA challenges expire
+after 5 minutes, authenticated sessions after 8 hours. Do not record setup keys or
+passwords in screenshots or journey recordings. Staff personal accounts should be
+separate from their member/donor/recipient accounts.
+
+Deployment: build image, apply db:migrate (web and test environment locally), then
+restart web/worker. No seed/reset is required. The migration is additive except it
+allows unenrolled MFA credentials during initial setup. Existing legacy staff
+credentials must be re-provisioned/reset through the operator process before use.

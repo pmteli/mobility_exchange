@@ -43,3 +43,11 @@ Privacy lifecycle upgrade (14 November 2026, prepared; not yet deployed)
 - Verify administrator-only backup controls; do not grant administrator access to every moderator.
 - Permanent erasure remains disabled unless separately run by the owner with reviewed shared content and logs. Production role separation is still required before enabling that maintenance workflow.
 - Publish policy/consent HTML and footer links to the public coming-soon site after hosted verification; review effective-date/draft wording at publication. Live SMS remains disabled.
+
+CURRENT OVERRIDE — 15 November 2026 protected prelaunch testing:
+www serves the Rails homepage and app behind existing reviewer Basic authentication.
+Only static policies/consent/assets and signed Twilio webhook routes are public.
+demo redirects to www, including recordings; recordings/test-data require the gate.
+Hosted web and worker explicitly use real Twilio SMS after owner approval.
+Local/recording environments remain simulated. Existing hosted database is preserved.
+Do not reseed/reset or treat the prelaunch switch as public-launch authorization.

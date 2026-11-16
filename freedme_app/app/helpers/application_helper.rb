@@ -1,6 +1,7 @@
 module ApplicationHelper
   def navigation_section
     path = request.path
+    return :account if path.match?(%r{\A/(my-account|privacy-controls|sms-preferences)(/|$)})
     return :donate if path.match?(%r{\A/(donate|listings)(/|$)})
     return :equipment if path.match?(%r{\A/(equipment|identity-documents)(/|$)})
     return :activity if path.match?(%r{\A/(activity|transactions|donor|recipient|moderator)(/|$)})

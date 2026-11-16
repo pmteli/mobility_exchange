@@ -11,9 +11,11 @@ class JourneysController < AuthenticatedController
     @reviews = Listing.where(status: "pending_review").newest_first if @roles.include?("moderator")
     @identity_uploads = IdentityDocumentUpload.order(created_at: :desc).limit(50) if @roles.include?("moderator")
     @tasks = ModeratorTask.order(due_at: :asc) if @roles.include?("moderator")
-    contact = AccountContact.find_by!(account_id: current_account.id, kind: "mobile", revoked_at: nil)
-    @sms_enabled = Integrations::SmsConsent.allowed?(contact.lookup_hmac)
-    @messages = if Integrations::TwilioClient.live?
+    contact = AccountContact.find_by(account_id: current_account.id, kind: "mobile", revoked_at: nil)
+    @sms_enabled = contact && Integrations::SmsConsent.allowed?(contact.lookup_hmac)
+    @messages = if !contact
+      []
+    elsif Integrations::TwilioClient.live?
       SmsDelivery.where(recipient_hmac: contact.lookup_hmac).order(created_at: :desc).limit(30)
     else
       SimulatedSmsMessage.where(recipient: Journeys::Support.decrypt(contact.value_ciphertext)).where.not(template_code: "sign_in_otp").order(created_at: :desc).limit(30)

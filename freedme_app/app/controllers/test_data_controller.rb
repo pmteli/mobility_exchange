@@ -1,5 +1,7 @@
-# Local-only read-only inspection. Does not grant staff or member sessions.
+# Local inspection; hosted access requires an authenticated administrator.
 class TestDataController < ApplicationController
+  before_action :require_hosted_administrator
+
   def index
     return head :not_found unless Journeys::Support.enabled?
     response.headers["Cache-Control"] = "no-store"
@@ -10,4 +12,16 @@ class TestDataController < ApplicationController
     @listings = Listing.where(donor_id: @accounts.select(:id)).includes(:donor).newest_first
     @messages = SimulatedSmsMessage.order(created_at: :desc).limit(100)
   end
+
+  private
+  def require_hosted_administrator
+    return unless Rails.configuration.x.hosted_demo == true
+    response.headers["Cache-Control"] = "no-store"
+    unless current_account
+      redirect_to sign_in_path
+      return
+    end
+    head :forbidden unless AccountRole.exists?(account_id: current_account.id, role: "administrator")
+  end
+
 end

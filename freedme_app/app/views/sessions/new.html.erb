@@ -6,3 +6,5 @@
 <%= f.button(Integrations::TwilioClient.live? ? "Send verification code" : "Send simulated code", class: "primary") %><% end %>
 <p>New to FreeDME? <%= link_to "Create an account", register_path %></p>
 <% unless Integrations::TwilioClient.live? %><details><summary>Test account mobile numbers</summary><p>Nina (donor): 510-555-0101<br>David (donor): 510-555-0102<br>Maya (recipient): 510-555-0103<br>Alex (recipient): 510-555-0104<br>Sam (moderator): 510-555-0105</p></details><% end %></div>
+
+<p><%= link_to "Moderator / Administrator Sign In", staff_sign_in_path %></p>

@@ -9,6 +9,7 @@ module Journeys
       contact = AccountContact.find_by(kind: "mobile", lookup_hmac: hmac, revoked_at: nil)
       account = contact&.account
       Support.active!(account) if account
+      raise Error, 'Moderators and administrators must use Staff Sign In.' if Staff::Authentication.staff?(account)
       raise RegistrationRequired, "This mobile number is not registered. Please create an account." if !account && !registration
       raise Error, "This mobile number is already registered. Please sign in instead." if account && registration
       if registration && (name.to_s.strip.empty? || locality.to_s.strip.empty?)
@@ -60,6 +61,7 @@ module Journeys
             Integrations::SmsConsent.grant!(account, key: "registration-#{challenge.id}") if pending["sms_consent"] == true
             Support.notify(account, "registration_welcome", {display_name: account.display_name})
           end
+          raise Error, 'Moderators and administrators must use Staff Sign In.' if Staff::Authentication.staff?(account)
           Support.active!(account)
           account.update!(last_activity_at: Time.current)
           challenge.update!(consumed_at: Time.current, account_id: account.id)

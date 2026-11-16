@@ -1,4 +1,15 @@
 Rails.application.routes.draw do
+  get 'staff/sign-in', to: 'staff_sessions#new', as: :staff_sign_in
+  post 'staff/sign-in', to: 'staff_sessions#create'
+  get 'staff/verify', to: 'staff_sessions#challenge', as: :staff_verify
+  post 'staff/verify', to: 'staff_sessions#verify'
+  get 'my-account', to: 'my_account#show', as: :my_account
+  get 'my-account/mobile', to: 'my_account#mobile', as: :account_mobile
+  post 'my-account/mobile/current', to: 'my_account#start_current_verification', as: :account_mobile_current
+  post 'my-account/mobile/verify-current', to: 'my_account#verify_current', as: :account_mobile_verify_current
+  post 'my-account/mobile/new-code', to: 'my_account#send_new_code', as: :account_mobile_new_code
+  post 'my-account/mobile/confirm', to: 'my_account#confirm_mobile', as: :account_mobile_confirm
+  delete 'my-account/mobile', to: 'my_account#cancel_mobile', as: :account_mobile_cancel
   get 'privacy-controls', to: 'privacy_controls#show', as: :privacy_controls
   post 'privacy-controls/deletion', to: 'privacy_controls#request_deletion', as: :privacy_deletion
   post 'admin/privacy/backups', to: 'privacy_controls#create_backup', as: :privacy_backup

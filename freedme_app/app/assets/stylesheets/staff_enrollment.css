@@ -1,0 +1,8 @@
+.staff-enrollment-qr {
+  width: 280px;
+  max-width: 100%;
+  background: #fff;
+  margin-block: 16px;
+}
+.staff-enrollment-qr svg { display: block; width: 100%; height: auto; }
+.staff-enrollment-fallback code { overflow-wrap: anywhere; }

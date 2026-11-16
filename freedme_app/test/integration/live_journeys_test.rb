@@ -11,6 +11,7 @@ class LiveJourneysTest < ActionDispatch::IntegrationTest
     @listing = Listing.find(JourneySeeds.id(1000))
   end
   def login(n)
+    return login_staff_account(Account.find(JourneySeeds.id(n))) if Staff::Authentication.staff?(Account.find(JourneySeeds.id(n)))
     delete sign_out_path
     post sign_in_path, params: {mobile: "+1510555010#{n}"}
     assert_redirected_to verify_sign_in_path
@@ -31,17 +32,17 @@ class LiveJourneysTest < ActionDispatch::IntegrationTest
   test "donors and recipients can disable SMS while simulation is active" do
     [1, 3].each do |number|
       login(number)
-      get activity_path
-      assert_select "a[href=?]", activity_path(anchor: "panel-messages"), text: "SMS preferences"
-      assert_select "#panel-messages form[action=?]", sms_preferences_path
+      get my_account_path
+      assert_select "h2", text: "SMS Preferences"
+      assert_select "#sms-preferences form[action=?]", sms_preferences_path
       patch sms_preferences_path, params: {sms_consent: "1"}
-      assert_redirected_to activity_path(anchor: "panel-messages")
-      get activity_path
-      assert_select "#panel-messages input[name=sms_consent][checked]", count: 1
+      assert_redirected_to my_account_path(anchor: "sms-preferences")
+      get my_account_path
+      assert_select "#sms-preferences input[name=sms_consent][checked]", count: 1
       patch sms_preferences_path, params: {sms_consent: "0"}
-      assert_redirected_to activity_path(anchor: "panel-messages")
-      get activity_path
-      assert_select "#panel-messages input[name=sms_consent][checked]", count: 0
+      assert_redirected_to my_account_path(anchor: "sms-preferences")
+      get my_account_path
+      assert_select "#sms-preferences input[name=sms_consent][checked]", count: 0
       contact = AccountContact.find_by!(account_id: JourneySeeds.id(number), kind: "mobile", revoked_at: nil)
       refute Integrations::SmsConsent.allowed?(contact.lookup_hmac)
     end

@@ -1469,8 +1469,13 @@ CREATE TABLE freedme.staff_credentials (
     email_contact_id uuid NOT NULL,
     password_digest text NOT NULL,
     mfa_secret_ciphertext bytea NOT NULL,
-    mfa_enrolled_at timestamp with time zone NOT NULL,
-    key_version text NOT NULL
+    mfa_enrolled_at timestamp with time zone,
+    key_version text NOT NULL,
+    username character varying,
+    failed_attempts integer DEFAULT 0 NOT NULL,
+    locked_until timestamp(6) without time zone,
+    last_totp_at bigint,
+    session_version character varying DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -2397,6 +2402,13 @@ CREATE UNIQUE INDEX index_sms_deliveries_on_idempotency_key ON freedme.sms_deliv
 --
 
 CREATE INDEX index_sms_deliveries_on_state_and_created_at ON freedme.sms_deliveries USING btree (state, created_at);
+
+
+--
+-- Name: index_staff_credentials_on_username; Type: INDEX; Schema: freedme; Owner: -
+--
+
+CREATE UNIQUE INDEX index_staff_credentials_on_username ON freedme.staff_credentials USING btree (username);
 
 
 --
@@ -3633,13 +3645,14 @@ ALTER TABLE ONLY freedme.transport_barriers
 -- PostgreSQL database dump complete
 --
 
-SET search_path TO freedme, public;
+SET search_path TO freedme,public;
 
 REVOKE ALL ON ALL TABLES IN SCHEMA freedme FROM PUBLIC;
 REVOKE ALL ON ALL FUNCTIONS IN SCHEMA freedme FROM PUBLIC;
 ALTER DEFAULT PRIVILEGES IN SCHEMA freedme REVOKE ALL ON TABLES FROM PUBLIC;
 ALTER DEFAULT PRIVILEGES IN SCHEMA freedme REVOKE EXECUTE ON FUNCTIONS FROM PUBLIC;
 INSERT INTO "schema_migrations" (version) VALUES
+('20261115000000'),
 ('20261114000000'),
 ('20261106000000'),
 ('20261030000000'),

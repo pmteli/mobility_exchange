@@ -1,0 +1,12 @@
+<div class="reading"><h1>Change mobile number</h1><p>Verify your current number first, then verify your new number. Your current number remains active until both steps are complete. Optional SMS consent does not transfer to the new number.</p>
+<% unless Integrations::TwilioClient.live? %><p class="note">Local simulation: verification codes appear in the local test-data inbox.</p><% end %>
+<% unless @verified %>
+<h2>1. Verify current mobile number</h2>
+<%= button_to 'Send code to current number', account_mobile_current_path, class: 'primary' %>
+<% if session[:mobile_change_current] %><%= form_with url: account_mobile_verify_current_path, class: 'journey-form' do |f| %><%= f.label :code, 'Six-digit code' %><%= f.text_field :code, required: true, inputmode: 'numeric', pattern: '[0-9]{6}', maxlength: 6, autocomplete: 'one-time-code' %><%= f.button 'Verify current number', class: 'primary' %><% end %><% end %>
+<% else %>
+<h2>2. Verify new mobile number</h2>
+<%= form_with url: account_mobile_new_code_path, class: 'journey-form' do |f| %><%= f.label :mobile, 'New mobile number' %><%= f.telephone_field :mobile, required: true, autocomplete: 'tel', value: session.dig(:mobile_change_new, 'phone') %><%= f.button 'Send code to new number', class: 'primary' %><% end %>
+<% if session[:mobile_change_new] %><%= form_with url: account_mobile_confirm_path, class: 'journey-form' do |f| %><%= f.label :code, 'Six-digit code sent to your new number' %><%= f.text_field :code, required: true, inputmode: 'numeric', pattern: '[0-9]{6}', maxlength: 6, autocomplete: 'one-time-code' %><%= f.button 'Verify and change mobile number', class: 'primary' %><% end %><% end %>
+<% end %>
+<%= button_to 'Cancel', account_mobile_cancel_path, method: :delete %><p>If you cannot access your current number, contact <a href="mailto:inquiry@mobilityexchange.org">inquiry@mobilityexchange.org</a> for assistance.</p></div>

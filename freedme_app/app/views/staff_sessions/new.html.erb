@@ -1,0 +1,7 @@
+<div class="reading"><h1>Staff Sign In</h1><p>For moderators and administrators. Staff accounts are created by the system operator.</p>
+<%= form_with url: staff_sign_in_path, class: 'journey-form' do |f| %>
+<%= f.label :identifier, 'Email or username *' %><%= f.text_field :identifier, required: true, autocomplete: 'username', autocapitalize: 'none' %>
+<%= f.label :password, 'Password *' %><%= f.password_field :password, required: true, autocomplete: 'current-password', maxlength: 72 %>
+<div class="actions"><%= f.button 'Continue', class: 'button-link' %></div><% end %>
+<p>Lost your password or authenticator? Contact the system operator to verify your identity and reset staff access.</p>
+<%= link_to 'Member Sign In', sign_in_path %></div>

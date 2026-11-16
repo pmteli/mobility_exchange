@@ -23,6 +23,7 @@ class EquipmentPhotosTest < ActionDispatch::IntegrationTest
     Journeys::Workflow.new(@donor).save_listing!(@data.merge(photos: Array.new(count) { upload }))
   end
   def sign_in(number)
+    return login_staff_account(Account.find(JourneySeeds.id(number))) if Staff::Authentication.staff?(Account.find(JourneySeeds.id(number)))
     post sign_in_path, params: {mobile: "510555010#{number}"}
     code = SimulatedSmsMessage.where(template_code: "sign_in_otp", recipient: "+1510555010#{number}").order(created_at: :desc).first!.body[/code: (\d+)/, 1]
     post verify_sign_in_path, params: {code: code}

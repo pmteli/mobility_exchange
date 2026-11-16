@@ -13,6 +13,7 @@ class PrivacyControlsTest < ActionDispatch::IntegrationTest
     Privacy::ManagedBackup.define_singleton_method(name, original)
   end
   def login(n)
+    return login_staff_account(Account.find(JourneySeeds.id(n))) if Staff::Authentication.staff?(Account.find(JourneySeeds.id(n)))
     post sign_in_path, params: {mobile: "+1510555010#{n}"}
     code = SimulatedSmsMessage.where(recipient: "+1510555010#{n}", template_code: 'sign_in_otp').order(created_at: :desc).first!.body[/code: (\d+)/, 1]
     post verify_sign_in_path, params: {code: code}

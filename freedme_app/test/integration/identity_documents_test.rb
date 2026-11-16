@@ -19,6 +19,7 @@ class IdentityDocumentsTest < ActionDispatch::IntegrationTest
     Aws.config.delete(:textract)
   end
   def login(number)
+    return login_staff_account(Account.find(JourneySeeds.id(number))) if Staff::Authentication.staff?(Account.find(JourneySeeds.id(number)))
     delete sign_out_path
     post sign_in_path, params: {mobile: "510555010#{number}"}
     code = SimulatedSmsMessage.where(template_code:'sign_in_otp',recipient:"+1510555010#{number}").order(created_at: :desc).first!.body[/code: (\d+)/,1]

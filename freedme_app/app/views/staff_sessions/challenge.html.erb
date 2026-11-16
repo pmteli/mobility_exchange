@@ -1,0 +1,8 @@
+<div class="reading"><h1><%= @credential.mfa_enrolled_at ? 'Two-factor verification' : 'Set up your authenticator' %></h1>
+<% unless @credential.mfa_enrolled_at %><p>Open your authenticator app, choose Add account, then scan this QR code. Keep the QR code and setup key private.</p>
+<div class="staff-enrollment-qr"><%= staff_enrollment_qr(@credential) %></div>
+<details class="staff-enrollment-fallback"><summary>Can’t scan? Enter a setup key instead</summary><p>Add a time-based account named FreeDME Staff using this key:</p><p><code><%= Journeys::Support.decrypt(@credential.mfa_secret_ciphertext) %></code></p></details>
+<p>Enter the six-digit code from your app to finish setup. No staff access is granted until this succeeds.</p>
+<% else %><p>Enter the current six-digit code from your authenticator app.</p><% end %>
+<%= form_with url: staff_verify_path, class: 'journey-form' do |f| %><%= f.label :code, 'Authenticator code *' %><%= f.text_field :code, required: true, inputmode: 'numeric', autocomplete: 'one-time-code', pattern: '[0-9]{6}', maxlength: 6 %><div class="actions"><%= f.button 'Verify and sign in', class: 'button-link' %></div><% end %>
+<%= link_to 'Back to Staff Sign In', staff_sign_in_path %></div>

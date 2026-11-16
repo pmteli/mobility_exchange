@@ -8,3 +8,4 @@ Rails.application.config.filter_parameters += %i[identity_document fields home_a
 
 Rails.application.config.filter_parameters += %i[From To Body recipient_hmac]
 Rails.application.config.filter_parameters += [:privacy_backup_key]
+Rails.application.config.filter_parameters += %i[identifier staff_pending staff_auth_version]
