@@ -21,9 +21,8 @@ class TwilioWebhooksController < ActionController::Base
     # Advanced Opt-Out handles the carrier response. Do not send a duplicate reply.
     if params[:OptOutType] == "STOP" && params[:MessageSid].present?
       hmac = Journeys::Support.digest(params[:From].to_s)
-      contact = AccountContact.find_by(kind: "mobile", lookup_hmac: hmac, revoked_at: nil)
-      if contact
-        ConsentEvent.create_or_find_by!(idempotency_key: "twilio-stop-#{params[:MessageSid]}") do |event|
+      AccountContact.where(kind: "mobile", lookup_hmac: hmac, revoked_at: nil).find_each do |contact|
+        ConsentEvent.create_or_find_by!(idempotency_key: "twilio-stop-#{params[:MessageSid]}-#{contact.id}") do |event|
           event.assign_attributes(account_id: contact.account_id, contact_id: contact.id,
             purpose: "routine_sms", action: "stop")
         end

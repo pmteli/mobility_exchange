@@ -6,7 +6,7 @@ module Journeys
       Support.guard!
       phone = Support.phone(mobile)
       hmac = Support.digest(phone)
-      contact = AccountContact.find_by(kind: "mobile", lookup_hmac: hmac, revoked_at: nil)
+      contact = AccountContact.find_by(kind: "mobile", lookup_hmac: hmac, revoked_at: nil, staff_notification: false)
       account = contact&.account
       Support.active!(account) if account
       raise Error, 'Moderators and administrators must use Staff Sign In.' if Staff::Authentication.staff?(account)

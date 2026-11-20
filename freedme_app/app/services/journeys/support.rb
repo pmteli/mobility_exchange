@@ -29,7 +29,7 @@ module Journeys
       return if account.status == "closed"
       contact = AccountContact.find_by!(account_id: account.id, kind: "mobile", revoked_at: nil)
       Integrations::SmsGateway.new.deliver(to: decrypt(contact.value_ciphertext), template: template,
-        parameters: parameters, idempotency_key: key)
+        parameters: parameters, idempotency_key: key, account_id: account.id)
     end
     def self.audit(actor, action, record)
       AuditEvent.create!(actor_id: actor.id, action: action, entity_type: record.class.name,

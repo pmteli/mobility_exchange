@@ -5,7 +5,8 @@ class SchemaMappingTest < ActiveSupport::TestCase
     Rails.application.eager_load!
     connection = ApplicationRecord.connection
     tables = connection.select_values("SELECT tablename FROM pg_tables WHERE schemaname = 'freedme'")
-    assert_equal 59, tables.size
+    assert_equal 60, tables.size
+    assert_includes tables, "listing_review_alerts"
     assert_includes tables, "sms_deliveries"
     tables.each do |table|
       model = table.classify.constantize

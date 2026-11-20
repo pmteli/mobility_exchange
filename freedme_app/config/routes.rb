@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'staff/notification-mobile', to: 'staff/notification_mobiles#new', as: :staff_notification_mobile
+  post 'staff/notification-mobile', to: 'staff/notification_mobiles#create'
+  post 'staff/notification-mobile/confirm', to: 'staff/notification_mobiles#confirm', as: :confirm_staff_notification_mobile
   get 'staff/sign-in', to: 'staff_sessions#new', as: :staff_sign_in
   post 'staff/sign-in', to: 'staff_sessions#create'
   get 'staff/verify', to: 'staff_sessions#challenge', as: :staff_verify
@@ -67,6 +70,7 @@ Rails.application.routes.draw do
     resource :dashboard, only: :show
   end
   namespace :moderator do
+    get "listings/:id", to: "listing_reviews#show", as: :listing_review
     resource :dashboard, only: :show
   end
 end

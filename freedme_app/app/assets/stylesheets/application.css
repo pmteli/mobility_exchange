@@ -348,3 +348,33 @@ md-select-option { --md-menu-item-label-text-font: system-ui; --md-menu-item-lab
   box-shadow: 0 0 0 3px #bbd8f3;
   text-decoration: underline;
 }
+
+/* FR037: mobile reading order is details, disclosures, images/safety, actions. */
+.equipment-detail-layout{grid-template-areas:"media details" "media actions";row-gap:0;grid-template-rows:auto 1fr}
+.equipment-detail-copy{grid-area:details}
+.equipment-detail-media{grid-area:media}
+.equipment-detail-actions{grid-area:actions}
+@media(max-width:700px){
+  .equipment-detail-layout{grid-template-columns:minmax(0,1fr);grid-template-areas:"details" "media" "actions";grid-template-rows:auto;row-gap:24px}
+}
+
+.member-user-guide{margin-top:40px;overflow-wrap:anywhere}
+.member-user-guide h3{margin-top:36px;padding-top:24px;border-top:1px solid var(--line)}
+.member-user-guide h4{font-size:1.1em;line-height:1.35;margin:24px 0 12px;color:var(--ink)}
+.member-user-guide ul,.member-user-guide ol{padding-left:1.5em;margin:0 0 24px}
+.member-user-guide li{margin-bottom:12px}
+
+.member-guide-layout{display:grid;grid-template-columns:minmax(210px,260px) minmax(0,1fr);gap:36px;align-items:start}
+.member-guide-nav{display:block;order:0;flex:none;position:sticky;top:20px;max-height:calc(100vh - 40px);overflow-y:auto;width:auto;margin:0;padding:18px;border:1px solid var(--line);border-radius:12px;background:var(--sage)}
+.member-guide-nav-title{font-weight:650;margin:0 0 12px}
+.member-user-guide .member-guide-nav ul{list-style:none;margin:0;padding:0}
+.member-user-guide .member-guide-nav li{margin:0}
+.member-guide-nav a{display:block;padding:10px 8px;font-size:15px;line-height:1.4;text-decoration:none;border-radius:6px}
+.member-guide-nav a:hover,.member-guide-nav a:focus-visible{background:var(--paper);text-decoration:underline}
+.member-guide-content{min-width:0}
+.member-guide-content h3{scroll-margin-top:24px}
+.member-guide-content h3:first-child{margin-top:0;padding-top:0;border-top:0}
+@media(max-width:800px){.member-guide-layout{grid-template-columns:minmax(0,1fr);gap:24px}.member-guide-nav{position:static;max-height:none;width:100%}}
+
+.equipment-card-label{padding:12px 16px}
+.equipment-card-label .badge{position:static;max-width:100%}

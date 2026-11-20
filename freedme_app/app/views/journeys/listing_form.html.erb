@@ -3,7 +3,7 @@
 <p class="muted">Submitted listings stay private until a moderator screens them.</p>
 <div class="steps"><span class="active">1 · Describe</span><span>2 · Submit for review</span><span>3 · Connect</span></div>
 <%= form_with url: @listing ? update_listing_path(@listing) : listings_path, method: @listing ? :patch : :post, scope: :listing, class: "panel reading journey-form" do |f| %>
-<p class="note">Photos are saved locally and remain private until moderator approval. Screening and SMS notifications remain simulated.</p>
+<p class="note">Photos remain private until moderator approval.</p>
 <div class="form-grid">
 <div class="wide"><%= f.label :title, "Listing title" %><%= f.text_field :title, value: @data['title'], required: true, maxlength: 120, placeholder: "Example: Folding walker" %></div>
 <div><%= f.label :category_id, "Category" %><%= f.select :category_id, @categories.map { |c| [c.name,c.id] }, {selected: @data['category_id']}, {required: true} %></div>
@@ -15,7 +15,7 @@
 </div>
 <fieldset data-required-group class="equipment-upload" data-screening-url="<%= photo_screenings_path %>"><legend>Equipment photos</legend>
 <% unless EquipmentMedia::Moderation.enabled? %><p class="note warn">Automated image screening is awaiting AWS setup. You can fill out this form, but new photos cannot be submitted until screening is connected.</p><% end %>
-<p id="photo-help">Choose photos one at a time or together. Each selection adds to your photos; use Remove to discard one. Add 1–5 JPEG or PNG photos, up to 5 MB each (25 megapixels maximum). Use photos of the actual equipment, without people, addresses or private information.</p>
+<p id="photo-help">Choose photos one at a time or together. Each selection adds to your photos; use Remove to discard one. Add 1–5 JPEG or PNG photos, up to 5 MB each (25 megapixels maximum). Include at least one clear photo of the whole equipment that passes recognition. Safe close-ups can be added as supplementary photos. Use photos of the actual equipment, without people, addresses or private information.</p>
 <% existing_photos = @listing ? equipment_photos(@listing.current_revision_id).to_a : [] %>
 <% if existing_photos.any? %><div class="photo-choices"><% existing_photos.each do |photo| %><div class="existing-photo"><%= image_tag equipment_photo_path(photo), alt: "Existing equipment photo #{photo.slot}" %><span>Image <%= photo.slot %></span><label class="check"><%= check_box_tag "listing[remove_photo_ids][]", photo.id, Array(@data['remove_photo_ids']).include?(photo.id), id: "remove_photo_#{photo.id}" %> Remove photo <%= photo.slot %></label></div><% end %></div><% end %>
 <%= f.label :photos, existing_photos.any? ? "Add or replace photos" : "Choose equipment photos" %>

@@ -13,7 +13,7 @@ module EquipmentMedia
     def self.policy
       mode = ENV.fetch("REKOGNITION_POLICY", "review_only")
       raise Journeys::Error, "Invalid image screening configuration." unless %w[review_only reject_explicit].include?(mode)
-      {mode: mode, review: 60.0, reject: 90.0, equipment: ENV["REKOGNITION_EQUIPMENT_ENABLED"] == "true", version: "v3-strict-equipment"}
+      {mode: mode, review: 60.0, reject: 90.0, equipment: ENV["REKOGNITION_EQUIPMENT_ENABLED"] == "true", version: "v4-supplementary-equipment"}
     end
     def self.policy_key
       Digest::SHA256.hexdigest(policy.to_json)
@@ -51,7 +51,7 @@ module EquipmentMedia
               objects = client.detect_labels(image: {bytes: File.binread(path)}, min_confidence: 55.0, max_labels: 100, features: ["GENERAL_LABELS"])
               general = objects.labels.map { |l| {source: "equipment", name: l.name, confidence: l.confidence, aliases: Array(l.aliases).map(&:name), instances: Array(l.instances).map { |i| {confidence: i.confidence, area: i.bounding_box ? i.bounding_box.width.to_f * i.bounding_box.height.to_f : 0} }} }
               category = EquipmentClassifier.classify(general)
-              state = "rejected" unless category == "recognized"
+              state = "rejected" if category == "unrelated"
               labels += general
               model = "moderation:#{model};labels:#{objects.label_model_version}"
             end
@@ -64,16 +64,24 @@ module EquipmentMedia
           result = record
         end
       end
+      equipment_category = nil
       message = MESSAGES.fetch(result.state)
       if policy[:equipment]
         saved = result.labels.map(&:deep_symbolize_keys)
         general = saved.select { |l| l[:source] == "equipment" }
+        equipment_category = EquipmentClassifier.classify(general)
         adult_rejection = decision(saved.reject { |l| l[:source] == "equipment" }) == "rejected"
         message = "Please upload a photo of the equipment. This image appears unrelated to the allowed equipment categories." if result.state == "rejected" && !adult_rejection
-        message = "We could not recognize allowed equipment in this image. Please remove it and upload a clear photo showing the whole equipment." if result.state == "rejected" && !adult_rejection && EquipmentClassifier.classify(general) == "uncertain"
-        message = "Equipment recognized. Passed automated screening; listing still requires moderator approval." if result.state == "accepted"
+        message = equipment_category == "recognized" ? "Equipment recognized. Listing still requires moderator approval." : "Safe supplementary photo. Add at least one clear, recognized photo of the whole equipment." if result.state == "accepted"
       end
-      {state: result.state, message: message}
+      {state: result.state, message: message, equipment_category: equipment_category}
+    end
+    def self.enforce_set!(photos, account)
+      results = photos.map { |photo| enforce!(photo, account) }
+      if policy[:equipment] && !results.any? { |r| r[:state] == "accepted" && r[:equipment_category] == "recognized" }
+        raise Journeys::Error, "Add at least one clear photo showing the whole equipment that passes recognition. Close-ups can be included as supplementary photos."
+      end
+      results
     end
     def self.enforce!(photo, account)
       result = check(Photos.path(photo[:sanitized_object_key]), account)

@@ -94,4 +94,16 @@ class PrivacyErasureTest < ActiveSupport::TestCase
     assert_equal 0, disabled.to_i
   end
 
+  test 'deleting a member preserves staff messages and contact on the same phone' do
+    contact = AccountContact.find_by!(account_id: @account.id, kind: 'mobile', revoked_at: nil)
+    staff = Staff::Provisioner.create!(email: 'shared-staff@example.test', username: 'shared-staff', password: 'Test password 123!', first_name: 'Staff', last_name: 'Member', role: 'moderator').account
+    shared = AccountContact.create!(account_id: staff.id, kind: 'mobile', lookup_hmac: contact.lookup_hmac, value_ciphertext: contact.value_ciphertext, key_version: contact.key_version, verified_at: Time.current)
+    message = SimulatedSmsMessage.create!(recipient_account_id: staff.id, recipient: Journeys::Support.decrypt(contact.value_ciphertext), template_code: 'test', body: 'Staff notice')
+    ConsentEvent.create!(account_id: @account.id, contact_id: contact.id, purpose: 'routine_sms', action: 'stop', idempotency_key: SecureRandom.uuid)
+    assert @service.execute!(approve(@service.plan))
+    assert AccountContact.exists?(shared.id)
+    assert SimulatedSmsMessage.exists?(message.id)
+    assert Integrations::SmsConsent.carrier_stopped?(shared)
+  end
+
 end

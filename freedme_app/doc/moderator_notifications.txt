@@ -1,0 +1,56 @@
+MODERATOR LISTING REVIEW NOTIFICATIONS
+Requirements: FR006 listing screening; FR018 notifications; FR027 SMS consent.
+
+A successfully submitted new or edited listing queues one alert per active moderator
+(including administrators with the moderator role), per submitted revision. Alerts
+are committed in the same database transaction as the submission. Rolled-back
+submissions do not create alerts. The journey worker polls every 30 seconds.
+
+Email uses Amazon SES over SMTP with required TLS. Configure both the web and
+journey-worker environments, restart them, and run db:migrate:
+  EMAIL_PROVIDER=ses
+  SES_REGION=us-west-2
+  SES_SMTP_DOMAIN=freedme.org
+  SES_SMTP_USERNAME=<regional SES SMTP username>
+  SES_SMTP_PASSWORD=<regional SES SMTP password>
+  MODERATOR_EMAIL_FROM=FreeDME <info@mobilityexchange.org>
+  SMS_LINK_BASE_URL=https://www.freedme.org
+
+Keep secrets outside source control. SES SMTP credentials are not ordinary AWS
+access keys. Verify the sender identity in the selected SES region. In the SES
+sandbox, verify moderator recipient email addresses too, or request production
+access. Monitor SES bounce/complaint feedback and update invalid staff addresses.
+Official setup: https://docs.aws.amazon.com/ses/latest/dg/send-email-smtp.html
+
+The recipient email is the staff credential's current, non-revoked email contact.
+SMS uses the existing Twilio outbox and requires an active, verified mobile contact
+and routine-SMS consent. STOP is honored again by the SMS dispatcher. Staff accounts
+created without a mobile contact cannot receive SMS until a verified contact and
+consent are configured. Staff can use My Account -> Add notification mobile number,
+verify the SMS code, then enable SMS Preferences. Existing staff numbers require
+administrator assistance to change. Do not infer consent from a moderator role.
+
+Alerts contain a staff-authenticated item-review link, not donor contact details
+or user-authored descriptions. Logged-out recipients are routed through staff
+password and authenticator sign-in and returned to the item review. Ordinary
+members cannot access the review route. Completed or superseded reviews are
+suppressed before sending.
+
+Local/test and recording email is simulated; no SMTP call is made. Production email
+stays queued until EMAIL_PROVIDER=ses is configured. Simulated ActionMailer messages
+are held in memory; they are not a durable email inbox. Alert state remains recorded.
+SMS simulation follows the existing SMS_PROVIDER and recording-mode settings.
+
+Operator status command:
+  bin/rails moderator_notifications:status
+
+Email 'sent' means SMTP accepted it, not guaranteed inbox delivery. Email errors
+are marked failed and logged with error class only. A worker crash after claiming
+email can leave 'sending'. Check SES evidence before manually resetting a failed
+or sending alert to queued: an uncertain outcome may already have been delivered.
+SMS 'enqueued' means handed to SmsDelivery, not delivered; inspect that outbox for
+provider state. Missing contacts/consent are recorded rather than blocking donors.
+No existing pending listings are backfilled automatically.
+
+Shared mobile numbers (FR003, FR018, FR027)
+A staff notification mobile may also be registered to a separate donor/recipient account. Verify the number from the staff account before enabling its SMS preference. Staff access still requires staff credentials and 2FA; member phone sign-in selects only the member account. Consent and inboxes are account-specific. Carrier STOP applies to every account using the number. Multiple staff accounts may use a verified shared notification number, but member registrations remain unique per number.

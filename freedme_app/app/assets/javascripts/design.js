@@ -123,7 +123,8 @@
   const kept = [...document.querySelectorAll('.existing-photo input[type=checkbox]')].filter(c => !c.checked).length;
   const invalid = files.some(f => !valid(f));
   const blocked = files.some(f=>!['accepted','needs_review'].includes(checks.get(f)?.state));
-  const message = invalid ? 'Choose JPEG or PNG photos up to 5 MB each.' : files.length + kept > 5 ? 'Keep at most five photos. Remove an existing or selected photo.' : blocked ? 'Remove flagged photos before submitting' : '';
+  const missingOverview = !kept && files.length > 0 && !blocked && files.every(f => checks.get(f)?.equipment_category) && !files.some(f => checks.get(f)?.state === 'accepted' && checks.get(f)?.equipment_category === 'recognized');
+  const message = invalid ? 'Choose JPEG or PNG photos up to 5 MB each.' : files.length + kept > 5 ? 'Keep at most five photos. Remove an existing or selected photo.' : blocked ? 'Remove flagged photos before submitting' : missingOverview ? 'Add at least one clear, recognized photo of the whole equipment. Safe close-ups can stay.' : '';
   input.setCustomValidity(message); error.textContent = message;
   files.forEach((file, index) => {
    const box = document.createElement('div'); box.className = 'selected-photo';
@@ -142,7 +143,7 @@
    }
    const status = document.createElement('span'); status.className = 'photo-screening-status'; status.setAttribute('role','status');
    if (['accepted','rejected'].includes(result?.state)) status.classList.add(`photo-status-${result.state}`);
-   status.textContent = result?.state === 'accepted' ? 'ACCEPTED' : result?.state === 'rejected' ? 'REJECTED' : failed ? 'Check failed' : result?.message || 'Waiting for check'; box.append(status);
+   status.textContent = result?.state === 'accepted' ? (result.equipment_category === 'uncertain' ? 'ACCEPTED · SUPPLEMENTARY' : 'ACCEPTED') : result?.state === 'rejected' ? 'REJECTED' : failed ? 'Check failed' : result?.message || 'Waiting for check'; box.append(status);
    if (failed) {
     const detail = document.createElement('p'); detail.className = 'error-text';
     detail.textContent = `Image ${kept + index + 1}: ${result?.message || 'Choose a JPEG or PNG photo up to 5 MB.'}`;

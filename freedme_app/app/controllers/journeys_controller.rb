@@ -9,16 +9,17 @@ class JourneysController < AuthenticatedController
     @exchanges = @exchanges.where.not(id: ExchangeDisplayPreference.where(account_id: current_account.id).where.not(hidden_at: nil).select(:exchange_id))
     @questions = EquipmentQuestion.where("donor_id=? OR requester_id=?", current_account.id, current_account.id).order(asked_at: :desc).group_by(&:listing_id)
     @reviews = Listing.where(status: "pending_review").newest_first if @roles.include?("moderator")
+    @reviews = @reviews.where(id: params[:review]) if @reviews && params[:review].present?
     @identity_uploads = IdentityDocumentUpload.order(created_at: :desc).limit(50) if @roles.include?("moderator")
     @tasks = ModeratorTask.order(due_at: :asc) if @roles.include?("moderator")
     contact = AccountContact.find_by(account_id: current_account.id, kind: "mobile", revoked_at: nil)
-    @sms_enabled = contact && Integrations::SmsConsent.allowed?(contact.lookup_hmac)
+    @sms_enabled = contact && Integrations::SmsConsent.allowed?(contact.lookup_hmac, account_id: contact.account_id)
     @messages = if !contact
       []
     elsif Integrations::TwilioClient.live?
-      SmsDelivery.where(recipient_hmac: contact.lookup_hmac).order(created_at: :desc).limit(30)
+      SmsDelivery.where(recipient_account_id: current_account.id).order(created_at: :desc).limit(30)
     else
-      SimulatedSmsMessage.where(recipient: Journeys::Support.decrypt(contact.value_ciphertext)).where.not(template_code: "sign_in_otp").order(created_at: :desc).limit(30)
+      SimulatedSmsMessage.where(recipient_account_id: current_account.id).where.not(template_code: "sign_in_otp").order(created_at: :desc).limit(30)
     end
   end
   def new_listing
@@ -35,7 +36,7 @@ class JourneysController < AuthenticatedController
   end
   def save_listing
     @listing = @workflow.save_listing!(listing_params.to_h, id: params[:id])
-    redirect_to activity_path(anchor: "panel-inventory"), notice: "Thank you for offering your equipment to a neighbor. Your listing is under review. You will be notified when it is published. (Simulated SMS recorded.)"
+    redirect_to activity_path(anchor: "panel-inventory"), notice: "Thank you for offering your equipment to a neighbor. Your listing is under review. You will be notified when it is published."
   rescue Journeys::Error, ActiveRecord::RecordInvalid => error
     @categories = Category.order(:name)
     @data = listing_params.to_h
@@ -45,7 +46,7 @@ class JourneysController < AuthenticatedController
   end
   def review
     @workflow.review!(params[:id], params[:decision], params[:reason])
-    redirect_to activity_path, notice: "Review saved. A simulated SMS was recorded."
+    redirect_to activity_path, notice: "Review saved."
   end
   def request_form
     @listing = Listing.find(params[:id])
@@ -54,9 +55,9 @@ class JourneysController < AuthenticatedController
   def create_request
     result = @workflow.request!(params[:id], consent: params[:consent], outcome: params[:outcome], retry_id: params[:retry_id])
     if result.is_a?(RequestIntent)
-      redirect_to new_equipment_request_path(params[:id]), alert: "We are unable to verify your identity or location with the document you uploaded. Please upload a utility bill or a government issued id showing your name and address to verify your identity and location. (Simulated failure; no document was uploaded.)"
+      redirect_to new_equipment_request_path(params[:id]), alert: "We are unable to verify your identity or location with the document you uploaded. Please upload a utility bill or a government issued id showing your name and address to verify your identity and location."
     else
-      redirect_to transaction_path(result), notice: "Simulated identity verified. Your request was sent to the donor; simulated SMS recorded."
+      redirect_to transaction_path(result), notice: "Your request was sent to the donor."
     end
   end
   def transaction
@@ -74,7 +75,7 @@ class JourneysController < AuthenticatedController
   end
   def change
     @workflow.change!(params[:id], params[:event], params.permit(:meeting_at, :location, :proposal_id).to_h.symbolize_keys)
-    redirect_to transaction_path(params[:id]), notice: "Action saved. Notifications are simulated."
+    redirect_to transaction_path(params[:id]), notice: "Action saved."
   end
   def reopen
     @workflow.reopen!(params[:id], params[:confirmed])
@@ -82,11 +83,11 @@ class JourneysController < AuthenticatedController
   end
   def ask
     @workflow.ask!(params[:id], params[:question])
-    redirect_to activity_path, notice: "Question saved. The donor has a simulated SMS notification."
+    redirect_to activity_path, notice: "Question saved."
   end
   def answer
     @workflow.answer!(params[:id], params[:answer])
-    redirect_to activity_path, notice: "Answer saved. The recipient has a simulated SMS notification."
+    redirect_to activity_path, notice: "Answer saved."
   end
   def resolve_task
     @workflow.staff!

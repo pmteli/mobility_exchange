@@ -4,7 +4,7 @@ class MyAccountController < AuthenticatedController
   def show
     @contact = mobile_contact
     @mobile = @contact && Journeys::Support.decrypt(@contact.value_ciphertext)
-    @sms_enabled = @contact && Integrations::SmsConsent.allowed?(@contact.lookup_hmac)
+    @sms_enabled = @contact && Integrations::SmsConsent.allowed?(@contact.lookup_hmac, account_id: @contact.account_id)
   end
 
   def mobile

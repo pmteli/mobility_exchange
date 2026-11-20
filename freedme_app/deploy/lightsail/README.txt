@@ -51,3 +51,8 @@ demo redirects to www, including recordings; recordings/test-data require the ga
 Hosted web and worker explicitly use real Twilio SMS after owner approval.
 Local/recording environments remain simulated. Existing hosted database is preserved.
 Do not reseed/reset or treat the prelaunch switch as public-launch authorization.
+
+18 November 2026 journeys update: /journeys/ serves public/journeys/index.html as a
+password-protected manual prelaunch testing checklist. Copy this file into the
+Caddy site/journeys directory; hosted recordings and their gallery assets have
+been removed. Do not republish the old recording gallery over this checklist.

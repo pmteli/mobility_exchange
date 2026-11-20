@@ -6,7 +6,7 @@ module Integrations
         delivery = SmsDelivery.transaction do
           row = SmsDelivery.where(state: "queued").order(:created_at).lock("FOR UPDATE SKIP LOCKED").first
           if row
-            row.update!(state: SmsConsent.allowed?(row.recipient_hmac) ? "sending" : "suppressed")
+            row.update!(state: SmsConsent.allowed?(row.recipient_hmac, account_id: row.recipient_account_id) ? "sending" : "suppressed")
           end
           row
         end

@@ -114,4 +114,27 @@ class EquipmentPhotosTest < ActionDispatch::IntegrationTest
     assert_includes response.body, 'between 1 and 5'
     assert_select 'input[type=file][multiple]'
   end
+  test "equipment details offer editing only to the owner for editable listings" do
+    listing = Listing.where(donor_id: @donor.id, status: 'pending_review').first!
+    Journeys::Workflow.new(@moderator).review!(listing.id, 'approve', '')
+    get equipment_path(listing)
+    assert_response :success
+    assert_select "a[href='#{edit_listing_path(listing)}']", count: 0
+    sign_in(2)
+    get equipment_path(listing)
+    assert_select "a[href='#{edit_listing_path(listing)}']", count: 0
+    delete sign_out_path
+    sign_in(1)
+    get equipment_path(listing)
+    assert_select "a.button-link[href='#{edit_listing_path(listing)}']", text: 'Edit Equipment'
+    get edit_listing_path(listing)
+    assert_response :success
+    %w[reserved loaned donated].each do |status|
+      listing.update!(status: status)
+      get equipment_path(listing)
+      assert_response :success
+      assert_select "a[href='#{edit_listing_path(listing)}']", count: 0
+    end
+  end
+
 end

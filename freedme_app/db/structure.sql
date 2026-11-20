@@ -332,6 +332,7 @@ CREATE TABLE freedme.account_contacts (
     verified_at timestamp with time zone,
     revoked_at timestamp with time zone,
     created_at timestamp with time zone DEFAULT now() NOT NULL,
+    staff_notification boolean DEFAULT false NOT NULL,
     CONSTRAINT account_contacts_kind_check CHECK ((kind = ANY (ARRAY['mobile'::text, 'email'::text])))
 );
 
@@ -984,6 +985,40 @@ CREATE TABLE freedme.listing_photos (
 
 
 --
+-- Name: listing_review_alerts; Type: TABLE; Schema: freedme; Owner: -
+--
+
+CREATE TABLE freedme.listing_review_alerts (
+    id bigint NOT NULL,
+    account_id uuid NOT NULL,
+    revision_id uuid NOT NULL,
+    email_state character varying DEFAULT 'queued'::character varying NOT NULL,
+    sms_state character varying DEFAULT 'queued'::character varying NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: listing_review_alerts_id_seq; Type: SEQUENCE; Schema: freedme; Owner: -
+--
+
+CREATE SEQUENCE freedme.listing_review_alerts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: listing_review_alerts_id_seq; Type: SEQUENCE OWNED BY; Schema: freedme; Owner: -
+--
+
+ALTER SEQUENCE freedme.listing_review_alerts_id_seq OWNED BY freedme.listing_review_alerts.id;
+
+
+--
 -- Name: listing_reviews; Type: TABLE; Schema: freedme; Owner: -
 --
 
@@ -1433,7 +1468,8 @@ CREATE TABLE freedme.simulated_sms_messages (
     body text NOT NULL,
     idempotency_key character varying,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    recipient_account_id uuid
 );
 
 
@@ -1454,6 +1490,7 @@ CREATE TABLE freedme.sms_deliveries (
     error_code character varying,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
+    recipient_account_id uuid,
     CONSTRAINT sms_delivery_state CHECK (((state)::text = ANY ((ARRAY['queued'::character varying, 'sending'::character varying, 'accepted'::character varying, 'failed'::character varying, 'suppressed'::character varying])::text[])))
 );
 
@@ -1532,6 +1569,13 @@ CREATE TABLE public.ar_internal_metadata (
 CREATE TABLE public.schema_migrations (
     version character varying NOT NULL
 );
+
+
+--
+-- Name: listing_review_alerts id; Type: DEFAULT; Schema: freedme; Owner: -
+--
+
+ALTER TABLE ONLY freedme.listing_review_alerts ALTER COLUMN id SET DEFAULT nextval('freedme.listing_review_alerts_id_seq'::regclass);
 
 
 --
@@ -1900,6 +1944,14 @@ ALTER TABLE ONLY freedme.listing_photos
 
 ALTER TABLE ONLY freedme.listing_photos
     ADD CONSTRAINT listing_photos_revision_id_slot_key UNIQUE (revision_id, slot);
+
+
+--
+-- Name: listing_review_alerts listing_review_alerts_pkey; Type: CONSTRAINT; Schema: freedme; Owner: -
+--
+
+ALTER TABLE ONLY freedme.listing_review_alerts
+    ADD CONSTRAINT listing_review_alerts_pkey PRIMARY KEY (id);
 
 
 --
@@ -2370,6 +2422,13 @@ CREATE INDEX index_identity_document_uploads_on_purge_due_at ON freedme.identity
 
 
 --
+-- Name: index_listing_review_alerts_on_account_id_and_revision_id; Type: INDEX; Schema: freedme; Owner: -
+--
+
+CREATE UNIQUE INDEX index_listing_review_alerts_on_account_id_and_revision_id ON freedme.listing_review_alerts USING btree (account_id, revision_id);
+
+
+--
 -- Name: index_privacy_deletion_requests_on_account_id; Type: INDEX; Schema: freedme; Owner: -
 --
 
@@ -2450,7 +2509,7 @@ CREATE UNIQUE INDEX one_live_mobile_per_account ON freedme.account_contacts USIN
 -- Name: one_live_phone_owner; Type: INDEX; Schema: freedme; Owner: -
 --
 
-CREATE UNIQUE INDEX one_live_phone_owner ON freedme.account_contacts USING btree (lookup_hmac) WHERE ((kind = 'mobile'::text) AND (revoked_at IS NULL));
+CREATE UNIQUE INDEX one_live_phone_owner ON freedme.account_contacts USING btree (lookup_hmac) WHERE ((kind = 'mobile'::text) AND (revoked_at IS NULL) AND (NOT staff_notification));
 
 
 --
@@ -2999,6 +3058,22 @@ ALTER TABLE ONLY freedme.privacy_deletion_requests
 
 ALTER TABLE ONLY freedme.photo_screenings
     ADD CONSTRAINT fk_rails_68393ec1ec FOREIGN KEY (account_id) REFERENCES freedme.accounts(id);
+
+
+--
+-- Name: listing_review_alerts fk_rails_6b28f5799a; Type: FK CONSTRAINT; Schema: freedme; Owner: -
+--
+
+ALTER TABLE ONLY freedme.listing_review_alerts
+    ADD CONSTRAINT fk_rails_6b28f5799a FOREIGN KEY (account_id) REFERENCES freedme.accounts(id) ON DELETE CASCADE;
+
+
+--
+-- Name: listing_review_alerts fk_rails_6d444b30f1; Type: FK CONSTRAINT; Schema: freedme; Owner: -
+--
+
+ALTER TABLE ONLY freedme.listing_review_alerts
+    ADD CONSTRAINT fk_rails_6d444b30f1 FOREIGN KEY (revision_id) REFERENCES freedme.listing_revisions(id) ON DELETE CASCADE;
 
 
 --
@@ -3652,6 +3727,8 @@ REVOKE ALL ON ALL FUNCTIONS IN SCHEMA freedme FROM PUBLIC;
 ALTER DEFAULT PRIVILEGES IN SCHEMA freedme REVOKE ALL ON TABLES FROM PUBLIC;
 ALTER DEFAULT PRIVILEGES IN SCHEMA freedme REVOKE EXECUTE ON FUNCTIONS FROM PUBLIC;
 INSERT INTO "schema_migrations" (version) VALUES
+('20261118000000'),
+('20261117000000'),
 ('20261115000000'),
 ('20261114000000'),
 ('20261106000000'),

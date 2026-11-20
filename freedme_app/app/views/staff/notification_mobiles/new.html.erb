@@ -1,0 +1,12 @@
+<div class="reading"><h1>Add a notification mobile number</h1>
+<p>Verify a mobile number to receive moderator listing-review alerts. Staff sign-in continues to use your email or username, password and authenticator. SMS notifications are optional and must be enabled after verification.</p>
+<p>Fields marked with * are mandatory.</p>
+<%= form_with url: staff_notification_mobile_path, class: 'journey-form' do |f| %>
+<%= f.label :mobile, 'Mobile number *' %><%= f.telephone_field :mobile, required: true, autocomplete: 'tel' %>
+<p>By requesting a code, you agree to receive a verification text at this number. Message and data rates may apply.</p>
+<%= f.button 'Send verification code', class: 'primary' %><% end %>
+<% if session[:staff_notification_mobile] %>
+<%= form_with url: confirm_staff_notification_mobile_path, class: 'journey-form' do |f| %>
+<%= f.label :code, 'Six-digit verification code *' %><%= f.text_field :code, required: true, inputmode: 'numeric', pattern: '[0-9]{6}', maxlength: 6, autocomplete: 'one-time-code' %>
+<%= f.button 'Verify notification number', class: 'primary' %><% end %><% end %>
+<%= link_to 'Back to My Account', my_account_path, class: 'button-link' %></div>

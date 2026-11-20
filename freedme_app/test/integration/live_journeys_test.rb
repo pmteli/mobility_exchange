@@ -216,6 +216,7 @@ class LiveJourneysTest < ActionDispatch::IntegrationTest
     assert_redirected_to activity_path(anchor: "panel-inventory")
     listing = Listing.where(donor_id: @donor.id).newest_first.first!
     assert_equal "pending_review", listing.status
+    assert ListingReviewAlert.exists?(account_id: @moderator.id, revision_id: listing.current_revision_id)
     patch update_listing_path(listing), params: {listing: data.merge(title: "Revised sample cane")}
     assert_redirected_to activity_path(anchor: "panel-inventory")
     assert_equal 2, listing.revisions.count

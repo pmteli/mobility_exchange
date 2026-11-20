@@ -1,0 +1,19 @@
+Equipment photo screening — 19 November 2026
+Traceability: PRS v0.10 FR004–006 and explicit 19 November user decision.
+
+With REKOGNITION_EQUIPMENT_ENABLED=true, submission and moderator approval
+require at least one accepted, recognized equipment photo. Content-safe photos
+classified uncertain (including close-ups) may accompany that overview. Clearly
+unrelated images remain rejected. Adult-content policy and service-failure
+blocking are unchanged. A listing with no recognized overview asks the donor
+for a clearer whole-equipment image instead of entering review.
+
+Recognition is enforced over the full retained/new photo set. Removing the only
+recognized photo during editing blocks submission. Server checks are authoritative;
+existing-photo edits are rechecked there. All listings still require moderator
+approval. Policy version v4 invalidates cached v3 screening decisions, so the
+first subsequent check of an older image may incur a fresh AWS request.
+
+Deployment: ordinary Rails web/worker rebuild; no schema migration or new AWS
+permissions. Live configuration must keep REKOGNITION_POLICY=reject_explicit
+and REKOGNITION_EQUIPMENT_ENABLED=true. Automated tests use stub AWS responses.

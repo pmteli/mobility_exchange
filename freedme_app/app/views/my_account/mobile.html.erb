@@ -1,5 +1,5 @@
 <div class="reading"><h1>Change mobile number</h1><p>Verify your current number first, then verify your new number. Your current number remains active until both steps are complete. Optional SMS consent does not transfer to the new number.</p>
-<% unless Integrations::TwilioClient.live? %><p class="note">Local simulation: verification codes appear in the local test-data inbox.</p><% end %>
+<% unless Integrations::TwilioClient.live? %><p class="note">Local test: verification codes appear in the local test-data inbox.</p><% end %>
 <% unless @verified %>
 <h2>1. Verify current mobile number</h2>
 <%= button_to 'Send code to current number', account_mobile_current_path, class: 'primary' %>

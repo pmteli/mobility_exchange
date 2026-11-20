@@ -9,7 +9,7 @@ module Journeys
       challenge = nil
       AuthChallenge.transaction do
         ApplicationRecord.connection.execute("SELECT pg_advisory_xact_lock(#{hmac.unpack1('q>')})")
-        raise Error, 'This mobile number is already registered.' if AccountContact.exists?(kind: 'mobile', lookup_hmac: hmac, revoked_at: nil)
+        raise Error, 'This mobile number is already registered.' if (!Staff::Authentication.staff?(account) && AccountContact.exists?(kind: 'mobile', lookup_hmac: hmac, revoked_at: nil, staff_notification: false))
         recent = AuthChallenge.where(phone_lookup_hmac: hmac).where('created_at > ?', 1.hour.ago)
         raise Error, 'Too many codes. Try again later.' if recent.count >= 5
         raise Error, 'Wait one minute before requesting another code.' if recent.where('created_at > ?', 1.minute.ago).exists?
@@ -27,13 +27,19 @@ module Journeys
       raise Error, 'Unable to send the verification code. Please try again later.'
     end
 
-    def self.confirm!(account, old_contact_id, pending, code, client: Integrations::TwilioClient.new)
+    def self.confirm!(account, old_contact_id, pending, code, client: Integrations::TwilioClient.new, staff_enrollment: false)
       Support.guard!
       raise Error, 'Request a code for your new number.' unless pending
       failure = nil
       account.with_lock do
         Support.active!(account)
-        old = AccountContact.find_by!(id: old_contact_id, account_id: account.id, kind: 'mobile', revoked_at: nil)
+        if staff_enrollment
+          raise Error, 'Staff access required.' unless Staff::Authentication.staff?(account)
+          raise Error, 'A mobile number is already configured.' if AccountContact.exists?(account_id: account.id, kind: 'mobile', revoked_at: nil)
+          old = nil
+        else
+          old = AccountContact.find_by!(id: old_contact_id, account_id: account.id, kind: 'mobile', revoked_at: nil)
+        end
         challenge = AuthChallenge.lock.find(pending.fetch('challenge_id'))
         phone = Support.phone(pending.fetch('phone'))
         unless challenge.account_id == account.id && challenge.phone_lookup_hmac == Support.digest(phone)
@@ -48,16 +54,16 @@ module Journeys
         else
           hmac = challenge.phone_lookup_hmac
           ApplicationRecord.connection.execute("SELECT pg_advisory_xact_lock(#{hmac.unpack1('q>')})")
-          raise Error, 'This mobile number is already registered.' if AccountContact.exists?(kind: 'mobile', lookup_hmac: hmac, revoked_at: nil)
+          raise Error, 'This mobile number is already registered.' if (!Staff::Authentication.staff?(account) && AccountContact.exists?(kind: 'mobile', lookup_hmac: hmac, revoked_at: nil, staff_notification: false))
           previous = AccountContact.where(kind: 'mobile', lookup_hmac: hmac).select(:id)
           carrier_event = ConsentEvent.where(contact_id: previous, purpose: 'routine_sms', action: %w[stop reset]).order(occurred_at: :desc, id: :desc).first
-          old.update!(revoked_at: Time.current)
-          contact = AccountContact.create!(account_id: account.id, kind: 'mobile', lookup_hmac: hmac, value_ciphertext: Support.encrypt(phone), key_version: old.key_version, verified_at: Time.current)
+          old&.update!(revoked_at: Time.current)
+          contact = AccountContact.create!(account_id: account.id, kind: 'mobile', lookup_hmac: hmac, value_ciphertext: Support.encrypt(phone), key_version: old&.key_version || "fictional-seed-v1", verified_at: Time.current)
           if carrier_event&.action == 'stop'
             ConsentEvent.create!(account_id: account.id, contact_id: contact.id, purpose: 'routine_sms', action: 'stop', idempotency_key: "mobile-change-stop-#{challenge.id}")
           end
-          SmsDelivery.where(recipient_hmac: old.lookup_hmac, state: 'queued').update_all(state: 'suppressed', updated_at: Time.current)
-          AuthChallenge.where(phone_lookup_hmac: old.lookup_hmac, consumed_at: nil, invalidated_at: nil).update_all(invalidated_at: Time.current)
+          SmsDelivery.where(recipient_account_id: account.id, recipient_hmac: old.lookup_hmac, state: 'queued').update_all(state: 'suppressed', updated_at: Time.current) if old
+          AuthChallenge.where(account_id: account.id, phone_lookup_hmac: old.lookup_hmac, consumed_at: nil, invalidated_at: nil).update_all(invalidated_at: Time.current) if old
           challenge.update!(consumed_at: Time.current)
           AuditEvent.create!(actor_id: account.id, action: 'mobile_changed', entity_type: 'Account', entity_id: account.id, reason_code: 'verified_mobile_change', correlation_id: SecureRandom.uuid)
         end

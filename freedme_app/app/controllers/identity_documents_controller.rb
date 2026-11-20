@@ -53,7 +53,7 @@ class IdentityDocumentsController < AuthenticatedController
         result
       end
     end
-    redirect_to transaction_path(exchange), notice: 'Your document-extracted details are confirmed. The request was sent to the donor; SMS remains simulated.'
+    redirect_to transaction_path(exchange), notice: 'Your document-extracted details are confirmed. The request was sent to the donor.'
   end
   private
   def scan_error(error)

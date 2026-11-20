@@ -1,4 +1,5 @@
 require "test_helper"
+require Rails.root.join("db/seeds/journeys")
 class PhotoScreeningsTest < ActionDispatch::IntegrationTest
   setup do
     load Rails.root.join("db/seeds.rb")
@@ -99,15 +100,42 @@ class PhotoScreeningsTest < ActionDispatch::IntegrationTest
     assert_equal 1,PhotoScreening.last.attempts
     assert_raises(Journeys::Error){EquipmentMedia::Moderation.enforce!(@photo,@donor)}
   end
-  test "missing equipment evidence is rejected and AWS label failure fails closed" do
+  test "uncertain photos are supplementary but cannot form a listing alone and AWS failure fails closed" do
     ENV['REKOGNITION_EQUIPMENT_ENABLED']='true'
     Aws.config[:rekognition] = {stub_responses: {detect_moderation_labels:{moderation_labels:[]},detect_labels:{labels:[]}}}
-    assert_equal 'rejected',check[:state]
-    assert_includes check[:message], 'could not recognize allowed equipment'
-    assert_raises(Journeys::Error){EquipmentMedia::Moderation.enforce!(@photo,@donor)}
+    assert_equal 'accepted',check[:state]
+    assert_equal 'uncertain', check[:equipment_category]
+    assert_includes check[:message], 'supplementary'
+    assert_raises(Journeys::Error){EquipmentMedia::Moderation.enforce_set!([@photo],@donor)}
     PhotoScreening.delete_all
     Aws.config[:rekognition] = {stub_responses: {detect_moderation_labels:{moderation_labels:[]},detect_labels:'AccessDeniedException'}}
     assert_equal 'unavailable',check[:state]
   end
 
+  test "recognized overview permits closeups but removing overview blocks submission" do
+    ENV['REKOGNITION_EQUIPMENT_ENABLED']='true'
+    Aws.config[:rekognition] = {stub_responses: {detect_moderation_labels:{moderation_labels:[]},detect_labels:{labels:[]}}}
+    check # Cache the uncertain close-up.
+    overview = EquipmentMedia::Photos.prepare(Rack::Test::UploadedFile.new(Rails.root.join('script/recordings/fixtures/accepted-front.png'), 'image/png'))
+    Aws.config[:rekognition] = {stub_responses: {detect_moderation_labels:{moderation_labels:[]},detect_labels:{labels:[{name:'Walker',confidence:99.0}]}}}
+    results = EquipmentMedia::Moderation.enforce_set!([overview,@photo],@donor)
+    assert_equal ['recognized','uncertain'], results.map { |r| r[:equipment_category] }
+    assert_raises(Journeys::Error){EquipmentMedia::Moderation.enforce_set!([@photo],@donor)}
+    data={title:'Overview and detail',description:'Test description',category_id:Category.find_by!(code:'walkers').id,public_locality:'Fremont',condition_code:'good',offer_kind:'gift',no_missing_parts_affirmed:'1',fully_functional_affirmed:'1',truthfulness_affirmed:'1',photos:[upload]}
+    assert_no_difference('Listing.count'){assert_raises(Journeys::Error){Journeys::Workflow.new(@donor).save_listing!(data)}}
+    data[:photos] << Rack::Test::UploadedFile.new(Rails.root.join('script/recordings/fixtures/accepted-front.png'), 'image/png')
+    listing=Journeys::Workflow.new(@donor).save_listing!(data)
+    assert_equal 'pending_review',listing.status
+    assert_equal 2,ListingPhoto.where(revision_id:listing.current_revision_id).count
+    overview_check=PhotoScreening.find_by!(account_id:@donor.id,image_digest:Digest::SHA256.file(EquipmentMedia::Photos.path(overview[:sanitized_object_key])).hexdigest,policy_key:EquipmentMedia::Moderation.policy_key)
+    labels=overview_check.labels
+    overview_check.update!(labels:[])
+    assert_raises(Journeys::Error){Journeys::Workflow.new(Account.find(JourneySeeds.id(5))).review!(listing.id,'approve','')}
+    assert_equal 'pending_review',listing.reload.status
+    overview_check.update!(labels:labels)
+    overview_id=ListingPhoto.find_by!(revision_id:listing.current_revision_id,slot:2).id
+    data[:photos]=[]
+    data[:remove_photo_ids]=[overview_id.to_s]
+    assert_raises(Journeys::Error){Journeys::Workflow.new(@donor).save_listing!(data,id:listing.id)}
+  end
 end

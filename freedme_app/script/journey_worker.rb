@@ -6,6 +6,7 @@ Signal.trap("INT") { running = false }
 while running
   begin
     Journeys::Deadlines.run!
+    Integrations::ListingReviewAlertDispatcher.run!
     Integrations::SmsDispatcher.run!
     Privacy::ManagedBackup.run_due!
   rescue StandardError => error

@@ -2,12 +2,12 @@ module Integrations
   # Short, first-party links. Never place identity details or OTPs in URLs.
   module SmsLinks
     DESTINATIONS = {
-      "home" => "/", "find" => "/equipment", "items" => "/activity#panel-inventory",
+      "review" => "/activity#panel-review", "home" => "/", "find" => "/equipment", "items" => "/activity#panel-inventory",
       "requests" => "/activity#panel-requests", "qa" => "/activity#panel-questions",
       "login" => "/sign-in/verify"
     }.freeze
     TEMPLATE_CODES = {
-      "registration_welcome" => "home", "sign_in_otp" => "login",
+      "moderator_listing_review" => "review", "registration_welcome" => "home", "sign_in_otp" => "login",
       "listing_submitted" => "items", "listing_published" => "items", "listing_rejected" => "items",
       "request_declined" => "find", "item_unavailable" => "find",
       "question_received" => "qa", "question_answered" => "qa",

@@ -161,10 +161,22 @@ module Privacy
       GatewayEvent.where(attempt_id: attempts.select(:id)).delete_all
       attempts.delete_all
       jobs.delete_all
-      SmsDelivery.where(recipient_hmac: hmacs).delete_all
-      SimulatedSmsMessage.where(recipient: numbers).delete_all
+      # Remove this account's messages, preserving other accounts on the same phone.
+      other_contacts = AccountContact.where(lookup_hmac: hmacs).where.not(account_id: id)
+      exclusive_hmacs = hmacs - other_contacts.pluck(:lookup_hmac)
+      exclusive_numbers = contacts.where(kind: 'mobile', lookup_hmac: exclusive_hmacs).map { |c| Journeys::Support.decrypt(c.value_ciphertext) }
+      SmsDelivery.where(recipient_account_id: nil, recipient_hmac: exclusive_hmacs).delete_all
+      SimulatedSmsMessage.where(recipient_account_id: nil, recipient: exclusive_numbers).delete_all
+      # A deletion must not silently clear the carrier block for a surviving account.
+      other_contacts.where(kind: 'mobile', revoked_at: nil).find_each do |other|
+        if Integrations::SmsConsent.carrier_stopped?(other)
+          ConsentEvent.create!(account_id: other.account_id, contact_id: other.id, purpose: 'routine_sms', action: 'stop', idempotency_key: SecureRandom.uuid)
+        end
+      end
+      SmsDelivery.where(recipient_account_id: id).delete_all
+      SimulatedSmsMessage.where(recipient_account_id: id).delete_all
       ConsentEvent.where(account_id: id).delete_all
-      challenges = AuthChallenge.where(account_id: id).or(AuthChallenge.where(phone_lookup_hmac: hmacs))
+      challenges = AuthChallenge.where(account_id: id).or(AuthChallenge.where(account_id: nil, phone_lookup_hmac: exclusive_hmacs))
       RegistrationSession.where(challenge_id: challenges.select(:id)).or(RegistrationSession.where(created_account_id: id)).delete_all
       challenges.delete_all
       StaffCredential.where(account_id: id).delete_all

@@ -22,7 +22,7 @@ class HostedTestToolsTest < ActionDispatch::IntegrationTest
     assert_response :forbidden
     get activity_path
     assert_select 'a[href="/test-data"]', count: 0
-    assert_includes response.body, 'Private prelaunch testing'
+    refute_includes response.body, 'Private prelaunch testing'
     refute_includes response.body, 'Use fictional test data and documents only.'
     login(5)
     get test_data_path

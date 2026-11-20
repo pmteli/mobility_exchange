@@ -1,12 +1,16 @@
 # SMS catalog — FR003 / FR018. Use named Rails I18n placeholders.
-# Keep placeholders unchanged when translating. Delivery remains simulated.
+# Keep placeholders unchanged when translating.
 en:
   messaging_consent:
     optional: 'I agree to receive FreeDME account and equipment-transaction text messages from Mobility Exchange, including listing updates, requests, pickup arrangements and reminders. Message frequency varies. Message and data rates may apply. Reply STOP to opt out or HELP for help. Consent is optional and is not a condition of donating, lending or requesting equipment.'
     verification: 'By continuing, you request a text message with a mobile-verification code for this sign-in or registration attempt. Message and data rates may apply. This does not enroll you in optional transaction notifications.'
   registration:
     outside_service_area: "FreeDME is currently available only for Bay Area, California community members"
+  moderator_email:
+    listing_review_subject: "FreeDME: Equipment awaiting review"
+    listing_review_body: "New or updated equipment has been submitted for review. Sign in with your staff account to review the item: %{link}"
   sms:
+    moderator_listing_review: "FreeDME: Equipment has been submitted for review. Please sign in to review it: %{review_link}"
     registration_welcome: "Welcome to FreeDME %{display_name}. Take the next step to either donate, lend or find a mobility equipment for yourself or your loved ones. Visit %{link}"
     listing_submitted: "FreeDME: Thank you for offering %{item_title} to a neighbor. Your listing is under review. You will be notified when it is published. %{link}"
     request_received: "FreeDME: %{verified_name} from %{town} has requested your %{item_title}. You may approve or decline the request. If the item is no longer available, please indicate “not available”. Please respond within 48 hours. %{link}"
@@ -18,13 +22,13 @@ en:
     question_answered: "FreeDME: The donor has answered your question. Open My Activity to view the answer. %{link}"
     handoff_proposed: "FreeDME: A new pickup time and location have been suggested. Open My Activity to review. %{link}"
     handoff_accepted: "FreeDME: Your proposed pickup arrangement has been accepted. Open My Activity for details. %{link}"
-    sign_in_otp: "SIMULATED FreeDME code: %{code}. Expires in %{expiry_minutes} minutes. %{link}"
+    sign_in_otp: "FreeDME code: %{code}. Expires in %{expiry_minutes} minutes. %{link}"
     listing_published: "FreeDME: Your listing %{item_title} was published. We will notify you when a neighbor is interested in your equipment. %{link}"
-    listing_rejected: "FreeDME: Your listing %{item_title} was rejected. Review My Activity. (Simulated) %{link}"
-    handoff_confirmed: "FreeDME: Handoff of %{item_title} was confirmed. (Simulated) %{link}"
-    return_confirmed: "FreeDME: Return of %{item_title} was confirmed. (Simulated) %{link}"
-    request_cancelled: "FreeDME: The request for %{item_title} was cancelled. (Simulated) %{link}"
-    request_expired: "FreeDME: The request for %{item_title} expired. Check My Activity. (Simulated) %{link}"
+    listing_rejected: "FreeDME: Your listing %{item_title} was rejected. Review My Activity. %{link}"
+    handoff_confirmed: "FreeDME: Handoff of %{item_title} was confirmed. %{link}"
+    return_confirmed: "FreeDME: Return of %{item_title} was confirmed. %{link}"
+    request_cancelled: "FreeDME: The request for %{item_title} was cancelled. %{link}"
+    request_expired: "FreeDME: The request for %{item_title} expired. Check My Activity. %{link}"
     pickup_followup: "Thank you for using FreeDME. Did you pick up the %{item_title} from %{donor_name} as scheduled on %{date} at %{time}? Please open My Activity to review your pickup and confirm the handoff if you received the equipment. %{link}"
 
   resources:
@@ -114,7 +118,7 @@ en:
         answer: "Check My Activity for the current status. For an expired request, you can request again if the equipment is available or remove the request from your list. You can also browse for similar equipment."
       activity:
         question: "How do I keep track of my activity?"
-        answer: "My Activity organizes your equipment, requests and handoffs, and questions and answers. The current demonstration also includes a Simulated SMS tab; it does not send real text messages."
+        answer: "My Activity organizes your equipment, requests and handoffs, questions and answers, and SMS messages. Personal preferences are available in My Account."
       share:
         question: "How can I help before launch?"
         answer: "Share %{website} with neighbors, caregivers, and community organizations. The “Share the idea” button lets you choose how to share the website."

@@ -50,7 +50,7 @@ module Journeys
       raise Error, "Include between 1 and 5 equipment photos." unless (retained.length + uploads.length).between?(1, 5)
       uploads.each { |upload| prepared_photos << EquipmentMedia::Photos.prepare(upload) }
       photo_data = retained.map { |photo| EquipmentMedia::Photos.copy(photo) } + prepared_photos
-      photo_data.each { |photo| EquipmentMedia::Moderation.enforce!(photo, @actor) }
+      EquipmentMedia::Moderation.enforce_set!(photo_data, @actor)
       listing = nil
       ApplicationRecord.transaction do
         policy = LocalPolicy.policy!
@@ -66,10 +66,11 @@ module Journeys
           configuration_id: config.id, service_area_id: area.id, offer_kind: data[:offer_kind], loan_until: loan_until,
           title: data[:title], description: data[:description], public_locality: data[:public_locality], condition_code: data[:condition_code],
           condition_description: data[:condition_code].humanize, no_missing_parts_affirmed: true, fully_functional_affirmed: true,
-          modifications: "See description", cleaning_status: "Self-reported (simulation)", pickup_availability: ListingRevision.find_by(id: source_revision_id)&.pickup_availability || "To be arranged after approval.",
+          modifications: "See description", cleaning_status: "Self-reported", pickup_availability: ListingRevision.find_by(id: source_revision_id)&.pickup_availability || "To be arranged after approval.",
           free_item_affirmed: true, truthfulness_affirmed: true, submitted_at: Time.current)
         photo_data.each_with_index { |photo, index| ListingPhoto.create!(**photo, revision_id: revision.id, slot: index + 1) }
         listing.update!(current_revision_id: revision.id, status: "pending_review")
+        ListingReviewAlert.enqueue!(revision)
         Support.audit(@actor, "listing_submitted", listing)
         Support.notify(@actor, "listing_submitted", { item_title: revision.title })
       end
@@ -83,14 +84,12 @@ module Journeys
     def review!(id, decision, reason)
       staff!
       raise Error, "Select approve or reject." unless %w[approve reject].include?(decision)
-      raise Error, "Provide a review note." if reason.to_s.strip.empty?
+      reason = reason.to_s.strip
       listing = Listing.find(id)
       reviewed_revision = listing.current_revision_id
       if decision == "approve"
-        ListingPhoto.where(revision_id: reviewed_revision).each do |photo|
-          next if photo.sanitized_object_key == "simulation/equipment-placeholder.png"
-          EquipmentMedia::Moderation.enforce!(EquipmentMedia::Photos.copy(photo), listing.donor)
-        end
+        photos = ListingPhoto.where(revision_id: reviewed_revision).reject { |photo| photo.sanitized_object_key == "simulation/equipment-placeholder.png" }
+        EquipmentMedia::Moderation.enforce_set!(photos.map { |photo| EquipmentMedia::Photos.copy(photo) }, listing.donor) if photos.any?
       end
       listing.with_lock do
         raise Error, "Listing changed during review. Reload and review again." if listing.current_revision_id != reviewed_revision
